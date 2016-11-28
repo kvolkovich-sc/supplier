@@ -1,0 +1,26 @@
+[
+  {
+    "supplierId": "hard001",
+    "supplierName": "Hardware AG",
+    "cityOfRegistration": "Minsk",
+    "countryOfRegistration": "DE",
+    "foundedOn": "2015-10-04T22:00:00Z",
+    "globalLocationNo": "123",
+    "homePage": "http://hard.ware.ag",
+    "legalForm": "KG",
+    "registrationNumber": "MI651355",
+    "status": "new"
+  },
+  {
+    "supplierId": "car001",
+    "supplierName": "automobile.de",
+    "cityOfRegistration": "Minsk",
+    "countryOfRegistration": "DE",
+    "foundedOn": "2017-08-15T07:20:14Z",
+    "globalLocationNo": "123",
+    "homePage": "automobile.de",
+    "legalForm": "KG",
+    "registrationNumber": "MI3464564356",
+    "status": "new"
+  }
+]

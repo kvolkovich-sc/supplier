@@ -1,0 +1,21 @@
+[
+  {
+    "contactId": "Contact (Internal Buyer)",
+    "contactType": "Employee",
+    "firstName": "Max",
+    "lastName": "Mustermann",
+    "email": "dirk.fischbach@jcatalog.com",
+    "mobile": "0136/456789",
+    "supplierId": "hard001"
+  },
+  {
+    "contactId": "Product Manager",
+    "contactType": "CatalogMan",
+    "firstName": "Dirk",
+    "lastName": "Fischbach",
+    "email": "dirk.fischbach@jcatalog.com",
+    "phone": "0231/3967-224",
+    "mobile": "0173-5101302",
+    "supplierId": "hard001"
+  }
+]

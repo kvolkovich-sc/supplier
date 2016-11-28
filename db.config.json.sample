@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "jcatalog",
+    "password": "jcatalog",
+    "database": "divin_supplier",
+    "host": "crow.scand",
+    "dialect": "mysql",
+    "populateDatabase": "demo"
+  },
+  "test": {
+    "username": "jcatalog",
+    "password": "jcatalog",
+    "database": "divin_test_supplier",
+    "host": "crow.scand",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "jcatalog",
+    "password": "jcatalog",
+    "database": "divin_prod_supplier",
+    "host": "crow.scand",
+    "dialect": "mysql"
+  }
+}
