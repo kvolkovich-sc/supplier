@@ -26,11 +26,7 @@ module.exports = {
       new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment\\' + path.sep + 'locale'),
       /en|de/
     ),
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.HOST': JSON.stringify(process.env.HOST ? process.env.HOST : 'localhost'),
-      'process.env.PORT': JSON.stringify(process.env.PORT ? process.env.PORT : 3001)
-    })
+    new webpack.NoErrorsPlugin()
   ],
 
   resolve: {

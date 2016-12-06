@@ -11,7 +11,7 @@ module.exports = function(sequelize) {
       },
     },
     countryName: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING(50),
       field: "CountryName",
       allowNull: false
     }

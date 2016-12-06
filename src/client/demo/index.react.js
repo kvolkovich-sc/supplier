@@ -154,11 +154,7 @@ let onUnauthorized = () => {
 };
 
 const supplier = 'hard001';
-
-const host = process.env.HOST ? process.env.HOST : 'localhost';
-const port = process.env.PORT ? process.env.PORT : 3001;
-const actionUrl = `http://${host}:${port}`;
-
+const actionUrl = `http://${process.env.HOST || '0.0.0.0'}:${process.env.PORT || 3001}`;
 const dateTimePatter = 'MM/dd/yyyy h:mm:ss a';
 
 const SupplierEditorPage = function (params, readOnly) {

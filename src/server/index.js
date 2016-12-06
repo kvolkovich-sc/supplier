@@ -15,9 +15,6 @@ require(`./db/data`).default(db);
 // create express app
 const app = express();
 
-const port = process.env.PORT || 3001;
-const host = process.env.HOST || 'localhost';
-
 if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev', {
     stream: {
@@ -60,10 +57,20 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // launch application
-app.listen(port, host, err => {
+let server = app.listen(process.env.PORT || 3001, err => {
   if (err) {
     console.log(err);
   }
-  console.log(`The server is running at http://${host}:${port}/`);
+  console.log(`The server is running at http://0.0.0.0:${process.env.PORT || 3001}/`);
 });
+
+function gracefulShutdown() {
+  server.close(() => process.exit(0));
+}
+
+// listen for TERM signal .e.g. "kill" or "docker[-compose] stop" commands.
+process.on('SIGTERM', gracefulShutdown);
+
+// listen for INT signal e.g. Ctrl-C
+process.on('SIGINT', gracefulShutdown);
 
