@@ -4,6 +4,7 @@
     "password": "jcatalog",
     "database": "divin_supplier",
     "host": "crow.scand",
+    "port": "3306",
     "dialect": "mysql",
     "populateDatabase": "demo"
   },
@@ -12,6 +13,7 @@
     "password": "jcatalog",
     "database": "divin_test_supplier",
     "host": "crow.scand",
+    "port": "3306",
     "dialect": "mysql"
   },
   "production": {
@@ -19,6 +21,7 @@
     "password": "jcatalog",
     "database": "divin_prod_supplier",
     "host": "crow.scand",
+    "port": "3306",
     "dialect": "mysql"
   }
 }

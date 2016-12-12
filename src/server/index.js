@@ -7,10 +7,7 @@ import morgan from "morgan";
 // initialize logging
 // import "./logger";
 // initialize sequilize
-import db from "./db/models";
-
-// populate data
-require(`./db/data`).default(db);
+import dbPromise from "./db/models";
 
 // create express app
 const app = express();
@@ -34,9 +31,6 @@ app.use(function(req, res, next) {
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// register rest api for DB specific models
-require('./routes').default(app, db);
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/static', express.static(__dirname + '/../../build/client'));
@@ -64,7 +58,11 @@ let server = app.listen(process.env.PORT || 3001, err => {
   console.log(`The server is running at http://0.0.0.0:${process.env.PORT || 3001}/`);
 });
 
-function gracefulShutdown() {
+function gracefulShutdown(msg) {
+  if (msg) {
+    console.log('SERVER GRACEFUL SHUTDONW:', msg);
+  }
+
   server.close(() => process.exit(0));
 }
 
@@ -73,4 +71,11 @@ process.on('SIGTERM', gracefulShutdown);
 
 // listen for INT signal e.g. Ctrl-C
 process.on('SIGINT', gracefulShutdown);
+
+dbPromise.
+  then(db => {
+    require(`./db/data`).default(db);  // populate data
+    require('./routes').default(app, db);  // register rest api for DB specific models
+  }).
+  catch(err => gracefulShutdown(err));
 

@@ -46,6 +46,7 @@ build/Release
 jspm_packages/
 /node_modules/*
 !/node_modules/jcatalog-i18n
+!/node_modules/jcatalog-types
 !/node_modules/jcatalog-react-reference-search
 !/node_modules/eslint-config-jcatalog
 

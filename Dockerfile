@@ -2,9 +2,9 @@ FROM node:6-alpine
 MAINTAINER gr4per
 
 # Setting NODE_ENV is necessary for "npm install" below.
-ENV NODE_ENV=production RDS_USERNAME=root RDS_PASSWORD=1111 RDS_DB_NAME=bnp RDS_HOSTNAME=db RDS_PORT=3306 RDS_DIALECT=mysql
+ENV NODE_ENV=production
 
-RUN mkdir -p /home/node/supplierDir/node_modules && apk add --no-cache mysql-client
+RUN mkdir -p /home/node/supplierDir/node_modules && apk add --no-cache mysql-client && apk add --no-cache curl
 
 # Set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow,
 # (creates it if does not exist).
@@ -14,6 +14,7 @@ WORKDIR /home/node/supplierDir
 # Copying modules which are either manually changed or not located in https://registry.npmjs.org/ official registry
 # (i.e. jCatalog registry) - see ".dockerignore" for the list. Otherwise "npm install" will throw an error.
 COPY node_modules/ node_modules/
+COPY jq-linux32 jq-linux64 /usr/local/bin/
 
 # Change owner since COPY/ADD assignes UID/GID 0 to all copied content.
 # Otherwise "npm install" below would not have write-access to WORKDIR and "node_modules" dir.
@@ -40,5 +41,5 @@ CMD [ "npm", "start" ]
 
 # TODO: delete the line below when docker-compose respects Dockerfile's HEALTHCHECK
 # NODE: "db" below is a service name in "docker-compose.yml"
-ENTRYPOINT [ "./wait-for-db", "db" ]
+ENTRYPOINT [ "./wait-for-db", "mysql" ]
 
