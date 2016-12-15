@@ -1,7 +1,7 @@
 {
-  "name": "supplier",
+  "name": "supplierDir",
   "version": "2.0.3-SNAPSHOT",
-  "description": "Supplier application. Provides base CRUD Rest API for basic Supplier data manipulation.",
+  "description": "Supplier Directory application. Provides base CRUD Rest API for basic Supplier data manipulation.",
   "scripts": {
     "clean": "rimraf build esdoc testdb.sqlite",
     "lint": "eslint src",
@@ -22,11 +22,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://buildserver.jcatalog.com/git/node-supplier.git"
+    "url": "https://github.com/OpusCapitaBES/supplierDir"
   },
   "author": {
-    "name": "Dmitry Divin",
-    "email": "dmitry.divin@jcatalog.com"
+    "name": "Andrei Mourzenkov",
+    "email": "andrei.mourzenkov@jcatalog.com"
   },
   "license": "jCatalog",
   "readme": "README.md",
@@ -41,7 +41,6 @@
     "helmet": "3.1.0",
     "intel": "1.1.1",
     "jcatalog-i18n": "1.1.6-SNAPSHOT.20161114T211658.616Z",
-    "jcatalog-types": "1.0.1-SNAPSHOT.20161109T103657.032Z",
     "jquery": "3.1.1",
     "lodash": "4.17.2",
     "morgan": "^1.7.0",

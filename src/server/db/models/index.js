@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-// See why and how /etc/hosts is populated with "dockerhost" in "wait-for-db" script.
+// See why and how /etc/hosts is populated with "dockerhost" in "startup-script".
 const consul = require('consul')({ host: 'dockerhost' });
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -18,7 +18,7 @@ function findModels(base, dir) {
 
     return list.concat(isDir ?
       findModels(base + moduleName + '/', name) :
-      (moduleName === 'index' ? [] : [base + moduleName])
+      (moduleName === 'index' || moduleName.charAt(0) === '.' ? [] : [base + moduleName])
     );
   }, []);
 }
@@ -32,7 +32,7 @@ function getDb(config) {
     sequelize: new Sequelize(config.database, config.username, config.password, config)
   }
 
-  findModels('', __dirname).forEach((moduleName) => {
+  findModels('', __dirname).forEach(moduleName => {
     let m = require(`./${moduleName}`)(db.sequelize);
     db[m.name] = m;
 
@@ -56,27 +56,27 @@ function getDb(config) {
   return db;
 }
 
-let config;
+let dbConfig;
 
 try {
   // NOTE: config file has priority over env variables.
-  config = require(DB_CONFIG_FILE)[NODE_ENV];
+  dbConfig = require(DB_CONFIG_FILE)[NODE_ENV];
 } catch (ignore) {
   // Config file is not found.
 }
 
-config = {
-  username: config && config.username || process.env.DB_USER,
-  password: config && config.password || process.env.DB_PASSWORD,
-  database: config && config.database || process.env.DB_NAME,
-  host: config && config.host || process.env.DB_HOST,
-  port: config && config.port || process.env.DB_PORT,
-  dialect: config && config.dialect || process.env.DB_DIALECT || 'mysql'
+dbConfig = {
+  username: dbConfig && dbConfig.username || process.env.DB_USER,
+  password: dbConfig && dbConfig.password || process.env.DB_PASSWORD,
+  database: dbConfig && dbConfig.database || process.env.DB_NAME,
+  host: dbConfig && dbConfig.host || process.env.DB_HOST,
+  port: dbConfig && dbConfig.port || process.env.DB_PORT,
+  dialect: dbConfig && dbConfig.dialect || process.env.DB_DIALECT || 'mysql'
 };
 
 let consulPromises = [];
 
-if (!config.host || !config.port) {
+if (!dbConfig.host || !dbConfig.port) {
   consulPromises.push(new Promise((resolve, reject) => consul.catalog.service.nodes(DB_SERVICE_NAME, (err, result) => {
     if (err) {
       reject(err);
@@ -92,7 +92,7 @@ if (!config.host || !config.port) {
   })));
 }
 
-if (!config.username || !config.password || !config.database) {
+if (!dbConfig.username || !dbConfig.password || !dbConfig.database) {
   consulPromises.push(new Promise((resolve, reject) => consul.kv.get({
     key: 'MYSQL_',
     recurse: true
@@ -131,17 +131,17 @@ if (!config.username || !config.password || !config.database) {
 
 let dbPromise = Promise.all(consulPromises).then(results => {
   results.forEach(result => Object.keys(result).forEach(param => {
-    config[param] = config[param] || result[param];
+    dbConfig[param] = dbConfig[param] || result[param];
   }));
 
-  let notSpecified = Object.keys(config).filter(param => !config[param]);
+  let notSpecified = Object.keys(dbConfig).filter(param => !dbConfig[param]);
 
   if (notSpecified.length) {
     return Promise.reject(`The following required params must be set in "${DB_CONFIG_FILE}", ENV vars or Consul: "` +
       notSpecified.join('", "') + '"');
   }
 
-  return Promise.resolve(getDb(config));
+  return Promise.resolve(getDb(dbConfig));
 });
 
 export default dbPromise;

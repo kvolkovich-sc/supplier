@@ -55,7 +55,12 @@ let server = app.listen(process.env.PORT || 3001, err => {
   if (err) {
     console.log(err);
   }
-  console.log(`The server is running at http://0.0.0.0:${process.env.PORT || 3001}/`);
+
+  console.info(
+    'The server is running at http://%s:%s/',
+    server.address().address === '::' ? '0.0.0.0' : server.address().address,
+    server.address().port
+  );
 });
 
 function gracefulShutdown(msg) {

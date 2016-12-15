@@ -39,7 +39,6 @@ USER node
 EXPOSE 3001
 CMD [ "npm", "start" ]
 
-# TODO: delete the line below when docker-compose respects Dockerfile's HEALTHCHECK
-# NODE: "db" below is a service name in "docker-compose.yml"
-ENTRYPOINT [ "./wait-for-db", "mysql" ]
+# NOTE: "mysql" below is a DB service name in "docker-compose.yml"
+ENTRYPOINT [ "./startup-script", "mysql" ]
 
