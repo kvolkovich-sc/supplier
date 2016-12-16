@@ -1,9 +1,6 @@
 FROM node:6-alpine
 MAINTAINER gr4per
 
-# Setting NODE_ENV is necessary for "npm install" below.
-ENV NODE_ENV=production
-
 RUN mkdir -p /home/node/supplierDir/node_modules && apk add --no-cache mysql-client && apk add --no-cache curl
 
 # Set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow,
@@ -26,7 +23,10 @@ USER node
 #COPY package.json npm-shrinkwrap.json .
 COPY package.json .
 
+# Setting NODE_ENV is necessary for "npm install" below.
+ENV NODE_ENV=development
 RUN npm install && npm cache clean
+ENV NODE_ENV=production
 
 # Bundle app source by overwriting all WORKDIR content.
 COPY . .
