@@ -86,12 +86,12 @@ function _propDeepSearch(input, value, prefix = '', depth = 0, isHidden = false)
   return Object.keys(input).reduce((rez, propName) => [
     ...rez,
     ...(propName === value ?
-      [{
-        prefix,
-        isHidden,
-        depth
-      }] :
-      []
+    [{
+      prefix,
+      isHidden,
+      depth
+    }] :
+    []
     ),
     ..._propDeepSearch(
       input[propName],

@@ -3,9 +3,9 @@ awsProject.zip
 *~
 *.swp
 
-/resources/jcatalog/less/jquery-ui-bundle.css
-/resources/jcatalog/less/jcatalog-bootstrap-bundle.css
-/resources/jcatalog/less/jcatalog-bootstrap-extensions-bundle.css
+#/resources/jcatalog/less/jquery-ui-bundle.css
+#/resources/jcatalog/less/jcatalog-bootstrap-bundle.css
+#/resources/jcatalog/less/jcatalog-bootstrap-extensions-bundle.css
 
 /db.config.json
 
@@ -57,8 +57,6 @@ build/Release
 # Dependency directories
 jspm_packages/
 /node_modules/*
-!/node_modules/jcatalog-i18n
-!/node_modules/eslint-config-jcatalog
 
 # TODO: remove after webpack 2 goes stable:
 !/node_modules/chunk-manifest-webpack-plugin

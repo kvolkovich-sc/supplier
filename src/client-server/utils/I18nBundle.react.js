@@ -1,6 +1,6 @@
 // todo: copied from jcatalog-react-widgets
 import React from 'react';
-import { I18nManager } from 'jcatalog-i18n';
+import { I18nManager } from 'opuscapita-i18n';
 import messages from './i18n';
 
 export default class I18nBundle extends React.Component {

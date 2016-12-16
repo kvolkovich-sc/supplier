@@ -6,9 +6,9 @@ import classNames from 'classnames';
 import validator from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierContactEditForm.css';
-import DateConverter from 'jcatalog-i18n/lib/converters/DateConverter';
+import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 
-import { I18nManager } from 'jcatalog-i18n';
+import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;
 const CONTACT_TYPES = ['SIM', 'CatalogMan', 'Employee'];
 const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support', 'IT', 'Others'];

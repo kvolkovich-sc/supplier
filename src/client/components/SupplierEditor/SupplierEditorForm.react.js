@@ -2,11 +2,11 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import DateConverter from 'jcatalog-i18n/lib/converters/DateConverter';
+import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 import SupplierEditorFormRow from './SupplierEditorFormRow.react.js'
 import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
-import { I18nManager } from 'jcatalog-i18n';
+import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;
 
 function isValidDate(d) {
