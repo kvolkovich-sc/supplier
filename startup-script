@@ -83,5 +83,7 @@ export DB_HOST="$(curl -ssf http://dockerhost:8500/v1/catalog/service/mysql | jq
 export DB_PORT=$(curl -ssf http://dockerhost:8500/v1/catalog/service/mysql | jq -crM '.[0].ServicePort')
 export DB_DIALECT='mysql'
 
+# "exec" will replace the shell without creating a new process => $cmd will get PID 1
+# (and SIGTERM when a docker container stops as a result).
 exec $cmd
 

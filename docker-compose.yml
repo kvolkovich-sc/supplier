@@ -1,0 +1,56 @@
+version: '2'
+services:
+  bnp:
+    build: ./../bnp
+    #restart: on-failure:5
+    ports:
+     - '3000:3000'
+    depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
+     - mysql
+     - suppliers
+     - registrator
+    labels:
+     - 'SERVICE_NAME=bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
+    volumes:
+     - ./../bnp:/home/node/bnp
+     - /home/node/bnp/node_modules
+  suppliers:
+    build: .
+    #restart: on-failure:5
+    ports:
+     - '3001:3001'
+    depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
+     - mysql
+     - registrator
+    labels:
+     - 'SERVICE_NAME=suppliers'  # Service name used by Registrator for adding to Consul's service discovery registry.
+  mysql:
+    build: ./mysql-docker
+    #restart: always
+    depends_on:
+     - registrator
+    ports:
+     - '3306'
+    labels:
+     - 'SERVICE_NAME=mysql'  # Service name used by Registrator for adding to Consul's service discovery registry.
+  registrator:
+    image: gliderlabs/registrator:latest
+    network_mode: host
+    #restart: always
+    depends_on:
+     - consul
+    volumes:
+     - /var/run/docker.sock:/tmp/docker.sock
+    command: ['-internal', 'consul://localhost:8500']
+  consul:
+    image: consul:latest
+    network_mode: host
+    #restart: always
+    ports:
+      - '8400:8400'
+      - '8500:8500'
+      - '8600:53/udp'
+    labels:
+     - 'SERVICE_IGNORE=true'  # Don not add any of Consul's services to Consul's service discovery registry.
+    command: [agent, '-server', '-ui', '-bootstrap-expect=1', '-bind=127.0.0.1', '-client=0.0.0.0']
+
