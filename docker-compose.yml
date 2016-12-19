@@ -25,8 +25,7 @@ services:
     labels:
      - 'SERVICE_NAME=suppliers'  # Service name used by Registrator for adding to Consul's service discovery registry.
   mysql:
-    build: ./mysql-docker
-    #restart: always
+    image: gr4per/mysql
     depends_on:
      - registrator
     ports:
