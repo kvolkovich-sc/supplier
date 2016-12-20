@@ -8,9 +8,6 @@ RUN mkdir -p /home/node/supplierDir/node_modules && apk add --no-cache mysql-cli
 # NOTE: "node" user and corresponding "/home/node" dir are created by "node:6-alpine" image.
 WORKDIR /home/node/supplierDir
 
-# Copying modules which are either manually changed or not located in https://registry.npmjs.org/ official registry
-# (i.e. jCatalog registry) - see ".dockerignore" for the list. Otherwise "npm install" will throw an error.
-COPY node_modules/ node_modules/
 COPY jq-linux32 jq-linux64 /usr/local/bin/
 
 # Change owner since COPY/ADD assignes UID/GID 0 to all copied content.
