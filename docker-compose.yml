@@ -10,7 +10,7 @@ services:
      - suppliers
      - registrator
     labels:
-     - 'SERVICE_NAME=bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
+      SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
     volumes:
      - ./../bnp:/home/node/bnp
      - /home/node/bnp/node_modules
@@ -23,7 +23,8 @@ services:
      - mysql
      - registrator
     labels:
-     - 'SERVICE_NAME=suppliers'  # Service name used by Registrator for adding to Consul's service discovery registry.
+      SERVICE_NAME: 'suppliers'  # Service name used by Registrator for adding to Consul's service discovery registry.
+      SERVICE_TAGS: 'external'
   mysql:
     image: gr4per/mysql
     depends_on:
@@ -31,7 +32,7 @@ services:
     ports:
      - '3306'
     labels:
-     - 'SERVICE_NAME=mysql'  # Service name used by Registrator for adding to Consul's service discovery registry.
+      SERVICE_NAME: 'mysql'  # Service name used by Registrator for adding to Consul's service discovery registry.
   registrator:
     image: gliderlabs/registrator:latest
     network_mode: host
@@ -50,6 +51,6 @@ services:
       - '8500:8500'
       - '8600:53/udp'
     labels:
-     - 'SERVICE_IGNORE=true'  # Don not add any of Consul's services to Consul's service discovery registry.
+      SERVICE_IGNORE: 'true'  # Don not add any of Consul's services to Consul's service discovery registry.
     command: [agent, '-server', '-ui', '-bootstrap-expect=1', '-bind=127.0.0.1', '-client=0.0.0.0']
 
