@@ -4,11 +4,15 @@ services:
     build: ./../bnp
     #restart: on-failure:5
     ports:
-     - '3000:3000'
+     - '${BNP_PORT}:3000'
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
      - suppliers
      - registrator
+    environment:
+      PORT: '${BNP_PORT}'
+    expose:
+     - '${BNP_PORT}'
     labels:
       SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
     volumes:
@@ -17,20 +21,20 @@ services:
   suppliers:
     build: .
     #restart: on-failure:5
-    ports:
-     - '3001:3001'
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
      - registrator
+    environment:
+      PORT: '${SUPPLIERS_PORT}'
+    expose:
+     - '${SUPPLIERS_PORT}'
     labels:
-      SERVICE_NAME: 'suppliers'  # Service name used by Registrator for adding to Consul's service discovery registry.
+      SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
   mysql:
     image: gr4per/mysql
     depends_on:
      - registrator
-    ports:
-     - '3306'
     labels:
       SERVICE_NAME: 'mysql'  # Service name used by Registrator for adding to Consul's service discovery registry.
   registrator:

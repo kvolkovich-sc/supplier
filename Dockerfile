@@ -37,7 +37,6 @@ RUN chown -R node:node .
 
 #USER node
 RUN npm run build
-EXPOSE 3001
 CMD [ "npm", "start" ]
 
 # NOTE: "mysql" below is a DB service name in "docker-compose.yml"
