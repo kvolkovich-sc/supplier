@@ -64,16 +64,6 @@ fi
 ####################################################################
 
 while : ; do
-  db_service_info="$(curl -ssf http://dockerhost:8500/v1/kv/MYSQL_USER)"
-  [[ "$db_service_info" == "[]" ]] || break
-  sleep 1
-done
-
-export DB_PASSWORD="$(curl -ssf http://dockerhost:8500/v1/kv/MYSQL_PASSWORD | jq -crM '.[0].Value' | base64 -d)"
-export DB_NAME="$(curl -ssf http://dockerhost:8500/v1/kv/MYSQL_DATABASE | jq -crM '.[0].Value' | base64 -d)"
-export DB_USER="$(curl -ssf http://dockerhost:8500/v1/kv/MYSQL_USER | jq -crM '.[0].Value' | base64 -d)"
-
-while : ; do
   db_service_info="$(curl -ssf http://dockerhost:8500/v1/catalog/service/mysql)"
   [[ "$db_service_info" == "[]" ]] || break
   sleep 1
@@ -81,9 +71,7 @@ done
 
 export DB_HOST="$(curl -ssf http://dockerhost:8500/v1/catalog/service/mysql | jq -crM '.[0].ServiceAddress')"
 export DB_PORT=$(curl -ssf http://dockerhost:8500/v1/catalog/service/mysql | jq -crM '.[0].ServicePort')
-export DB_DIALECT='mysql'
 
 # "exec" will replace the shell without creating a new process => $cmd will get PID 1
 # (and SIGTERM when a docker container stops as a result).
 exec $cmd
-
