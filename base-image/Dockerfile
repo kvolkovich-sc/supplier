@@ -22,4 +22,4 @@ COPY . tmp
 
 # Change owner since COPY/ADD assignes UID/GID 0 to all copied content.
 RUN chown -Rf node:node tmp
-RUN rsync -vuar --delete-after tmp/* ./ && rm -rf tmp
+RUN rsync -a tmp/* ./ && rm -rf tmp && chown node:node .
