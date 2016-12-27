@@ -1,14 +1,24 @@
 version: '2'
 services:
+  nginx:
+    build: ./../nginx-rp
+    ports:
+     - '${EXTERNAL_PORT}:${NGINX_PORT}'
+    depends_on:
+     - bnp
+    environment:
+      PORT: '${NGINX_PORT}'
+      DOCKER_CONTAINERS_HOST_EXTERNAL_PORT: ${EXTERNAL_PORT}
+    expose:
+     - '${NGINX_PORT}'
+    labels:
+      SERVICE_NAME: 'nginx'
   bnp:
     build: ./../bnp
     #restart: on-failure:5
-    ports:
-     - '${BNP_PORT}:3000'
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
      - suppliers
-     - registrator
     environment:
       PORT: '${BNP_PORT}'
     expose:
@@ -23,7 +33,6 @@ services:
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
-     - registrator
     environment:
       PORT: '${SUPPLIERS_PORT}'
     expose:
