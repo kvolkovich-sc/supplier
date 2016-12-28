@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-// See why and how /etc/hosts is populated with "dockerhost" in "startup-script".
-const consul = require('consul')({ host: 'dockerhost' });
+//TODO: See why and how /etc/hosts is populated with "dockerhost" in "startup-script".
+const config = require('consulconfigapi')({ host: 'dockerhost' });
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const DB_CONFIG_FILE = path.normalize(__dirname + '/../../../../db.config.json');

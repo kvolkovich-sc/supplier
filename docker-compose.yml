@@ -28,6 +28,8 @@ services:
       PORT: '${SUPPLIERS_PORT}'
     expose:
      - '${SUPPLIERS_PORT}'
+    volumes:
+      - ./src:/home/node/supplierDir/src:rw
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
