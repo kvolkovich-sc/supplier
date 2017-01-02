@@ -4,6 +4,10 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
+import db from "ocbesbn-dbinit";
+import config from "ocbesbn-config";
+
+
 // initialize logging
 // import "./logger";
 // initialize sequilize
@@ -50,18 +54,43 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// launch application
-let server = app.listen(process.env.PORT, err => {
-  if (err) {
-    console.log(err);
-  }
 
-  console.info(
-    'The server is running at http://%s:%s/',
-    server.address().address === '::' ? '0.0.0.0' : server.address().address,
-    server.address().port
-  );
-});
+
+
+//launch aplication
+var server;
+config.init({ host: 'dockerhost' })
+	.tap(function() {console.log("Consul connection initialized!")})
+	.map(["MYSQL_DATABASE", "MYSQL_USER", "MYSQL_PASSWORD"])
+	.then(function () {
+		consol.log(arguments)
+	})
+	//.all([config.get("MYSQL_DATABASE"), config.get("MYSQL_USER"), config.get("MYSQL_PASSWORD")])
+	.then(credentials => {
+		return console.log(credentials);
+		//return db.init(config.get("MYSQL_DATABASE"), config.get("MYSQL_USER"), config.get("MYSQL_PASSWORD"));
+	})
+	.tap(function() {console.log("DB connection initialized!")})
+	.then((err, db) => {
+		console.log("manual: DATABASE!", arguments.length);
+	    require(`./db/data`).default(db);  // populate data
+	    require('./routes').default(app, db);  // register rest api for DB specific models
+  	})
+  	.then(function () {
+	  	return;
+	  	server = app.listen(process.env.PORT, err => {
+		  if (err) {
+		    console.log(err);
+		  }
+		
+		  console.info(
+		    'The server is running at http://%s:%s/',
+		    server.address().address === '::' ? '0.0.0.0' : server.address().address,
+		    server.address().port
+		  );
+		});
+  	})
+	.catch(gracefulShutdown);
 
 function gracefulShutdown(msg) {
   if (msg) {
@@ -77,10 +106,12 @@ process.on('SIGTERM', gracefulShutdown);
 // listen for INT signal e.g. Ctrl-C
 process.on('SIGINT', gracefulShutdown);
 
+/*
 dbPromise.
   then(db => {
     require(`./db/data`).default(db);  // populate data
     require('./routes').default(app, db);  // register rest api for DB specific models
   }).
   catch(err => gracefulShutdown(err));
+*/
 

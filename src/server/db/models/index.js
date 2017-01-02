@@ -4,7 +4,9 @@ const path = require('path');
 const Sequelize = require('sequelize');
 
 //TODO: See why and how /etc/hosts is populated with "dockerhost" in "startup-script".
-const config = require('consulconfigapi')({ host: 'dockerhost' });
+const consul = require('consul')({ host: 'dockerhost' });
+const config = require('ocbesbn-config'); 
+// /const configconnection = new consulconfig
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const DB_CONFIG_FILE = path.normalize(__dirname + '/../../../../db.config.json');
@@ -129,7 +131,8 @@ if (!dbConfig.username || !dbConfig.password || !dbConfig.database) {
   })));
 }
 
-let dbPromise = Promise.all(consulPromises).then(results => {
+let dbPromise = function () {};/*
+Promise.all(consulPromises).then(results => {
   results.forEach(result => Object.keys(result).forEach(param => {
     dbConfig[param] = dbConfig[param] || result[param];
   }));
@@ -143,6 +146,7 @@ let dbPromise = Promise.all(consulPromises).then(results => {
 
   return Promise.resolve(getDb(dbConfig));
 });
+*/
 
 export default dbPromise;
 
