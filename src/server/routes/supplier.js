@@ -125,7 +125,7 @@
 
 // const lib = require('../../client-server/lib');
 
-export default function(epilogue, db) {
+module.exports = function(epilogue, db) {
   let supplier = epilogue.resource({
     model: db.Supplier,
     endpoints: ['/suppliers', '/suppliers/:supplierId']

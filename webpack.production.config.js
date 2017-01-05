@@ -26,7 +26,7 @@ module.exports = {
   },
 
   bail: true,
-  devtool: 'eval-source-map',  // TODO: del or change to 'source-map'
+  // devtool: 'source-map',
 
   plugins: [
     new webpack.ContextReplacementPlugin(

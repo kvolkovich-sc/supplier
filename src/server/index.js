@@ -1,4 +1,3 @@
-import path from "path";
 import express from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -8,6 +7,8 @@ import morgan from "morgan";
 // import "./logger";
 // initialize sequilize
 import dbPromise from "./db/models";
+
+const WEBPACK_DEV_CONFIG = '../../webpack.development.config.js';
 
 // create express app
 const app = express();
@@ -37,17 +38,13 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   const webpack = require('webpack');
   const webpackMiddleware = require('webpack-dev-middleware');
+  const compiler = webpack(require(WEBPACK_DEV_CONFIG));
 
-  app.use(webpackMiddleware(webpack(require('../../webpack.development.config.js')), {
+  app.use(webpackMiddleware(compiler, {
     publicPath: '/static',
+    stats: { colors: true },
     noInfo: true
   }));
-
-  app.use(express.static(__dirname + '/../client/demo'));
-
-  app.get(['/', '/address', '/contact'], function(req, res) {
-    res.sendFile(path.normalize(__dirname + '/../client/demo/index.html'));
-  });
 }
 
 // launch application
@@ -79,8 +76,8 @@ process.on('SIGINT', gracefulShutdown);
 
 dbPromise.
   then(db => {
-    require(`./db/data`).default(db);  // populate data
-    require('./routes').default(app, db);  // register rest api for DB specific models
+    require(`./db/data`)(db);  // populate data
+    require('./routes')(app, db);  // register rest api for DB specific models
   }).
   catch(err => gracefulShutdown(err));
 

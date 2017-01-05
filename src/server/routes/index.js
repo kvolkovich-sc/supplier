@@ -1,13 +1,13 @@
-import epilogue from 'epilogue';
+const epilogue = require('epilogue');
 
-import supplierRoutes from './supplier';
-import supplierAddressRoutes from './supplierAddress';
-import supplierContactRoutes from './supplierContact';
-import countries from './countries';
+const supplierRoutes = require('./supplier');
+const supplierAddressRoutes = require('./supplierAddress');
+const supplierContactRoutes = require('./supplierContact');
+const countries = require('./countries');
 
 // app - express application
 // db - sequilize models, sequilize instance, Sequlize class, config
-export default function(app, db) {
+module.exports = function(app, db) {
   epilogue.initialize({
     app: app,
     sequelize: db.sequelize,

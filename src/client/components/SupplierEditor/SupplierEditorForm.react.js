@@ -65,13 +65,6 @@ class SupplierEditorForm extends Component {
     fieldErrors: {}
   };
 
-  componentDidMount() {
-    console.log('SUPPLIER PROPS');
-    console.dir(this.props.supplier);
-    console.log('SUPPLIER STATE');
-    console.dir(this.state.supplier);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
       return;
@@ -117,6 +110,11 @@ class SupplierEditorForm extends Component {
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 250
         })
+      }
+    },
+    role: {
+      presence: {
+        message: this.validatejsI18N.getMessage('validatejs.blank.message')
       }
     },
     foundedOn: {
@@ -292,9 +290,9 @@ class SupplierEditorForm extends Component {
 
     if (errors) {
       this.setState({
-        fieldErrors: errors.reduce((fErrors, messages, fieldName) => ({
-          ...fErrors,
-          [fieldName]: messages.map(msg => ({ message: msg }))
+        fieldErrors: Object.keys(errors).reduce((rez, fieldName) => ({
+          ...rez,
+          [fieldName]: errors[fieldName].map(msg => ({ message: msg }))
         }), {}),
       });
 
@@ -358,6 +356,44 @@ class SupplierEditorForm extends Component {
           { this.renderField({ fieldName: 'supplierName', readOnly }) }
           { this.renderField({ fieldName: 'supplierId', readOnly }) }
           { this.renderField({ fieldName: 'homePage', readOnly }) }
+
+          { this.renderField({
+            fieldName: 'role',
+            readOnly,
+            component: (
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="buying"
+                    checked={ supplier.role === 'buying' }
+                    onChange={ this.handleChange.bind(this, 'role') }
+                    disabled={readOnly}
+                    className="radio-inline"
+                  />
+                  <span style={{ fontWeight: 'normal' }}>
+                    { this.context.i18n.getMessage('SupplierEditor.Label.buying.label') }
+                  </span>
+                </label>
+                {'\u00a0\u00a0\u00a0\u00a0'}
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="selling"
+                    checked={ supplier.role === 'selling' }
+                    onChange={ this.handleChange.bind(this, 'role') }
+                    disabled={readOnly}
+                    className="radio-inline"
+                  />
+                  <span style={{ fontWeight: 'normal' }}>
+                    { this.context.i18n.getMessage('SupplierEditor.Label.selling.label') }
+                  </span>
+                </label>
+              </div>
+            )
+          }) }
 
           { this.renderField({
             fieldName: 'foundedOn',

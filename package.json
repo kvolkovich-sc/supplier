@@ -10,15 +10,13 @@
     "test-client": "jest",
     "test-server": "rimraf testdb.sqlite && node test/utils/create-db-config && cross-env NODE_ENV=test npm run migratedb && cross-env NODE_ENV=test mocha --require ./test/mocha-babel.js src/**/*.spec.js",
     "build": "rimraf build && npm run build-client && npm run build-client-server && npm run build-server",
-    "build-client": "./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors",
+    "build-client": "./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors --bail",
     "build-client-server": "babel src/client-server -d build/client-server --copy-files --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "build-server": "babel src/server -d build/server --copy-files --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "start": "per-env",
-    "start:development": "nodemon --watch src/server src/server/index --exec babel-node --presets es2015,stage-0,react --plugins transform-decorators-legacy",
+    "start:development": "npm run migratedb && nodemon --watch src/server src/server/index --exec babel-node --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "start:production": "npm run migratedb && node build/server",
-    "migratedb": "per-env",
-    "migratedb:development": "./node_modules/.bin/sequelize db:migrate --config db.config.json --migrations-path src/server/db/migrations",
-    "migratedb:production": "./node_modules/.bin/sequelize db:migrate --url \"${DB_DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" --migrations-path src/server/db/migrations"
+    "migratedb": "./node_modules/.bin/sequelize db:migrate --url \"${DB_DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" --migrations-path src/server/db/migrations"
   },
   "repository": {
     "type": "git",

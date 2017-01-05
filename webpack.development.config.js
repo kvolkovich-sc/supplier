@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/client/demo/index.react.js',
+  entry: './src/client/index.js',
   output: {
-    path: path.resolve(__dirname, 'static'),
+    path: path.resolve(__dirname, 'static'),  // with 'webpack-dev-middleware' this value is ignored.
     filename: `bundle.js`,
     //sourceMapFilename: "bundle.js.map",
     //devtoolLineToLine: true,
@@ -17,6 +17,11 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     dns: 'empty'
+  },
+
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM"
   },
 
   devtool: 'eval-source-map',

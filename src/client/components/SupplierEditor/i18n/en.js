@@ -35,6 +35,9 @@ let Label = {
   supplierName: {},
   supplierId: {},
   homePage: {},
+  role: {},
+  buying: {},
+  selling: {},
   foundedOn: {},
   legalForm: {},
   registrationNumber: {},
@@ -48,7 +51,10 @@ let Label = {
 Label.supplierName.label = 'Company Name';
 Label.supplierId.label = 'Company ID';
 Label.homePage.label = 'Home Page';
-Label.foundedOn.label = 'Founded/Established On';
+Label.role.label = 'Role';
+Label.buying.label = 'Buying';
+Label.selling.label = 'Selling';
+Label.foundedOn.label = 'Founded/\u200bEstablished\u00a0On';
 Label.legalForm.label = 'Legal Form';
 Label.registrationNumber.label = 'Company Registration Number';
 Label.cityOfRegistration.label = 'City Of Registration';

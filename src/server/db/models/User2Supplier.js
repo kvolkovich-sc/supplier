@@ -1,5 +1,5 @@
 'use strict';
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
 module.exports = function(sequelize) {
   const User2Supplier = sequelize.define('User2Supplier', {

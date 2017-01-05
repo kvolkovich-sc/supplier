@@ -248,7 +248,7 @@ function cloneSupplier2Attributes(supplier2Address) {
   }
 }
 
-export default function(epilogue, db) {
+module.exports = function(epilogue, db) {
   let supplierAddressResource = epilogue.resource({
     model: db.Supplier2Address,
     endpoints: ['/suppliers/:supplierId/addresses', '/suppliers/:supplierId/addresses/:addressId'],

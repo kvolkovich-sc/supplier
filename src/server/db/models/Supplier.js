@@ -1,4 +1,5 @@
-import Sequelize from 'sequelize';
+'use strict';
+const Sequelize = require('sequelize');
 
 module.exports = function(sequelize) {
   /**
@@ -65,6 +66,11 @@ module.exports = function(sequelize) {
       allowNull: true,
       type: Sequelize.STRING(250),
       field: "HomePage"
+    },
+    role: {
+      allowNull: false,
+      type: Sequelize.STRING(25),
+      field: "Role"
     },
     dunsNo: {
       allowNull: true,

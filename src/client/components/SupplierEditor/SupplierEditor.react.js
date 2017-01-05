@@ -101,14 +101,10 @@ class SupplierEditor extends Component {
       requestMethod = request.post(`${this.props.actionUrl}/api/suppliers`);
     }
 
-    console.log('===== NEW SUPPLIER INFO =====', newSupplier);
-
     return requestMethod.
       set('Accept', 'application/json').
       send(newSupplier).
       then(response => {
-        console.log('===== ADDED/CHANGED SUPPLIER INFO =====', response);
-
         this.setState({
           supplier: response.body,
           globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),
@@ -123,7 +119,6 @@ class SupplierEditor extends Component {
         }
       }).
       catch(errors => {
-        console.log('===== SUPPLIER ADD/CHANGE ERROR =====', errors);
         switch (errors.status) {
           case 401:
             this.props.onUnauthorized();

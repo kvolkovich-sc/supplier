@@ -808,6 +808,11 @@ module.exports = {
           type: Sequelize.STRING(250),
           field: "HomePage"
         },
+        role: {
+          allowNull: false,
+          type: Sequelize.STRING(25),
+          field: "Role"
+        },
         dunsNo: {
           allowNull: true,
           type: Sequelize.STRING(250),

@@ -36,6 +36,9 @@ let Label = {
   supplierName: {},
   supplierId: {},
   homePage: {},
+  role: {},
+  buying: {},
+  selling: {},
   foundedOn: {},
   legalForm: {},
   registrationNumber: {},
@@ -49,6 +52,9 @@ let Label = {
 Label.supplierName.label = 'Name des Unternehmens';
 Label.supplierId.label = 'Firmen-ID';
 Label.homePage.label = 'Homepage';
+Label.role.label = 'Role';  // TODO: substitute with EN.
+Label.buying.label = 'Buying';  // TODO: substitute with EN.
+Label.selling.label = 'Selling';  // TODO: substitute with EN.
 Label.foundedOn.label = 'Datum der Firmengründung';
 Label.legalForm.label = 'Rechtform des Unternehmens';
 Label.registrationNumber.label = 'Handelsregisternummer';
