@@ -47,7 +47,9 @@ let Label = {
   taxId: {},
   vatRegNo: {},
   dunsNo: {},
-  globalLocationNo: {}
+  globalLocationNo: {},
+  isNewSupplier: {},
+  supplier: {}
 };
 Label.supplierName.label = 'Name des Unternehmens';
 Label.supplierId.label = 'Firmen-ID';
@@ -64,6 +66,8 @@ Label.taxId.label = 'Steuernummer';
 Label.vatRegNo.label = 'Umsatzsteuer-Ident-Nr.';
 Label.dunsNo.label = 'D-U-N-S-Nr.';
 Label.globalLocationNo.label = 'Global Location Number (GLN/ILN)';
+Label.isNewSupplier.label = 'Existierenden Lieferanten auswählen';
+Label.supplier.label = 'Lieferant';
 
 let SupplierEditor = {};
 SupplierEditor.created = 'Die Informationen auf diesem Reiter wurden erstmalig durch {by} am {on} erstellt.';

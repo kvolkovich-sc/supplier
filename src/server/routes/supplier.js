@@ -124,6 +124,7 @@
 */
 
 // const lib = require('../../client-server/lib');
+const _ = require('lodash');
 
 module.exports = function(epilogue, db) {
   let supplier = epilogue.resource({
@@ -178,11 +179,10 @@ module.exports = function(epilogue, db) {
         before(req, res, context) {
           // eslint-disable-next-line no-unused-vars
           let { createdBy, changedBy, createdOn, changedOn, ...findProps } = req.body;
-
           return db.sequelize.
             transaction(t => db.Supplier.
               findOrCreate({
-                where: findProps,  // Comparison is case-insensitive (at least in MySQL/MariaDB).
+                where: _.omit(findProps, ['_objectLabel']),  // Comparison is case-insensitive (at least in MySQL/MariaDB).
                 transaction: t,
                 defaults: {
                   createdBy,
