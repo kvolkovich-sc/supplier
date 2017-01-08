@@ -7,7 +7,6 @@ MAINTAINER gr4per
 WORKDIR /home/node/supplierDir
 
 COPY package.json .
-
 RUN npm set progress=false && npm install 2> /dev/null && npm cache clean
 ENV NODE_ENV=development
 
@@ -19,9 +18,6 @@ RUN chown -Rf node:node tmp
 RUN rsync -a tmp/* ./ && rm -rf tmp && chown node:node .
 
 # Set the user name or UID to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow
-#USER node
+USER node
 CMD [ "npm", "start" ]
-
-# NOTE: "mysql" below is a DB service name in "docker-compose.yml"
-ENTRYPOINT [ "./startup-script", "mysql" ]
 

@@ -3,6 +3,8 @@ module.exports = function(db) {
     console.log(`Populate database: '${db.config.populateDatabase}'`);
 
     switch (db.config.populateDatabase) {
+      case 'demo':
+        break;
       case 'system':
         break;
       default:

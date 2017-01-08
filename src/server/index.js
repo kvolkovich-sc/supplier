@@ -1,12 +1,12 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import helmet from "helmet";
-import morgan from "morgan";
-// initialize logging
-// import "./logger";
-// initialize sequilize
-import dbPromise from "./db/models";
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+const dbReadyPromise = require('./service/dbReadyService');
+const registerRestRoutes = require('./routes');
+// import "./logger";  // initialize logging
 
 const WEBPACK_DEV_CONFIG = '../../webpack.development.config.js';
 
@@ -74,10 +74,7 @@ process.on('SIGTERM', gracefulShutdown);
 // listen for INT signal e.g. Ctrl-C
 process.on('SIGINT', gracefulShutdown);
 
-dbPromise.
-  then(db => {
-    require(`./db/data`)(db);  // populate data
-    require('./routes')(app, db);  // register rest api for DB specific models
-  }).
+dbReadyPromise.
+  then(db => registerRestRoutes(app, db)).  // register rest api only after connecting to DB.
   catch(err => gracefulShutdown(err));
 

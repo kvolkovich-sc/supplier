@@ -7,9 +7,6 @@ MAINTAINER gr4per
 WORKDIR /home/node/supplierDir
 
 RUN mv /var/tmp/base/node_modules ./node_modules && apk add --no-cache mysql-client && apk add --no-cache curl rsync
-
-COPY ./jq-linux32 ./jq-linux64 /usr/local/bin/
-
 COPY package.json .
 
 # Setting NODE_ENV is necessary for "npm install" below.
