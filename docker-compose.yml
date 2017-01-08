@@ -3,14 +3,11 @@ services:
   nginx:
     build: ./../nginx-rp
     ports:
-     - '${EXTERNAL_PORT}:${NGINX_PORT}'
+     - '3100:${NGINX_PORT}'
     depends_on:
      - bnp
     environment:
       PORT: '${NGINX_PORT}'
-      DOCKER_CONTAINERS_HOST_EXTERNAL_PORT: ${EXTERNAL_PORT}
-    expose:
-     - '${NGINX_PORT}'
     labels:
       SERVICE_NAME: 'nginx'
   bnp:
@@ -19,10 +16,6 @@ services:
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
      - suppliers
-    environment:
-      PORT: '${BNP_PORT}'
-    expose:
-     - '${BNP_PORT}'
     labels:
       SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
     volumes:
@@ -33,10 +26,6 @@ services:
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
-    environment:
-      PORT: '${SUPPLIERS_PORT}'
-    expose:
-     - '${SUPPLIERS_PORT}'
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
