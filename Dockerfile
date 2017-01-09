@@ -8,7 +8,7 @@ WORKDIR /home/node/supplierDir
 
 COPY package.json .
 
-RUN npm set progress=false && npm install 2> /dev/null && npm cache clean
+RUN npm set progress=false && npm install 2> /dev/null ; npm cache clean
 ENV NODE_ENV=development
 
 # Bundle app source by overwriting all WORKDIR content.
@@ -27,4 +27,3 @@ CMD [ "npm", "start" ]
 
 # NOTE: "mysql" below is a DB service name in "docker-compose.yml"
 ENTRYPOINT [ "./startup-script", "mysql" ]
-
