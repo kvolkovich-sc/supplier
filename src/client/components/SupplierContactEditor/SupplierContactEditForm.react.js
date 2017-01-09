@@ -293,34 +293,6 @@ class SupplierContactEditForm extends Component {
     );
   }
 
-  auditedInfo = () => {
-    const { contact } = this.state;
-    if (contact['createdBy']) {
-      return (
-        <div className="form-group col-sm-12 object-info">
-          <p><strong>{this.auditedInfoPart('created')}</strong></p>
-          <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-        </div>
-      );
-    }
-    return ('');
-  };
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const locale = i18n.locale;
-    const { contact } = this.state;
-    const { dateTimePattern } = this.props;
-    const dateConverter = new DateConverter(dateTimePattern, locale);
-    const dateOn = contact[`${fieldName}On`];
-    const userBy = contact[`${fieldName}By`];
-
-    return i18n.getMessage(`SupplierContactEditor.ContactInfo.${fieldName}`, {
-      by: userBy,
-      on: dateConverter.valueToString(dateOn)
-    });
-  };
-
   render() {
     const editMode = this.props.editMode;
 
@@ -441,8 +413,6 @@ class SupplierContactEditForm extends Component {
             >{this.context.i18n.getMessage('SupplierContactEditor.Button.save')}</Button>
           ) : null}
         </div>
-
-        {editMode === 'edit' || editMode === 'view' ? this.auditedInfo() : null}
       </form>
     );
   }

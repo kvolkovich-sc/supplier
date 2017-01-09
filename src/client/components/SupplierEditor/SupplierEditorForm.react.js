@@ -201,24 +201,6 @@ class SupplierEditorForm extends Component {
     }
   }
 
-  auditedInfo = () => this.state.supplier.createdBy ?
-    <div className="form-group col-sm-6 object-info">
-      <p><strong>{this.auditedInfoPart('created')}</strong></p>
-      <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-    </div> :
-    ''
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const { supplier } = this.state;
-    const dateConverter = new DateConverter(this.props.dateTimePattern, i18n.locale);
-
-    return i18n.getMessage(`SupplierEditor.SupplierEditor.${fieldName}`, {
-      by: supplier[`${fieldName}By`],
-      on: dateConverter.valueToString(supplier[`${fieldName}On`])
-    });
-  }
-
   handleDateChange = (fieldName, event) => {
     let date;
     try {
@@ -444,8 +426,6 @@ class SupplierEditorForm extends Component {
               </button>
             </div>
           </div>}
-
-          { this.auditedInfo() }
         </form>
       </div>
     );

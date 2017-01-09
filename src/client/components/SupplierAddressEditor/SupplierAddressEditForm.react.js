@@ -402,34 +402,6 @@ class SupplierAddressEditForm extends Component {
     );
   }
 
-  auditedInfo = () => {
-    const { supplierAddress } = this.state;
-    if (supplierAddress['createdBy']) {
-      return (
-        <div className="form-group col-sm-12 object-info">
-          <p><strong>{this.auditedInfoPart('created')}</strong></p>
-          <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-        </div>
-      );
-    }
-    return ('');
-  };
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const locale = i18n.locale;
-    const { supplierAddress } = this.state;
-    const { dateTimePattern } = this.props;
-    const dateConverter = new DateConverter(dateTimePattern, locale);
-    const dateOn = supplierAddress[`${fieldName}On`];
-    const userBy = supplierAddress[`${fieldName}By`];
-
-    return i18n.getMessage(`SupplierAddressEditor.AddressInfo.${fieldName}`, {
-      by: userBy,
-      on: dateConverter.valueToString(dateOn)
-    });
-  };
-
   render() {
     const editMode = this.props.editMode;
     // const supplierAddress = this.state.supplierAddress;
@@ -584,8 +556,6 @@ class SupplierAddressEditForm extends Component {
             >{this.context.i18n.getMessage('SupplierAddressEditor.Button.save')}</Button>
           ) : null}
         </div>
-
-        {editMode === 'edit' || editMode === 'view' ? this.auditedInfo() : null}
       </form>
     );
   }
