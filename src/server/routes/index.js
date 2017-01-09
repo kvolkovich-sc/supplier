@@ -10,7 +10,7 @@ import countries from './countries';
 export default function(app, db) {
   epilogue.initialize({
     app: app,
-    sequelize: db.sequelize,
+    sequelize: db,
     base: '/api'
   });
 
