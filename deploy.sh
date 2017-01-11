@@ -11,11 +11,11 @@ configure_aws_cli(){
 
 deploy_cluster() {
 
-    family="supplier-dir"
+    family="supplierdir"
 
     make_task_def
     register_definition
-    if [[ $(aws ecs update-service --cluster besTest --service supplier-dir --task-definition $revision | \
+    if [[ $(aws ecs update-service --cluster besTest --service supplierdir --task-definition $revision | \
                    $JQ '.service.taskDefinition') != $revision ]]; then
         echo "Error updating service."
         return 1
@@ -24,7 +24,7 @@ deploy_cluster() {
     # wait for older revisions to disappear
     # not really necessary, but nice for demos
     for attempt in {1..30}; do
-        if stale=$(aws ecs describe-services --cluster besTest --services supplier-dir | \
+        if stale=$(aws ecs describe-services --cluster besTest --services supplierdir | \
                        $JQ ".services[0].deployments | .[] | select(.taskDefinition != \"$revision\") | .taskDefinition"); then
             echo "Waiting for stale deployments:"
             echo "$stale"
@@ -41,8 +41,8 @@ deploy_cluster() {
 make_task_def(){
 	task_template='[
 		{
-			"name": "supplier-dir",
-			"image": "gr4per/supplier-dir:latest",
+			"name": "supplierdir",
+			"image": "gr4per/supplierdir:latest",
 			"essential": true,
 			"memory": 128,
 			"cpu": 1,
