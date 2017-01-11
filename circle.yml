@@ -8,13 +8,13 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build --rm=false -t gr4per/supplier-dir .
+    - docker build --rm=false -t gr4per/supplierdir .
 
 deployment:
   hub:
     branch: master
     commands:
       - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
-      - docker push gr4per/supplier-dir
+      - docker push gr4per/supplierdir
       - chmod +x deploy.sh
       - ./deploy.sh
