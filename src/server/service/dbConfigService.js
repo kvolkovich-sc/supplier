@@ -94,6 +94,14 @@ module.exports = new Promise((resolve, reject) => {
     }
   });
 
+  missingParams = getMissingParams(dbConfig);
+
+  if (missingParams) {
+    // A promise can be resolved only once => the function is called only after initial
+    // filling of all missing params in dbConfig.
+    console.log('Still waiting for the following params from Consul:', missingParams.join(', '), '...');
+  }
+
   return;
 });
 
