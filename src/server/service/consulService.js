@@ -111,7 +111,7 @@ function getServiceDetails(serviceName) {
 
       return {
         name: serviceInfo.ServiceName,
-        ip: serviceInfo.ServiceAddress,
+        ip: serviceInfo.ServiceAddress || serviceInfo.Address,
         port: serviceInfo.ServicePort,
         tags: serviceInfo.ServiceTags
       };
@@ -254,7 +254,7 @@ class ConsulEmitter extends EventEmitter {
       }
 
       let serviceInfo = nodesInfo[0];
-      let ip = serviceInfo.ServiceAddress;
+      let ip = serviceInfo.ServiceAddress || serviceInfo.Address;
       let port = serviceInfo.ServicePort;
 
       if (this.dbConfig.hasOwnProperty('host')) {
@@ -348,7 +348,7 @@ class ConsulEmitter extends EventEmitter {
       }
 
       let serviceInfo = nodesInfo[0];
-      let ip = serviceInfo.ServiceAddress;
+      let ip = serviceInfo.ServiceAddress || serviceInfo.Address;
       let port = serviceInfo.ServicePort;
 
       if (integrationService) {
