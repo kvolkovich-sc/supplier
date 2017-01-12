@@ -4,7 +4,6 @@ Dockerfile
 .gitignore
 .git/
 bower_components/
-test-results.xml
 
 *~
 *.swp
