@@ -25,7 +25,7 @@ const DB_SERVICE_NAME = 'mysql';
  * discovered at each service startup.
  */
 let consulPromise = new Promise((resolve, reject) => {
-  let Consul = require('consul');
+  const Consul = require('consul');
   let consul = Consul({ host: 'consul' });
 
   let dbWatch = consul.watch({
@@ -34,6 +34,7 @@ let consulPromise = new Promise((resolve, reject) => {
   });
 
   dbWatch.on('error', err => {
+    dbWatch.end();
     console.log('"consul" hostname does not work for Consul service. Trying default gateway...')
 
     fs.readFile('/proc/net/route', 'utf8', (err, data) => {
@@ -56,6 +57,7 @@ let consulPromise = new Promise((resolve, reject) => {
       });
 
       if (gateway) {
+        console.log('===== CONSUL SERVICE IS FOUND AT', gateway);
         resolve(Consul({ host: gateway }));
       } else {
         reject('Unable to parse "/proc/net/route"');
@@ -66,6 +68,7 @@ let consulPromise = new Promise((resolve, reject) => {
   });
 
   dbWatch.on('change', data => {  // eslint-disable-line no-loop-func
+    dbWatch.end();
     resolve(consul);
   });
 });

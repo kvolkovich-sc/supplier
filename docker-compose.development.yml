@@ -1,15 +1,15 @@
 version: '2'
 services:
   nginx:
-    build: ./../nginx-rp
+    image: gr4per/nginx-rp:latest
     ports:
-     - '3100:${NGINX_PORT}'
+     - '3100:8080'
     depends_on:
      - bnp
-    environment:
-      PORT: '${NGINX_PORT}'
     labels:
       SERVICE_NAME: 'nginx'
+    extra_hosts:
+     - 'consul:172.21.0.1'
   bnp:
     build: ./../bnp
     #restart: on-failure:5

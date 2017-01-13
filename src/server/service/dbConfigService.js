@@ -50,21 +50,14 @@ module.exports = new Promise((resolve, reject) => {
   console.log('Waiting for the following params from Consul:', origMissingParams.join(', '), '...');
 
   consulEmitter.on('dbConfig', (action, details) => {
-    let missingParams = getMissingParams(dbConfig);
-    let neededParams = Object.keys(details).filter(param => missingParams.indexOf(param) !== -1);
+    let curMissingParams = getMissingParams(dbConfig);
+    let neededParams = Object.keys(details).filter(param => curMissingParams.indexOf(param) !== -1);
 
     switch (action) {
       case 'add':
         neededParams.forEach(param => {
           dbConfig[param] = details[param];
         });
-
-        if (getMissingParams(dbConfig).length === 0) {
-          // A promise can be resolved only once => the function is called only after initial
-          // filling of all missing params in dbConfig.
-          console.log('\n--------------------\nDB configuration\n', dbConfig, '\n--------------------\n');
-          resolve(dbConfig);
-        }
         break;
       case 'delete':
         neededParams.forEach(param => {
@@ -92,16 +85,21 @@ module.exports = new Promise((resolve, reject) => {
       default:
         break;
     }
+
+    let newMissingParams = getMissingParams(dbConfig);
+
+    if (newMissingParams.length === 0) {
+      // A promise can be resolved only once => the function is called only after initial
+      // filling of all missing params in dbConfig.
+      console.log('\n--------------------\nDB configuration\n', dbConfig, '\n--------------------\n');
+      resolve(dbConfig);
+    } else if (curMissingParams.length !== newMissingParams.length) {
+      // A promise can be resolved only once => the function is called only after initial
+      // filling of all missing params in dbConfig.
+      console.log('Still waiting for the following params from Consul:', newMissingParams.join(', '), '...');
+    }
+
+    return;
   });
-
-  let missingParams = getMissingParams(dbConfig);
-
-  if (missingParams) {
-    // A promise can be resolved only once => the function is called only after initial
-    // filling of all missing params in dbConfig.
-    console.log('Still waiting for the following params from Consul:', missingParams.join(', '), '...');
-  }
-
-  return;
 });
 
