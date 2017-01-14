@@ -9,7 +9,7 @@ services:
     labels:
       SERVICE_NAME: 'nginx'
     extra_hosts:
-     - 'consul:172.21.0.1'
+     - 'consul:172.17.0.1'
   bnp:
     build: ./../bnp
     #restart: on-failure:5
