@@ -2,6 +2,7 @@ awsProject.zip
 .elasticbeanstalk/
 *~
 *.swp
+*.kate-swp
 
 #/resources/jcatalog/less/jquery-ui-bundle.css
 #/resources/jcatalog/less/jcatalog-bootstrap-bundle.css

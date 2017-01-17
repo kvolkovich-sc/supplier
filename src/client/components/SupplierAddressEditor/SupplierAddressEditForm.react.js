@@ -6,7 +6,6 @@ import Popover from 'react-bootstrap/lib/Popover';
 import validator from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierAddressEditForm.css';
-import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 
 import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;

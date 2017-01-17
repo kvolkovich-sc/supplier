@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 import SupplierEditorFormRow from './SupplierEditorFormRow.react.js'
 import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
