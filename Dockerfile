@@ -9,7 +9,7 @@ WORKDIR /home/node/supplierDir
 COPY package.json .
 RUN npm set progress=false && npm install 2> /dev/null && npm cache clean
 ENV NODE_ENV=development \
-    PORT=3000
+    PORT=3001
 
 # A container must expose a port if it wants to be registered in Consul by Registrator.
 # The port is fed both to node express server and Consul => DRY principle is observed with ENV VAR.

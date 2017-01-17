@@ -25,30 +25,51 @@ const DB_SERVICE_NAME = 'mysql';
  * discovered at each service startup.
  */
 let consulPromise = new Promise((resolve, reject) => {
-  fs.readFile('/proc/net/route', 'utf8', (err, data) => {
-    if (err) {
-      reject(err);
-      return;
-    }
+  const Consul = require('consul');
+  let consul = Consul({ host: 'consul' });
 
-    let gateway;
+  let dbWatch = consul.watch({
+    method: consul.kv.get,
+    options: { key: 'MYSQL_DATABASE' }
+  });
 
-    data.split('\n').some(line => {
-      let parts = line.split('\t');
+  dbWatch.on('error', err => {
+    dbWatch.end();
+    console.log('"consul" hostname does not work for Consul service. Trying default gateway...')
 
-      if (parts[1] !== '00000000') {
-        return false;
+    fs.readFile('/proc/net/route', 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+        return;
       }
 
-      gateway = parts[2].match(/.{2}/g).map(hex => parseInt(hex, 16)).reverse().join('.');
-      return true;
-    });
+      let gateway;
 
-    if (gateway) {
-      resolve(require('consul')({ host: gateway }));
-    } else {
-      reject('Unable to parse "/proc/net/route"');
-    }
+      data.split('\n').some(line => {
+        let parts = line.split('\t');
+
+        if (parts[1] !== '00000000') {
+          return false;
+        }
+
+        gateway = parts[2].match(/.{2}/g).map(hex => parseInt(hex, 16)).reverse().join('.');
+        return true;
+      });
+
+      if (gateway) {
+        console.log('===== CONSUL SERVICE IS FOUND AT', gateway);
+        resolve(Consul({ host: gateway }));
+      } else {
+        reject('Unable to parse "/proc/net/route"');
+      }
+
+      return;
+    });
+  });
+
+  dbWatch.on('change', data => {  // eslint-disable-line no-loop-func
+    dbWatch.end();
+    resolve(consul);
   });
 });
 
@@ -93,7 +114,7 @@ function getServiceDetails(serviceName) {
 
       return {
         name: serviceInfo.ServiceName,
-        ip: serviceInfo.ServiceAddress,
+        ip: serviceInfo.ServiceAddress || serviceInfo.Address,
         port: serviceInfo.ServicePort,
         tags: serviceInfo.ServiceTags
       };
@@ -236,7 +257,7 @@ class ConsulEmitter extends EventEmitter {
       }
 
       let serviceInfo = nodesInfo[0];
-      let ip = serviceInfo.ServiceAddress;
+      let ip = serviceInfo.ServiceAddress || serviceInfo.Address;
       let port = serviceInfo.ServicePort;
 
       if (this.dbConfig.hasOwnProperty('host')) {
@@ -330,7 +351,7 @@ class ConsulEmitter extends EventEmitter {
       }
 
       let serviceInfo = nodesInfo[0];
-      let ip = serviceInfo.ServiceAddress;
+      let ip = serviceInfo.ServiceAddress || serviceInfo.Address;
       let port = serviceInfo.ServicePort;
 
       if (integrationService) {

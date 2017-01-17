@@ -11,7 +11,7 @@ COPY package.json .
 
 # Setting NODE_ENV is necessary for "npm install" below.
 ENV NODE_ENV=development
-RUN npm set progress=false && npm install 2> /dev/null && npm cache clean
+RUN npm set progress=false && npm install 2> /dev/null ; npm cache clean
 
 # Bundle app source by overwriting all WORKDIR content.
 COPY . tmp

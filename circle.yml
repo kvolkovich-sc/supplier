@@ -10,6 +10,13 @@ dependencies:
     - docker info
     - docker build --rm=false -t gr4per/supplierdir .
 
+test:
+  override:
+    - docker run gr4per/supplierdir:latest npm run test
+  post:
+    - sudo mkdir $CIRCLE_TEST_REPORTS/junit
+    - sudo cp test-results.xml $CIRCLE_TEST_REPORTS/junit
+
 deployment:
   hub:
     branch: master
