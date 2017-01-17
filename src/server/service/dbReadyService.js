@@ -135,7 +135,5 @@ module.exports = dbConfigPromise.
   then(connectDb).
   then(migrateDb).
   then(registerModels).
-  then(db => {
-    populateDemodata(db);
-    return db;
-  });
+  then(populateDemodata);
+
