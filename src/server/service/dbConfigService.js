@@ -37,7 +37,8 @@ module.exports = new Promise((resolve, reject) => {
     database: dbConfig && dbConfig.database || process.env.DB_NAME,
     host: dbConfig && dbConfig.host || process.env.DB_HOST,
     port: dbConfig && dbConfig.port || process.env.DB_PORT,
-    dialect: dbConfig && dbConfig.dialect || process.env.DB_DIALECT || 'mysql'
+    dialect: dbConfig && dbConfig.dialect || process.env.DB_DIALECT || 'mysql',
+    populateDatabase: dbConfig && dbConfig.populateDatabase || process.env.DB_POPULATE || 'demo'
   };
 
   let origMissingParams = getMissingParams(dbConfig);

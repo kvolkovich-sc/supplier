@@ -3,7 +3,7 @@ let addresses = require('./address.json');
 let supplier2addresses = require('./supplier2address.json');
 let supplierContact = require('./supplierContact.json');
 
-export default function(db) {
+module.exports = function(db) {
   let updateIfCreated = function(data, entity, created) {
     if (!created) {
       return entity.update(data, { fields: Object.keys(data) });

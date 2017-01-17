@@ -104,6 +104,11 @@ module.exports = function(sequelize) {
       field: "ChangedOn"
     }
   }, {
+    getterMethods: {
+      _objectLabel: function() {
+        return this.supplierName ? this.supplierName + ' (' + this.supplierId + ')' : this.supplierId
+      }
+    },
     classMethods: {
       associate: function(models) {
         // associations can be defined here

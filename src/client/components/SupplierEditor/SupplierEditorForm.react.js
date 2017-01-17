@@ -5,6 +5,7 @@ import i18n from '../../i18n/I18nDecorator.react.js';
 import SupplierEditorFormRow from './SupplierEditorFormRow.react.js'
 import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
+import { SupplierInput } from '../ReferenceSearch';
 import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;
 
@@ -49,7 +50,8 @@ class SupplierEditorForm extends Component {
     readOnly: PropTypes.bool,
     countries: PropTypes.array,
     supplierId: PropTypes.string,
-    username: React.PropTypes.string
+    username: React.PropTypes.string,
+    actionUrl: React.PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -61,7 +63,8 @@ class SupplierEditorForm extends Component {
     supplier: {
       ...this.props.supplier
     },
-    fieldErrors: {}
+    fieldErrors: {},
+    isNewSupplier: true
   };
 
   componentWillReceiveProps(nextProps) {
@@ -211,7 +214,7 @@ class SupplierEditorForm extends Component {
     this.setState({
       supplier: {
         ...this.state.supplier,
-        [filedName]: isValidDate(date) ?
+        [fieldName]: isValidDate(date) ?
           date.toJSON() :
           date || ''
       },
@@ -285,7 +288,7 @@ class SupplierEditorForm extends Component {
 
   renderField = attrs => {
     const { supplier, fieldErrors } = this.state;
-    const { fieldName, readOnly = false } = attrs;
+    const { fieldName, readOnly } = attrs;
 
     let component = attrs.component || <input className="form-control"
       type="text"
@@ -294,7 +297,7 @@ class SupplierEditorForm extends Component {
       onBlur={ this.handleBlur.bind(this, fieldName) }
       disabled={ readOnly }
       autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
-    />
+    />;
 
     return (
       <SupplierEditorFormRow labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
@@ -309,8 +312,10 @@ class SupplierEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { readOnly, countries } = this.props;
+    const { countries } = this.props;
     const { supplier } = this.state;
+    
+    let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
 
     let foundedOn = supplier['foundedOn'];
     if (foundedOn !== null) {
@@ -334,8 +339,69 @@ class SupplierEditorForm extends Component {
           }
         </h4>
         <form className="form-horizontal">
-          { this.renderField({ fieldName: 'supplierName', readOnly }) }
-          { this.renderField({ fieldName: 'supplierId', readOnly }) }
+          <div className="form-group">
+            <label className="control-label col-sm-2">
+              {this.context.i18n.getMessage('SupplierEditor.Label.isNewSupplier.label')}
+            </label>
+            <div className="col-sm-9">
+              <div className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={this.state.isNewSupplier}
+                  onChange={() => this.setState({
+                    isNewSupplier: !this.state.isNewSupplier,
+                    supplier: {}
+                  })}
+                />
+              </div>
+            </div>
+          </div>
+          
+          {this.state.isNewSupplier ?
+            (
+              <div className="form-group">
+                <label className="col-sm-2 control-label">
+                  {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
+                </label>
+                <div className="col-sm-4">
+                  <SupplierInput
+                    serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
+                    value={
+                      this.state.supplier.supplierId ?
+                        { supplierId: this.state.supplier.supplierId } :
+                        null
+                    }
+                    onChange={supplier => this.setState({
+                      supplier: supplier || {}
+                    })}
+                    onBlur={() => this.handleBlur('supplierId')}
+                  />
+                  {
+                    !this.state.isNewSupplier &&
+                    (
+                      Object.keys(this.state.fieldErrors.supplierId).length ||
+                      Object.keys(this.state.fieldErrors.supplierName).length
+                    ) &&
+                    <span className="label label-danger">{
+                      [].concat(
+                        this.state.fieldErrors.supplierId || []
+                      ).concat(
+                        this.state.fieldErrors.supplierName || []
+                      )[0].message
+                    }</span> ||
+                    ''
+                  }
+                </div>
+              </div>
+            ) :
+            (
+              <div>
+                { this.renderField({ fieldName: 'supplierName', readOnly }) }
+                { this.renderField({ fieldName: 'supplierId', readOnly }) }
+              </div>
+            )
+          }
+
           { this.renderField({ fieldName: 'homePage', readOnly }) }
 
           { this.renderField({
@@ -418,7 +484,7 @@ class SupplierEditorForm extends Component {
           { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
           { this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
-          {!readOnly && <div className="form-group">
+          {!this.props.readOnly && <div className="form-group">
             <div className="text-right col-sm-6">
               <button className="btn btn-primary" onClick={ this.handleUpdate }>
                 { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
