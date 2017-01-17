@@ -111,9 +111,18 @@ class SupplierEditor extends Component {
           globalErrorMessage: ''
         });
 
-        if (this.props.supplierId !== response.body.supplierId && this.props.onUpdate) {
-          // Informing wrapper app (BNP/SIM) about supplierId change.
-          this.props.onUpdate({ supplierId: response.body.supplierId });
+        if (
+          this.props.onUpdate &&
+          (
+            this.props.supplierId !== response.body.supplierId ||
+            this.props.supplierName !== response.body.supplierName
+          )
+        ) {
+          // Informing wrapper app (BNP/SIM) about supplierId and/or supplierName change.
+          this.props.onUpdate({
+            supplierId: response.body.supplierId,
+            supplierName: response.body.supplierName
+          });
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });
         }

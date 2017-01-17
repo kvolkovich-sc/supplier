@@ -24,5 +24,12 @@
     "legalForm": "KG",
     "registrationNumber": "MI3464564356",
     "status": "new"
+  },
+  {
+    "supplierId": "ncc",
+    "supplierName": "NCC Svenska AB",
+    "cityOfRegistration": "Stockholm",
+    "countryOfRegistration": "SE",
+    "role": "buying"
   }
 ]
