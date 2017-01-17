@@ -204,29 +204,6 @@ class SupplierEditorForm extends Component {
     }
   }
 
-  calculateReadOnly() {
-    const { readOnly, username } = this.props;
-    return readOnly || (this.state.supplier.createdBy && this.state.supplier.createdBy !== username);
-  }
-
-  auditedInfo = () => this.state.supplier.createdBy ?
-    <div className="form-group col-sm-6 object-info">
-      <p><strong>{this.auditedInfoPart('created')}</strong></p>
-      <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-    </div> :
-    ''
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const { supplier } = this.state;
-    const dateConverter = new DateConverter(this.props.dateTimePattern, i18n.locale);
-
-    return i18n.getMessage(`SupplierEditor.SupplierEditor.${fieldName}`, {
-      by: supplier[`${fieldName}By`],
-      on: dateConverter.valueToString(supplier[`${fieldName}On`])
-    });
-  }
-
   handleDateChange = (fieldName, event) => {
     let date;
     try {
@@ -238,7 +215,7 @@ class SupplierEditorForm extends Component {
     this.setState({
       supplier: {
         ...this.state.supplier,
-        [filedName]: isValidDate(date) ?
+        [fieldName]: isValidDate(date) ?
           date.toJSON() :
           date || ''
       },
@@ -312,14 +289,14 @@ class SupplierEditorForm extends Component {
 
   renderField = attrs => {
     const { supplier, fieldErrors } = this.state;
-    const { fieldName } = attrs;
+    const { fieldName, readOnly } = attrs;
 
     let component = attrs.component || <input className="form-control"
       type="text"
       value={ supplier[fieldName] }
       onChange={ this.handleChange.bind(this, fieldName) }
       onBlur={ this.handleBlur.bind(this, fieldName) }
-      disabled={ this.calculateReadOnly() }
+      disabled={ readOnly }
       autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
     />;
 
@@ -333,59 +310,13 @@ class SupplierEditorForm extends Component {
     );
   };
 
-  renderSupplierInput() {
-    if (this.state.isNewSupplier) {
-      return (
-        <div className="form-group">
-          <label className="col-sm-2 control-label">
-            {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
-          </label>
-          <div className="col-sm-4">
-            <SupplierInput
-              serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
-              value={
-                this.state.supplier.supplierId ?
-                  { supplierId: this.state.supplier.supplierId } :
-                  null
-              }
-              onChange={supplier => this.setState({
-                supplier: supplier || {}
-              })}
-              onBlur={() => this.handleBlur('supplierId')}
-            />
-            {
-              !this.state.isNewSupplier &&
-              (
-                Object.keys(this.state.fieldErrors.supplierId).length ||
-                Object.keys(this.state.fieldErrors.supplierName).length
-              ) &&
-              <span className="label label-danger">{
-                [].concat(
-                  this.state.fieldErrors.supplierId || []
-                ).concat(
-                  this.state.fieldErrors.supplierName || []
-                )[0].message
-              }</span> ||
-              ''
-            }
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          { this.renderField({ fieldName: 'supplierName', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'supplierId', readOnly: this.calculateReadOnly() }) }
-        </div>
-      );
-    }
-  }
-
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
     const { countries } = this.props;
     const { supplier } = this.state;
+    
+    let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
 
     let foundedOn = supplier['foundedOn'];
     if (foundedOn !== null) {
@@ -420,23 +351,63 @@ class SupplierEditorForm extends Component {
                   checked={this.state.isNewSupplier}
                   onChange={() => this.setState({
                     isNewSupplier: !this.state.isNewSupplier,
-                    supplier: {
-                      ...this.state.supplier,
-                      supplierId: undefined,
-                      supplierName: undefined
-                    }
+                    supplier: {}
                   })}
                 />
               </div>
             </div>
           </div>
-          {this.renderSupplierInput()}
+          
+          {this.state.isNewSupplier ?
+            (
+              <div className="form-group">
+                <label className="col-sm-2 control-label">
+                  {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
+                </label>
+                <div className="col-sm-4">
+                  <SupplierInput
+                    serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
+                    value={
+                      this.state.supplier.supplierId ?
+                        { supplierId: this.state.supplier.supplierId } :
+                        null
+                    }
+                    onChange={supplier => this.setState({
+                      supplier: supplier || {}
+                    })}
+                    onBlur={() => this.handleBlur('supplierId')}
+                  />
+                  {
+                    !this.state.isNewSupplier &&
+                    (
+                      Object.keys(this.state.fieldErrors.supplierId).length ||
+                      Object.keys(this.state.fieldErrors.supplierName).length
+                    ) &&
+                    <span className="label label-danger">{
+                      [].concat(
+                        this.state.fieldErrors.supplierId || []
+                      ).concat(
+                        this.state.fieldErrors.supplierName || []
+                      )[0].message
+                    }</span> ||
+                    ''
+                  }
+                </div>
+              </div>
+            ) :
+            (
+              <div>
+                { this.renderField({ fieldName: 'supplierName', readOnly }) }
+                { this.renderField({ fieldName: 'supplierId', readOnly }) }
+              </div>
+            )
+          }
 
-          { this.renderField({ fieldName: 'homePage', readOnly: this.calculateReadOnly() }) }
+          { this.renderField({ fieldName: 'homePage', readOnly }) }
 
           { this.renderField({
             fieldName: 'role',
-            readOnly: this.calculateReadOnly(),
+            readOnly,
             component: (
               <div>
                 <label>
@@ -446,7 +417,7 @@ class SupplierEditorForm extends Component {
                     value="buying"
                     checked={ supplier.role === 'buying' }
                     onChange={ this.handleChange.bind(this, 'role') }
-                    disabled={this.calculateReadOnly()}
+                    disabled={readOnly}
                     className="radio-inline"
                   />
                   <span style={{ fontWeight: 'normal' }}>
@@ -461,7 +432,7 @@ class SupplierEditorForm extends Component {
                     value="selling"
                     checked={ supplier.role === 'selling' }
                     onChange={ this.handleChange.bind(this, 'role') }
-                    disabled={this.calculateReadOnly()}
+                    disabled={readOnly}
                     className="radio-inline"
                   />
                   <span style={{ fontWeight: 'normal' }}>
@@ -474,12 +445,12 @@ class SupplierEditorForm extends Component {
 
           { this.renderField({
             fieldName: 'foundedOn',
-            readOnly: this.calculateReadOnly(),
+            readOnly,
             component: (
               <DatePicker className="form-control"
                 locale={locale}
                 format={i18n.dateFormat}
-                disabled={this.calculateReadOnly()}
+                disabled={readOnly}
                 value={foundedOn}
                 onChange={this.handleDateChange.bind(this, 'foundedOn')}
                 onBlur={this.handleBlur.bind(this, 'foundedOn')}
@@ -487,16 +458,16 @@ class SupplierEditorForm extends Component {
             )
           }) }
 
-          { this.renderField({ fieldName: 'legalForm', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'registrationNumber', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'cityOfRegistration', readOnly: this.calculateReadOnly() }) }
+          { this.renderField({ fieldName: 'legalForm', readOnly }) }
+          { this.renderField({ fieldName: 'registrationNumber', readOnly }) }
+          { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
 
           { this.renderField({
             fieldName: 'countryOfRegistration',
-            readOnly: this.calculateReadOnly(),
+            readOnly,
             component: (
               <select className="form-control"
-                disabled={this.calculateReadOnly()}
+                disabled={readOnly}
                 value={supplier['countryOfRegistration'] || ''}
                 onChange={this.handleChange.bind(this, 'countryOfRegistration')}
                 onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
@@ -509,12 +480,12 @@ class SupplierEditorForm extends Component {
             )
           }) }
 
-          { this.renderField({ fieldName: 'taxId', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'vatRegNo', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'globalLocationNo', readOnly: this.calculateReadOnly() }) }
-          { this.renderField({ fieldName: 'dunsNo', readOnly: this.calculateReadOnly() }) }
+          { this.renderField({ fieldName: 'taxId', readOnly }) }
+          { this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+          { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+          { this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
-          {!this.calculateReadOnly() && <div className="form-group">
+          {!this.props.readOnly && <div className="form-group">
             <div className="text-right col-sm-6">
               <button className="btn btn-primary" onClick={ this.handleUpdate }>
                 { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
