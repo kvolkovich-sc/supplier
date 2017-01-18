@@ -314,7 +314,7 @@ class SupplierEditorForm extends Component {
     const locale = i18n.locale;
     const { countries } = this.props;
     const { supplier } = this.state;
-    
+
     let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
 
     let foundedOn = supplier['foundedOn'];
@@ -356,7 +356,7 @@ class SupplierEditorForm extends Component {
               </div>
             </div>
           </div>
-          
+
           {this.state.isNewSupplier ?
             (
               <div className="form-group">

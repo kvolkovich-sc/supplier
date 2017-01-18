@@ -16,6 +16,8 @@ class SupplierEditor extends Component {
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
     supplierId: PropTypes.string,
+    supplierName: PropTypes.string,
+    companyRole: PropTypes.string,
     username: React.PropTypes.string,
     dateTimePattern: PropTypes.string.isRequired,
     /**
@@ -111,17 +113,21 @@ class SupplierEditor extends Component {
           globalErrorMessage: ''
         });
 
+        console.log('===== SUPPLIER-RES', response.body);
+        console.log('===== SUPPLIER-RES companyRole', this.props.companyRole);
         if (
           this.props.onUpdate &&
           (
             this.props.supplierId !== response.body.supplierId ||
-            this.props.supplierName !== response.body.supplierName
+            this.props.supplierName !== response.body.supplierName ||
+            this.props.companyRole !== response.body.role
           )
         ) {
-          // Informing wrapper app (BNP/SIM) about supplierId and/or supplierName change.
+          // Informing wrapper app (BNP/SIM) about supplier change.
           this.props.onUpdate({
             supplierId: response.body.supplierId,
-            supplierName: response.body.supplierName
+            supplierName: response.body.supplierName,
+            companyRole: response.body.role
           });
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });
