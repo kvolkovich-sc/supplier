@@ -113,8 +113,6 @@ class SupplierEditor extends Component {
           globalErrorMessage: ''
         });
 
-        console.log('===== SUPPLIER-RES', response.body);
-        console.log('===== SUPPLIER-RES companyRole', this.props.companyRole);
         if (
           this.props.onUpdate &&
           (

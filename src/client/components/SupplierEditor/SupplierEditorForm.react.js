@@ -51,7 +51,8 @@ class SupplierEditorForm extends Component {
     countries: PropTypes.array,
     supplierId: PropTypes.string,
     username: React.PropTypes.string,
-    actionUrl: React.PropTypes.string.isRequired
+    actionUrl: React.PropTypes.string.isRequired,
+    isOnboarding: PropTypes.bool
   };
 
   static defaultProps = {
@@ -262,8 +263,18 @@ class SupplierEditorForm extends Component {
   handleUpdate = event => {
     event.preventDefault();
 
-    const { supplier } = this.state;
-    const { onSupplierChange } = this.props;
+    const { onSupplierChange, isOnboarding } = this.props;
+    const supplier = { ...this.state.supplier };
+
+    if (isOnboarding) {
+      if (!supplier.supplierId) {
+        supplier.supplierId = supplier.supplierName.replace(/[^0-9a-z_\-]/gi, '');
+      }
+
+      if (!supplier.role) {
+        supplier.role = 'selling';
+      }
+    }
 
     const errors = getValidator(this.context.i18n)(
       supplier,
@@ -281,9 +292,11 @@ class SupplierEditorForm extends Component {
       });
 
       onSupplierChange(null);
-    } else {
-      onSupplierChange(supplier);
+      return;
     }
+
+    onSupplierChange(supplier);
+    return;
   };
 
   renderField = attrs => {
@@ -312,7 +325,7 @@ class SupplierEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { countries } = this.props;
+    const { countries, isOnboarding } = this.props;
     const { supplier } = this.state;
 
     let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
@@ -323,6 +336,22 @@ class SupplierEditorForm extends Component {
       if (isValidDate(date)) {
         foundedOn = i18n.formatDate(date);
       }
+    }
+
+    let companiesSearchValue = {};
+
+    if (supplier.supplierId) {
+      companiesSearchValue.supplierId = supplier.supplierId;
+    }
+
+    /*
+    if (isOnboarding) {
+      companiesSearchValue.role = 'selling';
+    }
+    */
+
+    if (Object.keys(companiesSearchValue).length === 0) {
+      companiesSearchValue = null;
     }
 
     return (
@@ -350,7 +379,7 @@ class SupplierEditorForm extends Component {
                   checked={this.state.isNewSupplier}
                   onChange={() => this.setState({
                     isNewSupplier: !this.state.isNewSupplier,
-                    supplier: {}
+                    supplier: !readOnly && this.props.supplier || {}
                   })}
                 />
               </div>
@@ -366,11 +395,7 @@ class SupplierEditorForm extends Component {
                 <div className="col-sm-4">
                   <SupplierInput
                     serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
-                    value={
-                      this.state.supplier.supplierId ?
-                        { supplierId: this.state.supplier.supplierId } :
-                        null
-                    }
+                    value={companiesSearchValue}
                     onChange={supplier => this.setState({
                       supplier: supplier || {}
                     })}
@@ -397,14 +422,14 @@ class SupplierEditorForm extends Component {
             (
               <div>
                 { this.renderField({ fieldName: 'supplierName', readOnly }) }
-                { this.renderField({ fieldName: 'supplierId', readOnly }) }
+                { isOnboarding || this.renderField({ fieldName: 'supplierId', readOnly }) }
               </div>
             )
           }
 
-          { this.renderField({ fieldName: 'homePage', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'homePage', readOnly }) }
 
-          { this.renderField({
+          { isOnboarding || this.renderField({
             fieldName: 'role',
             readOnly,
             component: (
@@ -442,7 +467,7 @@ class SupplierEditorForm extends Component {
             )
           }) }
 
-          { this.renderField({
+          { isOnboarding || this.renderField({
             fieldName: 'foundedOn',
             readOnly,
             component: (
@@ -458,7 +483,7 @@ class SupplierEditorForm extends Component {
           }) }
 
           { this.renderField({ fieldName: 'legalForm', readOnly }) }
-          { this.renderField({ fieldName: 'registrationNumber', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
           { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
 
           { this.renderField({
@@ -479,10 +504,10 @@ class SupplierEditorForm extends Component {
             )
           }) }
 
-          { this.renderField({ fieldName: 'taxId', readOnly }) }
-          { this.renderField({ fieldName: 'vatRegNo', readOnly }) }
-          { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
-          { this.renderField({ fieldName: 'dunsNo', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+          { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
           {!this.props.readOnly && <div className="form-group">
             <div className="text-right col-sm-6">

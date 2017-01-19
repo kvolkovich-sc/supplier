@@ -65,8 +65,8 @@ Label.taxId.label = 'Tax Identification';
 Label.vatRegNo.label = 'VAT Registration Number';
 Label.dunsNo.label = 'D-U-N-S Number';
 Label.globalLocationNo.label = 'Global Location Number';
-Label.isNewSupplier.label = 'Select existing supplier';
-Label.supplier.label = 'Supplier';
+Label.isNewSupplier.label = 'Select existing company';
+Label.supplier.label = 'Company';
 
 let SupplierEditor = {};
 SupplierEditor.created = 'Information on this page was initially created by {by} on {on}.';
