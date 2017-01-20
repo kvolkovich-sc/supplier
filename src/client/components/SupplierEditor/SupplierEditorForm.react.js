@@ -344,12 +344,6 @@ class SupplierEditorForm extends Component {
       companiesSearchValue.supplierId = supplier.supplierId;
     }
 
-    /*
-    if (isOnboarding) {
-      companiesSearchValue.role = 'selling';
-    }
-    */
-
     if (Object.keys(companiesSearchValue).length === 0) {
       companiesSearchValue = null;
     }
@@ -393,6 +387,7 @@ class SupplierEditorForm extends Component {
                   {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
                 </label>
                 <div className="col-sm-4">
+                  {/* TODO: search for role==='selling' when isOnboarding===true */}
                   <SupplierInput
                     serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
                     value={companiesSearchValue}

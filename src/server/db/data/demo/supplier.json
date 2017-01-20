@@ -26,6 +26,15 @@
     "status": "new"
   },
   {
+    "supplierId": "hwi",
+    "supplierName": "Hardware Inc.",
+    "cityOfRegistration": "Los Angeles",
+    "countryOfRegistration": "US",
+    "role": "selling",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
     "supplierId": "ncc",
     "supplierName": "NCC Svenska AB",
     "cityOfRegistration": "Stockholm",

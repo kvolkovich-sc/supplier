@@ -2,5 +2,9 @@
   {
     "loginName": "john.doe@ncc.com",
     "supplierId": "ncc"
+  },
+  {
+    "loginName": "scott.tiger@example.com",
+    "supplierId": "hwi"
   }
 ]
