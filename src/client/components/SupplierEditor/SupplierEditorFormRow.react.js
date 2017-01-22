@@ -9,6 +9,7 @@ export default class AttributeValueEditorRow extends Component {
     labelText: PropTypes.string.isRequired,
     required: PropTypes.bool,
     rowErrors: PropTypes.array,
+    isOnboarding: PropTypes.bool
   };
 
   static defaultProps = {
@@ -17,31 +18,25 @@ export default class AttributeValueEditorRow extends Component {
   };
 
   render() {
-    const { required, rowErrors } = this.props;
+    const { required, rowErrors, isOnboarding } = this.props;
     let labelText = this.props.labelText;
 
-    const classes = classNames({
-      'form-group': true,
-      'has-error': !!rowErrors.length
-    });
-
     if (required) {
-      let lastWord = labelText.split(' ').pop();
-
-      labelText = (
-        <span>
-          {labelText.replace(lastWord, '')}<span><nobr>{lastWord} *</nobr></span>
-        </span>
-      );
+      labelText += '\u00a0*';
     }
 
     return (
-      <div className={classes}>
-        <label className="col-sm-2 control-label">
+      <div
+        className={classNames({
+          'form-group': true,
+          'has-error': !!rowErrors.length
+        })}
+      >
+        <label className={`col-sm-${isOnboarding ? '4' : '2'} control-label`}>
           {labelText}
         </label>
 
-        <div className="col-sm-4">
+        <div className={`col-sm-${isOnboarding ? '8' : '4'}`}>
           { this.props.children }
 
           {rowErrors.map((error, index) =>

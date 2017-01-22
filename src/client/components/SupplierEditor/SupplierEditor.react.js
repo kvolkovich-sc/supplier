@@ -26,7 +26,8 @@ class SupplierEditor extends Component {
      */
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
-    onUnauthorized: React.PropTypes.func
+    onUnauthorized: React.PropTypes.func,
+    onLogout: React.PropTypes.func
   }
 
   state = {
@@ -192,6 +193,7 @@ class SupplierEditor extends Component {
           supplier={ supplier }
           onSupplierChange={ this.handleUpdate }
           onChange={ this.handleChange }
+          onCancel={ this.props.onLogout }
         />
       </div>
     );

@@ -114,6 +114,7 @@ class SupplierEditorForm extends Component {
     onSupplierChange: PropTypes.func.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
+    onCancel: React.PropTypes.func,
     readOnly: PropTypes.bool,
     countries: PropTypes.array,
     supplierId: PropTypes.string,
@@ -327,6 +328,10 @@ class SupplierEditorForm extends Component {
     });
   }
 
+  handleCancel = event => {
+    event.preventDefault();
+    this.props.onCancel();
+  }
   handleUpdate = event => {
     event.preventDefault();
 
@@ -369,22 +374,35 @@ class SupplierEditorForm extends Component {
   renderField = attrs => {
     const { supplier, fieldErrors } = this.state;
     const { fieldName, readOnly } = attrs;
+    const fieldNames = attrs.fieldNames || [fieldName];
 
-    let component = attrs.component || <input className="form-control"
-      type="text"
-      value={ supplier[fieldName] }
-      onChange={ this.handleChange.bind(this, fieldName) }
-      onBlur={ this.handleBlur.bind(this, fieldName) }
-      disabled={ readOnly }
-      autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
-    />;
+    let component = attrs.component ||
+      <input className="form-control"
+        type="text"
+        value={ supplier[fieldName] }
+        onChange={ this.handleChange.bind(this, fieldName) }
+        onBlur={ this.handleBlur.bind(this, fieldName) }
+        disabled={ readOnly }
+        autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
+      />;
+
+    let isRequired = fieldNames.some(name => {
+      return this.SUPPLIER_CONSTRAINTS[name] && this.SUPPLIER_CONSTRAINTS[name].presence;
+    });
+
+    let rowErrors = fieldNames.reduce(
+      (rez, name) => rez.concat(fieldErrors[name] || []),
+      []
+    );
 
     return (
-      <SupplierEditorFormRow labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
-        required={ !!this.SUPPLIER_CONSTRAINTS[fieldName].presence }
-        rowErrors={ fieldErrors[fieldName] }
+      <SupplierEditorFormRow
+        labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
+        required={ isRequired }
+        rowErrors={ rowErrors }
+        isOnboarding={ this.props.isOnboarding }
       >
-      { component }
+        { component }
       </SupplierEditorFormRow>
     );
   };
@@ -424,11 +442,9 @@ class SupplierEditorForm extends Component {
         username={this.props.username}
         i18n={i18n}
       >
-        <div className="form-group">
-          <label className="control-label col-sm-2">
-            {this.context.i18n.getMessage('SupplierEditor.Label.isNewSupplier.label')}
-          </label>
-          <div className="col-sm-9">
+        { this.renderField({
+          fieldName: 'isNewSupplier',
+          component: (
             <div className="checkbox">
               <input
                 type="checkbox"
@@ -439,43 +455,28 @@ class SupplierEditorForm extends Component {
                 })}
               />
             </div>
-          </div>
-        </div>
+          )
+        }) }
 
-        {this.state.isNewSupplier ?
-          (
-            <div className="form-group">
-              <label className="col-sm-2 control-label">
-                {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
-              </label>
-              <div className="col-sm-4">
-                {/* TODO: search for role==='selling' when isOnboarding===true */}
-                <SupplierInput
-                  serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
-                  value={companiesSearchValue}
-                  onChange={supplier => this.setState({
-                    supplier: supplier || {}
-                  })}
-                  onBlur={() => this.handleBlur('supplierId')}
-                />
-                {
-                  !this.state.isNewSupplier &&
-                  (
-                    Object.keys(this.state.fieldErrors.supplierId).length ||
-                    Object.keys(this.state.fieldErrors.supplierName).length
-                  ) &&
-                  <span className="label label-danger">{
-                    [].concat(
-                      this.state.fieldErrors.supplierId || []
-                    ).concat(
-                      this.state.fieldErrors.supplierName || []
-                    )[0].message
-                  }</span> ||
-                  ''
-                }
-              </div>
-            </div>
-          ) :
+        {/* TODO: search for role==='selling' when isOnboarding===true */}
+        { this.state.isNewSupplier ?
+          this.renderField({
+            fieldName: 'supplier',
+            fieldNames: ['supplierId', 'supplierName'],
+            component: (
+              <SupplierInput
+                serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
+                value={companiesSearchValue}
+                onChange={supplier => this.setState({
+                  supplier: supplier || {}
+                })}
+                onBlur={() => {
+                  this.handleBlur('supplierId');
+                  this.handleBlur('supplierName');
+                }}
+              />
+            )
+          }) :
           (
             <div>
               { this.renderField({ fieldName: 'supplierName', readOnly }) }
@@ -566,9 +567,9 @@ class SupplierEditorForm extends Component {
         { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
         { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
-        {!this.props.readOnly && <div className="form-group">
-          <div className="text-right col-sm-6">
-            {isOnboarding && <button className="btn btn-link">Cancel</button>}
+        {!this.props.readOnly && <div className="form-group" style={{ paddingTop: '20px' }}>
+          <div className="text-right form-submit">
+            {isOnboarding && <button className="btn btn-link" onClick={this.handleCancel}>Cancel</button>}
             <button className="btn btn-primary" onClick={ this.handleUpdate }>
               { isOnboarding ? 'Continue' : i18n.getMessage('SupplierEditor.ButtonLabel.save') }
             </button>
