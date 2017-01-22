@@ -40,6 +40,73 @@ function getValidator(i18n) {
   return validatejs;
 }
 
+function StandardWrapper({ supplierId, supplier, username, i18n, children }) {
+  return (
+    <div>
+      <h4 className="tab-description">
+        { i18n.getMessage(`SupplierEditor.Description.${
+                supplierId ?
+            (supplier && supplier.createdBy === username ?
+              'modifySupplierOrChooseAnother' :
+                'viewSupplierOrChooseAnother'
+            ) :
+                  'chooseSupplier'
+              }`)
+        }
+      </h4>
+      <form className="form-horizontal">
+        {children}
+      </form>
+    </div>
+  );
+}
+
+StandardWrapper.propTypes = {
+  supplier: PropTypes.object,
+  supplierId: PropTypes.string,
+  username: React.PropTypes.string,
+  i18n: PropTypes.object
+};
+
+const OnboardingWrapper = ({ children }) =>
+  <div
+    className="container"
+    style={{
+      zIndex: '2'
+    }}
+  >
+    <div
+      className="box"
+      style={{
+        width: '87%',
+        marginTop: '15px',
+        padding: '3%',
+        textAlign: 'left',
+        zIndex: '3',
+        backgroundColor: 'white'
+      }}
+    >
+      <div className="row">
+        <div className="col-md-8">
+          <h2>Company Info</h2>
+          <form className="form-horizontal">
+            <div className="row">
+              <div className="col-md-12">
+                {children}
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className="col-md-4">
+          <p style={{ margin: '25% 0 0 10%', fontSize: '150%' }}>Company Info</p>
+          <br />
+          <p>Choose an existing company or provide information for a new one.</p>
+          <p>After giving this information you are ready to login.</p>
+        </div>
+      </div>
+    </div>
+  </div>;
+
 @i18n
 class SupplierEditorForm extends Component {
   static propTypes = {
@@ -267,7 +334,7 @@ class SupplierEditorForm extends Component {
     const supplier = { ...this.state.supplier };
 
     if (isOnboarding) {
-      if (!supplier.supplierId) {
+      if (!supplier.supplierId && supplier.supplierName) {
         supplier.supplierId = supplier.supplierName.replace(/[^0-9a-z_\-]/gi, '');
       }
 
@@ -348,171 +415,166 @@ class SupplierEditorForm extends Component {
       companiesSearchValue = null;
     }
 
+    let Wrapper = isOnboarding ? OnboardingWrapper : StandardWrapper;
+
     return (
-      <div>
-        <h4 className="tab-description">
-          { i18n.getMessage(`SupplierEditor.Description.${
-              this.props.supplierId ?
-                (this.props.supplier && this.props.supplier.createdBy === this.props.username ?
-                  'modifySupplierOrChooseAnother' :
-                  'viewSupplierOrChooseAnother'
-                ) :
-                'chooseSupplier'
-            }`)
-          }
-        </h4>
-        <form className="form-horizontal">
-          <div className="form-group">
-            <label className="control-label col-sm-2">
-              {this.context.i18n.getMessage('SupplierEditor.Label.isNewSupplier.label')}
-            </label>
-            <div className="col-sm-9">
-              <div className="checkbox">
-                <input
-                  type="checkbox"
-                  checked={this.state.isNewSupplier}
-                  onChange={() => this.setState({
-                    isNewSupplier: !this.state.isNewSupplier,
-                    supplier: !readOnly && this.props.supplier || {}
-                  })}
-                />
-              </div>
+      <Wrapper
+        supplierId={this.props.supplierId}
+        supplier={this.props.supplier}
+        username={this.props.username}
+        i18n={i18n}
+      >
+        <div className="form-group">
+          <label className="control-label col-sm-2">
+            {this.context.i18n.getMessage('SupplierEditor.Label.isNewSupplier.label')}
+          </label>
+          <div className="col-sm-9">
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                checked={this.state.isNewSupplier}
+                onChange={() => this.setState({
+                  isNewSupplier: !this.state.isNewSupplier,
+                  supplier: !readOnly && this.props.supplier || {}
+                })}
+              />
             </div>
           </div>
+        </div>
 
-          {this.state.isNewSupplier ?
-            (
-              <div className="form-group">
-                <label className="col-sm-2 control-label">
-                  {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
-                </label>
-                <div className="col-sm-4">
-                  {/* TODO: search for role==='selling' when isOnboarding===true */}
-                  <SupplierInput
-                    serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
-                    value={companiesSearchValue}
-                    onChange={supplier => this.setState({
-                      supplier: supplier || {}
-                    })}
-                    onBlur={() => this.handleBlur('supplierId')}
-                  />
-                  {
-                    !this.state.isNewSupplier &&
-                    (
-                      Object.keys(this.state.fieldErrors.supplierId).length ||
-                      Object.keys(this.state.fieldErrors.supplierName).length
-                    ) &&
-                    <span className="label label-danger">{
-                      [].concat(
-                        this.state.fieldErrors.supplierId || []
-                      ).concat(
-                        this.state.fieldErrors.supplierName || []
-                      )[0].message
-                    }</span> ||
-                    ''
-                  }
-                </div>
+        {this.state.isNewSupplier ?
+          (
+            <div className="form-group">
+              <label className="col-sm-2 control-label">
+                {this.context.i18n.getMessage('SupplierEditor.Label.supplier.label')}
+              </label>
+              <div className="col-sm-4">
+                {/* TODO: search for role==='selling' when isOnboarding===true */}
+                <SupplierInput
+                  serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
+                  value={companiesSearchValue}
+                  onChange={supplier => this.setState({
+                    supplier: supplier || {}
+                  })}
+                  onBlur={() => this.handleBlur('supplierId')}
+                />
+                {
+                  !this.state.isNewSupplier &&
+                  (
+                    Object.keys(this.state.fieldErrors.supplierId).length ||
+                    Object.keys(this.state.fieldErrors.supplierName).length
+                  ) &&
+                  <span className="label label-danger">{
+                    [].concat(
+                      this.state.fieldErrors.supplierId || []
+                    ).concat(
+                      this.state.fieldErrors.supplierName || []
+                    )[0].message
+                  }</span> ||
+                  ''
+                }
               </div>
-            ) :
-            (
-              <div>
-                { this.renderField({ fieldName: 'supplierName', readOnly }) }
-                { isOnboarding || this.renderField({ fieldName: 'supplierId', readOnly }) }
-              </div>
-            )
-          }
-
-          { isOnboarding || this.renderField({ fieldName: 'homePage', readOnly }) }
-
-          { isOnboarding || this.renderField({
-            fieldName: 'role',
-            readOnly,
-            component: (
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="role"
-                    value="buying"
-                    checked={ supplier.role === 'buying' }
-                    onChange={ this.handleChange.bind(this, 'role') }
-                    disabled={readOnly}
-                    className="radio-inline"
-                  />
-                  <span style={{ fontWeight: 'normal' }}>
-                    { this.context.i18n.getMessage('SupplierEditor.Label.buying.label') }
-                  </span>
-                </label>
-                {'\u00a0\u00a0\u00a0\u00a0'}
-                <label>
-                  <input
-                    type="radio"
-                    name="role"
-                    value="selling"
-                    checked={ supplier.role === 'selling' }
-                    onChange={ this.handleChange.bind(this, 'role') }
-                    disabled={readOnly}
-                    className="radio-inline"
-                  />
-                  <span style={{ fontWeight: 'normal' }}>
-                    { this.context.i18n.getMessage('SupplierEditor.Label.selling.label') }
-                  </span>
-                </label>
-              </div>
-            )
-          }) }
-
-          { isOnboarding || this.renderField({
-            fieldName: 'foundedOn',
-            readOnly,
-            component: (
-              <DatePicker className="form-control"
-                locale={locale}
-                format={i18n.dateFormat}
-                disabled={readOnly}
-                value={foundedOn}
-                onChange={this.handleDateChange.bind(this, 'foundedOn')}
-                onBlur={this.handleBlur.bind(this, 'foundedOn')}
-              />
-            )
-          }) }
-
-          { this.renderField({ fieldName: 'legalForm', readOnly }) }
-          { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
-          { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
-
-          { this.renderField({
-            fieldName: 'countryOfRegistration',
-            readOnly,
-            component: (
-              <select className="form-control"
-                disabled={readOnly}
-                value={supplier['countryOfRegistration'] || ''}
-                onChange={this.handleChange.bind(this, 'countryOfRegistration')}
-                onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-              >
-                <option disabled={true} value="">{i18n.getMessage('SupplierEditor.Select.country')}</option>
-                {countries.map((country, index) => {
-                  return (<option key={index} value={country.id}>{country.name}</option>);
-                })}
-              </select>
-            )
-          }) }
-
-          { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
-          { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
-          { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
-          { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
-
-          {!this.props.readOnly && <div className="form-group">
-            <div className="text-right col-sm-6">
-              <button className="btn btn-primary" onClick={ this.handleUpdate }>
-                { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
-              </button>
             </div>
-          </div>}
-        </form>
-      </div>
+          ) :
+          (
+            <div>
+              { this.renderField({ fieldName: 'supplierName', readOnly }) }
+              { isOnboarding || this.renderField({ fieldName: 'supplierId', readOnly }) }
+            </div>
+          )
+        }
+
+        { isOnboarding || this.renderField({ fieldName: 'homePage', readOnly }) }
+
+        { isOnboarding || this.renderField({
+          fieldName: 'role',
+          readOnly,
+          component: (
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="buying"
+                  checked={ supplier.role === 'buying' }
+                  onChange={ this.handleChange.bind(this, 'role') }
+                  disabled={readOnly}
+                  className="radio-inline"
+                />
+                <span style={{ fontWeight: 'normal' }}>
+                  { this.context.i18n.getMessage('SupplierEditor.Label.buying.label') }
+                </span>
+              </label>
+              {'\u00a0\u00a0\u00a0\u00a0'}
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="selling"
+                  checked={ supplier.role === 'selling' }
+                  onChange={ this.handleChange.bind(this, 'role') }
+                  disabled={readOnly}
+                  className="radio-inline"
+                />
+                <span style={{ fontWeight: 'normal' }}>
+                  { this.context.i18n.getMessage('SupplierEditor.Label.selling.label') }
+                </span>
+              </label>
+            </div>
+          )
+        }) }
+
+        { isOnboarding || this.renderField({
+          fieldName: 'foundedOn',
+          readOnly,
+          component: (
+            <DatePicker className="form-control"
+              locale={locale}
+              format={i18n.dateFormat}
+              disabled={readOnly}
+              value={foundedOn}
+              onChange={this.handleDateChange.bind(this, 'foundedOn')}
+              onBlur={this.handleBlur.bind(this, 'foundedOn')}
+            />
+          )
+        }) }
+
+        { this.renderField({ fieldName: 'legalForm', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
+        { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
+
+        { this.renderField({
+          fieldName: 'countryOfRegistration',
+          readOnly,
+          component: (
+            <select className="form-control"
+              disabled={readOnly}
+              value={supplier['countryOfRegistration'] || ''}
+              onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+              onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
+            >
+              <option disabled={true} value="">{i18n.getMessage('SupplierEditor.Select.country')}</option>
+              {countries.map((country, index) => {
+                return (<option key={index} value={country.id}>{country.name}</option>);
+              })}
+            </select>
+          )
+        }) }
+
+        { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
+
+        {!this.props.readOnly && <div className="form-group">
+          <div className="text-right col-sm-6">
+            {isOnboarding && <button className="btn btn-link">Cancel</button>}
+            <button className="btn btn-primary" onClick={ this.handleUpdate }>
+              { isOnboarding ? 'Continue' : i18n.getMessage('SupplierEditor.ButtonLabel.save') }
+            </button>
+          </div>
+        </div>}
+      </Wrapper>
     );
   }
 }
