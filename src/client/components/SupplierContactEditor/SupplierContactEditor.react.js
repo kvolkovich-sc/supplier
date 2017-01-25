@@ -267,7 +267,7 @@ class SupplierContactEditor extends Component {
     if (contacts !== undefined) {
       if (contacts.length > 0) {
         result = (
-          <div className="row">
+          <div className="table-responsive">
             <SupplierContactListTable
               contacts={contacts}
               readOnly={readOnly}
@@ -286,16 +286,14 @@ class SupplierContactEditor extends Component {
         editMode = 'create-first';
       }
     } else if (loadErrors) {
-      result = (<div className="row">Load errors</div>);
+      result = (<div>Load errors</div>);
     } else {
-      result = (<div className="row">Loading...</div>);
+      result = (<div>Loading...</div>);
     }
 
     return (
       <div>
-        <div className="row">
-          <h4 className="tab-description">{this.context.i18n.getMessage('SupplierContactEditor.Title')}</h4>
-        </div>
+        <h4 className="tab-description">{this.context.i18n.getMessage('SupplierContactEditor.Title')}</h4>
 
         {this.state.globalMessage && !readOnly ? (
           <Alert bsStyle="info" message={this.state.globalMessage}/>
@@ -325,7 +323,7 @@ class SupplierContactEditor extends Component {
         ) : null}
 
         {!contact && !readOnly ? (
-          <div className="row">
+          <div>
             <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierContactEditor.Button.add')}
             </Button>
           </div>

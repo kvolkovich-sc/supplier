@@ -69,21 +69,21 @@ class SupplierAddressListTable extends Component {
                     <td>{countryName}</td>
                     <td>{supplierAddress.address.phoneNo}</td>
                     <td>{supplierAddress.address.faxNo ? supplierAddress.address.faxNo : '-'}</td>
-                    <td>
+                    <td className="text-right">
                       {this.props.readOnly ? (
                         <nobr>
-                          <Button onClick={this.onView.bind(this, supplierAddress)}>
+                          <Button onClick={this.onView.bind(this, supplierAddress)} bsSize="sm">
                             <span className='glyphicon glyphicon-eye-open' />
                           &nbsp;{this.context.i18n.getMessage('SupplierAddressEditor.Button.view')}
                           </Button>
                         </nobr>
                       ) : (
                         <nobr>
-                          <Button onClick={this.onEdit.bind(this, supplierAddress)}>
+                          <Button onClick={this.onEdit.bind(this, supplierAddress)} bsSize="sm">
                             <span className="glyphicon glyphicon-edit" />
                           &nbsp;{this.context.i18n.getMessage('SupplierAddressEditor.Button.edit')}
                           </Button>
-                          <Button onClick={this.onDelete.bind(this, supplierAddress)}>
+                          <Button onClick={this.onDelete.bind(this, supplierAddress)} bsSize="sm">
                             <span className="glyphicon glyphicon-trash" />
                           &nbsp;{this.context.i18n.getMessage('SupplierAddressEditor.Button.delete')}
                           </Button>

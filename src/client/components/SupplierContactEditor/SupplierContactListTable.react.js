@@ -68,21 +68,21 @@ class SupplierContactListTable extends Component {
               <td>{contact.mobile ? contact.mobile : '-'}</td>
               <td>{contact.fax ? contact.fax : '-'}</td>
               <td>{contact.email}</td>
-              <td>
+              <td className="text-right">
                 {this.props.readOnly ? (
                   <nobr>
-                    <Button onClick={this.onView.bind(this, contact)}>
+                    <Button onClick={this.onView.bind(this, contact)} bsSize="sm">
                       <span className='glyphicon glyphicon-eye-open' />&nbsp;
                       {this.context.i18n.getMessage('SupplierContactEditor.Button.view')}
                     </Button>
                   </nobr>
                 ) : (
                   <nobr>
-                    <Button onClick={this.onEdit.bind(this, contact)}>
+                    <Button onClick={this.onEdit.bind(this, contact)} bsSize="sm">
                       <span className="glyphicon glyphicon-edit" />&nbsp;
                       {this.context.i18n.getMessage('SupplierContactEditor.Button.edit')}
                     </Button>
-                    <Button onClick={this.onDelete.bind(this, contact)}>
+                    <Button onClick={this.onDelete.bind(this, contact)} bsSize="sm">
                       <span className="glyphicon glyphicon-trash" />&nbsp;
                       {this.context.i18n.getMessage('SupplierContactEditor.Button.delete')}
                     </Button>

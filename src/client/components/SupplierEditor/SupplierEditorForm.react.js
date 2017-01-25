@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import SupplierEditorFormRow from './SupplierEditorFormRow.react.js'
+import SupplierEditorFormRow from './SupplierEditorFormRow.react.js';
 import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
 import { SupplierInput } from '../ReferenceSearch';
@@ -379,7 +379,7 @@ class SupplierEditorForm extends Component {
     let component = attrs.component ||
       <input className="form-control"
         type="text"
-        value={ supplier[fieldName] }
+        value={ typeof supplier[fieldName] === 'string' ? supplier[fieldName] : '' }
         onChange={ this.handleChange.bind(this, fieldName) }
         onBlur={ this.handleBlur.bind(this, fieldName) }
         disabled={ readOnly }
@@ -567,8 +567,8 @@ class SupplierEditorForm extends Component {
         { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
         { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
-        {!this.props.readOnly && <div className="form-group" style={{ paddingTop: '20px' }}>
-          <div className="text-right form-submit">
+        {!this.props.readOnly && <div style={{ paddingTop: '20px' }}>
+          <div className={`text-right form-submit${isOnboarding ? '' : ' col-sm-10 col-md-8'}`}>
             {isOnboarding && <button className="btn btn-link" onClick={this.handleCancel}>Cancel</button>}
             <button className="btn btn-primary" onClick={ this.handleUpdate }>
               { isOnboarding ? 'Continue' : i18n.getMessage('SupplierEditor.ButtonLabel.save') }

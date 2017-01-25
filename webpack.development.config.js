@@ -31,7 +31,7 @@ module.exports = {
       new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment\\' + path.sep + 'locale'),
       /en|de/
     ),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
 
   resolve: {

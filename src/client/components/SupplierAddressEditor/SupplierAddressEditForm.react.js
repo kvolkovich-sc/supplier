@@ -311,7 +311,7 @@ class SupplierAddressEditForm extends Component {
       delete tagProps.tooltip;// eslint-disable-line no-param-reassign
     }
 
-    tagProps.value = this.getProp(this.state.supplierAddress, name);// eslint-disable-line no-param-reassign
+    tagProps.value = this.getProp(this.state.supplierAddress, name) || '';// eslint-disable-line no-param-reassign
     tagProps.onChange = (event) => {// eslint-disable-line no-param-reassign
       let newValue = event.target.value.replace(/^\s+/g, '');
       let supplierAddress = this.state.supplierAddress;
@@ -447,7 +447,6 @@ class SupplierAddressEditForm extends Component {
 
         {this.fieldRender('select', {
           name: 'type',
-          defaultValue: '',
           disabled: (editMode === 'view'),
           required: true
         }, (
@@ -494,7 +493,6 @@ class SupplierAddressEditForm extends Component {
 
         {this.fieldRender('select', {
           name: 'address.countryId',
-          defaultValue: '',
           required: true,
           disabled: (editMode === 'view')
         }, (

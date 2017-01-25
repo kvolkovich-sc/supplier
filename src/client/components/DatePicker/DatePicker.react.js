@@ -67,7 +67,14 @@ export default class DatePicker extends React.Component {
   }
 
   render() {
-    let element = (<input {...this.props} ref="input"/>);
+    let {
+      showIcon,
+      locale,
+      ...inputProps
+    } = this.props;
+
+    let element = (<input {...inputProps} ref="input"/>);
+
     if (this.props.showIcon && !this.props.disabled) {
       return (
         <div className="input-group date" ref="group" >

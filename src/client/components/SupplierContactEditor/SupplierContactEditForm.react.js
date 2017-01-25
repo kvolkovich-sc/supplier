@@ -212,7 +212,7 @@ class SupplierContactEditForm extends Component {
       delete tagProps.tooltip;
     }
 
-    tagProps.value = this.state.contact[name];
+    tagProps.value = this.state.contact[name] || '';
 
 
     tagProps.onChange = (event) => {
@@ -337,7 +337,6 @@ class SupplierContactEditForm extends Component {
         {this.fieldRender('select', {
           name: 'contactType',
           tooltip: message('SupplierContactEditor.Tooltip.contactType'),
-          defaultValue: '',
           required: true,
           disabled: (editMode === 'view')
         }, (
@@ -350,7 +349,6 @@ class SupplierContactEditForm extends Component {
 
         {this.fieldRender('select', {
           name: 'department',
-          defaultValue: '',
           required: true,
           disabled: (editMode === 'view')
         }, (

@@ -32,11 +32,11 @@ export default class AttributeValueEditorRow extends Component {
           'has-error': !!rowErrors.length
         })}
       >
-        <label className={`col-sm-${isOnboarding ? '4' : '2'} control-label`}>
+        <label className={`col-sm-4 control-label`}>
           {labelText}
         </label>
 
-        <div className={`col-sm-${isOnboarding ? '8' : '4'}`}>
+        <div className={`col-sm-${isOnboarding ? '8' : '6 col-md-4'}`}>
           { this.props.children }
 
           {rowErrors.map((error, index) =>
