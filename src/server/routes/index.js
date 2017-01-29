@@ -7,7 +7,7 @@ const countries = require('./countries');
 
 // app - express application
 // db - sequilize models, sequilize instance, Sequlize class, config
-module.exports = function(app, db) {
+export default function(app, db) {
   epilogue.initialize({
     app: app,
     sequelize: db,

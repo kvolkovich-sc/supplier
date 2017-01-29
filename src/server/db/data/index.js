@@ -1,4 +1,4 @@
-module.exports = function(db) {
+export default function(db) {
   if (!db.config.populateDatabase) {
     return db;
   }
