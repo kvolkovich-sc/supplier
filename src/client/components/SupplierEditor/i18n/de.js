@@ -36,6 +36,9 @@ let Label = {
   supplierName: {},
   supplierId: {},
   homePage: {},
+  role: {},
+  buying: {},
+  selling: {},
   foundedOn: {},
   legalForm: {},
   registrationNumber: {},
@@ -44,11 +47,16 @@ let Label = {
   taxId: {},
   vatRegNo: {},
   dunsNo: {},
-  globalLocationNo: {}
+  globalLocationNo: {},
+  isNewSupplier: {},
+  supplier: {}
 };
 Label.supplierName.label = 'Name des Unternehmens';
 Label.supplierId.label = 'Firmen-ID';
 Label.homePage.label = 'Homepage';
+Label.role.label = 'Role';  // TODO: substitute with EN.
+Label.buying.label = 'Buying';  // TODO: substitute with EN.
+Label.selling.label = 'Selling';  // TODO: substitute with EN.
 Label.foundedOn.label = 'Datum der Firmengründung';
 Label.legalForm.label = 'Rechtform des Unternehmens';
 Label.registrationNumber.label = 'Handelsregisternummer';
@@ -58,6 +66,8 @@ Label.taxId.label = 'Steuernummer';
 Label.vatRegNo.label = 'Umsatzsteuer-Ident-Nr.';
 Label.dunsNo.label = 'D-U-N-S-Nr.';
 Label.globalLocationNo.label = 'Global Location Number (GLN/ILN)';
+Label.isNewSupplier.label = 'Existierenden Lieferanten auswählen';
+Label.supplier.label = 'Lieferant';
 
 let SupplierEditor = {};
 SupplierEditor.created = 'Die Informationen auf diesem Reiter wurden erstmalig durch {by} am {on} erstellt.';

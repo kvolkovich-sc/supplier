@@ -135,7 +135,7 @@
  * HTTP/1.1 200 OK
  *  {}
  */
-export default function(epilogue, db) {
+module.exports = function(epilogue, db) {
   epilogue.resource({
     model: db.SupplierContact,
     endpoints: ['/suppliers/:supplierId/contacts', '/suppliers/:supplierId/contacts/:contactId']

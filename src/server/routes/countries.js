@@ -1,8 +1,9 @@
-export default function(epilogue, db) {
+module.exports = function(epilogue, db) {
   epilogue.resource({
     model: db.Country,
     endpoints: ['/countries', '/countries/:id'],
-    actions: ['list']
+    actions: ['list'],
+    pagination: false
   });
 }
 

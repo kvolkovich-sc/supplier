@@ -2,16 +2,17 @@ let suppliers = require('./supplier.json');
 let addresses = require('./address.json');
 let supplier2addresses = require('./supplier2address.json');
 let supplierContact = require('./supplierContact.json');
+let user2supplier = require('./user2supplier.json');
 
-export default function(db) {
-  let updateIfCreated = function(data, entity, created) {
-    if (!created) {
-      return entity.update(data, { fields: Object.keys(data) });
-    }
+function updateIfCreated(data, entity, created) {
+  if (!created) {
+    return entity.update(data, { fields: Object.keys(data) });
+  }
 
-    return entity;
-  };
+  return entity;
+}
 
+module.exports = function(db) {
   suppliers.forEach(data => {
     db.Supplier.findOrCreate({
       where: {
@@ -48,5 +49,15 @@ export default function(db) {
       },
       defaults: data
     })
+  });
+
+  user2supplier.forEach(data => {
+    db.User2Supplier.findOrCreate({
+      where: {
+        loginName: data.loginName,
+        SupplierID: data.supplierId
+      },
+      defaults: data
+    }).spread(updateIfCreated.bind(this, data));
   });
 }

@@ -2,10 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
-import SupplierEditorFormRow from './SupplierEditorFormRow.react.js'
+import SupplierEditorFormRow from './SupplierEditorFormRow.react.js';
 import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
+import { SupplierInput } from '../ReferenceSearch';
 import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;
 
@@ -40,6 +40,73 @@ function getValidator(i18n) {
   return validatejs;
 }
 
+function StandardWrapper({ supplierId, supplier, username, i18n, children }) {
+  return (
+    <div>
+      <h4 className="tab-description">
+        { i18n.getMessage(`SupplierEditor.Description.${
+                supplierId ?
+            (supplier && supplier.createdBy === username ?
+              'modifySupplierOrChooseAnother' :
+                'viewSupplierOrChooseAnother'
+            ) :
+                  'chooseSupplier'
+              }`)
+        }
+      </h4>
+      <form className="form-horizontal">
+        {children}
+      </form>
+    </div>
+  );
+}
+
+StandardWrapper.propTypes = {
+  supplier: PropTypes.object,
+  supplierId: PropTypes.string,
+  username: React.PropTypes.string,
+  i18n: PropTypes.object
+};
+
+const OnboardingWrapper = ({ children }) =>
+  <div
+    className="container"
+    style={{
+      zIndex: '2'
+    }}
+  >
+    <div
+      className="box"
+      style={{
+        width: '87%',
+        marginTop: '15px',
+        padding: '3%',
+        textAlign: 'left',
+        zIndex: '3',
+        backgroundColor: 'white'
+      }}
+    >
+      <div className="row">
+        <div className="col-md-8">
+          <h2>Company Info</h2>
+          <form className="form-horizontal">
+            <div className="row">
+              <div className="col-md-12">
+                {children}
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className="col-md-4">
+          <p style={{ margin: '25% 0 0 10%', fontSize: '150%' }}>Company Info</p>
+          <br />
+          <p>Choose an existing company or provide information for a new one.</p>
+          <p>After giving this information you are ready to login.</p>
+        </div>
+      </div>
+    </div>
+  </div>;
+
 @i18n
 class SupplierEditorForm extends Component {
   static propTypes = {
@@ -47,10 +114,13 @@ class SupplierEditorForm extends Component {
     onSupplierChange: PropTypes.func.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
+    onCancel: React.PropTypes.func,
     readOnly: PropTypes.bool,
     countries: PropTypes.array,
     supplierId: PropTypes.string,
-    username: React.PropTypes.string
+    username: React.PropTypes.string,
+    actionUrl: React.PropTypes.string.isRequired,
+    isOnboarding: PropTypes.bool
   };
 
   static defaultProps = {
@@ -62,15 +132,9 @@ class SupplierEditorForm extends Component {
     supplier: {
       ...this.props.supplier
     },
-    fieldErrors: {}
+    fieldErrors: {},
+    isNewSupplier: true
   };
-
-  componentDidMount() {
-    console.log('SUPPLIER PROPS');
-    console.dir(this.props.supplier);
-    console.log('SUPPLIER STATE');
-    console.dir(this.state.supplier);
-  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -117,6 +181,11 @@ class SupplierEditorForm extends Component {
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 250
         })
+      }
+    },
+    role: {
+      presence: {
+        message: this.validatejsI18N.getMessage('validatejs.blank.message')
       }
     },
     foundedOn: {
@@ -203,24 +272,6 @@ class SupplierEditorForm extends Component {
     }
   }
 
-  auditedInfo = () => this.state.supplier.createdBy ?
-    <div className="form-group col-sm-6 object-info">
-      <p><strong>{this.auditedInfoPart('created')}</strong></p>
-      <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-    </div> :
-    ''
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const { supplier } = this.state;
-    const dateConverter = new DateConverter(this.props.dateTimePattern, i18n.locale);
-
-    return i18n.getMessage(`SupplierEditor.SupplierEditor.${fieldName}`, {
-      by: supplier[`${fieldName}By`],
-      on: dateConverter.valueToString(supplier[`${fieldName}On`])
-    });
-  }
-
   handleDateChange = (fieldName, event) => {
     let date;
     try {
@@ -232,7 +283,7 @@ class SupplierEditorForm extends Component {
     this.setState({
       supplier: {
         ...this.state.supplier,
-        [filedName]: isValidDate(date) ?
+        [fieldName]: isValidDate(date) ?
           date.toJSON() :
           date || ''
       },
@@ -277,11 +328,25 @@ class SupplierEditorForm extends Component {
     });
   }
 
+  handleCancel = event => {
+    event.preventDefault();
+    this.props.onCancel();
+  }
   handleUpdate = event => {
     event.preventDefault();
 
-    const { supplier } = this.state;
-    const { onSupplierChange } = this.props;
+    const { onSupplierChange, isOnboarding } = this.props;
+    const supplier = { ...this.state.supplier };
+
+    if (isOnboarding) {
+      if (!supplier.supplierId && supplier.supplierName) {
+        supplier.supplierId = supplier.supplierName.replace(/[^0-9a-z_\-]/gi, '');
+      }
+
+      if (!supplier.role) {
+        supplier.role = 'selling';
+      }
+    }
 
     const errors = getValidator(this.context.i18n)(
       supplier,
@@ -292,37 +357,52 @@ class SupplierEditorForm extends Component {
 
     if (errors) {
       this.setState({
-        fieldErrors: errors.reduce((fErrors, messages, fieldName) => ({
-          ...fErrors,
-          [fieldName]: messages.map(msg => ({ message: msg }))
+        fieldErrors: Object.keys(errors).reduce((rez, fieldName) => ({
+          ...rez,
+          [fieldName]: errors[fieldName].map(msg => ({ message: msg }))
         }), {}),
       });
 
       onSupplierChange(null);
-    } else {
-      onSupplierChange(supplier);
+      return;
     }
+
+    onSupplierChange(supplier);
+    return;
   };
 
   renderField = attrs => {
     const { supplier, fieldErrors } = this.state;
-    const { fieldName, readOnly = false } = attrs;
+    const { fieldName, readOnly } = attrs;
+    const fieldNames = attrs.fieldNames || [fieldName];
 
-    let component = attrs.component || <input className="form-control"
-      type="text"
-      value={ supplier[fieldName] }
-      onChange={ this.handleChange.bind(this, fieldName) }
-      onBlur={ this.handleBlur.bind(this, fieldName) }
-      disabled={ readOnly }
-      autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
-    />
+    let component = attrs.component ||
+      <input className="form-control"
+        type="text"
+        value={ typeof supplier[fieldName] === 'string' ? supplier[fieldName] : '' }
+        onChange={ this.handleChange.bind(this, fieldName) }
+        onBlur={ this.handleBlur.bind(this, fieldName) }
+        disabled={ readOnly }
+        autoFocus={ fieldName === 'supplierName' && !this.props.supplierId }
+      />;
+
+    let isRequired = fieldNames.some(name => {
+      return this.SUPPLIER_CONSTRAINTS[name] && this.SUPPLIER_CONSTRAINTS[name].presence;
+    });
+
+    let rowErrors = fieldNames.reduce(
+      (rez, name) => rez.concat(fieldErrors[name] || []),
+      []
+    );
 
     return (
-      <SupplierEditorFormRow labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
-        required={ !!this.SUPPLIER_CONSTRAINTS[fieldName].presence }
-        rowErrors={ fieldErrors[fieldName] }
+      <SupplierEditorFormRow
+        labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
+        required={ isRequired }
+        rowErrors={ rowErrors }
+        isOnboarding={ this.props.isOnboarding }
       >
-      { component }
+        { component }
       </SupplierEditorFormRow>
     );
   };
@@ -330,8 +410,10 @@ class SupplierEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { readOnly, countries } = this.props;
+    const { countries, isOnboarding } = this.props;
     const { supplier } = this.state;
+
+    let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
 
     let foundedOn = supplier['foundedOn'];
     if (foundedOn !== null) {
@@ -341,77 +423,159 @@ class SupplierEditorForm extends Component {
       }
     }
 
-    return (
-      <div>
-        <h4 className="tab-description">
-          { i18n.getMessage(`SupplierEditor.Description.${
-              this.props.supplierId ?
-                (this.props.supplier && this.props.supplier.createdBy === this.props.username ?
-                  'modifySupplierOrChooseAnother' :
-                  'viewSupplierOrChooseAnother'
-                ) :
-                'chooseSupplier'
-            }`)
-          }
-        </h4>
-        <form className="form-horizontal">
-          { this.renderField({ fieldName: 'supplierName', readOnly }) }
-          { this.renderField({ fieldName: 'supplierId', readOnly }) }
-          { this.renderField({ fieldName: 'homePage', readOnly }) }
+    let companiesSearchValue = {};
 
-          { this.renderField({
-            fieldName: 'foundedOn',
-            readOnly,
+    if (supplier.supplierId) {
+      companiesSearchValue.supplierId = supplier.supplierId;
+    }
+
+    if (Object.keys(companiesSearchValue).length === 0) {
+      companiesSearchValue = null;
+    }
+
+    let Wrapper = isOnboarding ? OnboardingWrapper : StandardWrapper;
+
+    return (
+      <Wrapper
+        supplierId={this.props.supplierId}
+        supplier={this.props.supplier}
+        username={this.props.username}
+        i18n={i18n}
+      >
+        { this.renderField({
+          fieldName: 'isNewSupplier',
+          component: (
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                checked={this.state.isNewSupplier}
+                onChange={() => this.setState({
+                  isNewSupplier: !this.state.isNewSupplier,
+                  supplier: !readOnly && this.props.supplier || {}
+                })}
+              />
+            </div>
+          )
+        }) }
+
+        {/* TODO: search for role==='selling' when isOnboarding===true */}
+        { this.state.isNewSupplier ?
+          this.renderField({
+            fieldName: 'supplier',
+            fieldNames: ['supplierId', 'supplierName'],
             component: (
-              <DatePicker className="form-control"
-                locale={locale}
-                format={i18n.dateFormat}
-                disabled={readOnly}
-                value={foundedOn}
-                onChange={this.handleDateChange.bind(this, 'foundedOn')}
-                onBlur={this.handleBlur.bind(this, 'foundedOn')}
+              <SupplierInput
+                serviceRegistry={serviceName => ({ url: this.props.actionUrl })}
+                value={companiesSearchValue}
+                onChange={supplier => this.setState({
+                  supplier: supplier || {}
+                })}
+                onBlur={() => {
+                  this.handleBlur('supplierId');
+                  this.handleBlur('supplierName');
+                }}
               />
             )
-          }) }
-
-          { this.renderField({ fieldName: 'legalForm', readOnly }) }
-          { this.renderField({ fieldName: 'registrationNumber', readOnly }) }
-          { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
-
-          { this.renderField({
-            fieldName: 'countryOfRegistration',
-            readOnly,
-            component: (
-              <select className="form-control"
-                disabled={readOnly}
-                value={supplier['countryOfRegistration'] || ''}
-                onChange={this.handleChange.bind(this, 'countryOfRegistration')}
-                onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-              >
-                <option disabled={true} value="">{i18n.getMessage('SupplierEditor.Select.country')}</option>
-                {countries.map((country, index) => {
-                  return (<option key={index} value={country.id}>{country.name}</option>);
-                })}
-              </select>
-            )
-          }) }
-
-          { this.renderField({ fieldName: 'taxId', readOnly }) }
-          { this.renderField({ fieldName: 'vatRegNo', readOnly }) }
-          { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
-          { this.renderField({ fieldName: 'dunsNo', readOnly }) }
-
-          {!readOnly && <div className="form-group">
-            <div className="text-right col-sm-6">
-              <button className="btn btn-primary" onClick={ this.handleUpdate }>
-                { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
-              </button>
+          }) :
+          (
+            <div>
+              { this.renderField({ fieldName: 'supplierName', readOnly }) }
+              { isOnboarding || this.renderField({ fieldName: 'supplierId', readOnly }) }
             </div>
-          </div>}
+          )
+        }
 
-          { this.auditedInfo() }
-        </form>
-      </div>
+        { isOnboarding || this.renderField({ fieldName: 'homePage', readOnly }) }
+
+        { isOnboarding || this.renderField({
+          fieldName: 'role',
+          readOnly,
+          component: (
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="buying"
+                  checked={ supplier.role === 'buying' }
+                  onChange={ this.handleChange.bind(this, 'role') }
+                  disabled={readOnly}
+                  className="radio-inline"
+                />
+                <span style={{ fontWeight: 'normal' }}>
+                  { this.context.i18n.getMessage('SupplierEditor.Label.buying.label') }
+                </span>
+              </label>
+              {'\u00a0\u00a0\u00a0\u00a0'}
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="selling"
+                  checked={ supplier.role === 'selling' }
+                  onChange={ this.handleChange.bind(this, 'role') }
+                  disabled={readOnly}
+                  className="radio-inline"
+                />
+                <span style={{ fontWeight: 'normal' }}>
+                  { this.context.i18n.getMessage('SupplierEditor.Label.selling.label') }
+                </span>
+              </label>
+            </div>
+          )
+        }) }
+
+        { isOnboarding || this.renderField({
+          fieldName: 'foundedOn',
+          readOnly,
+          component: (
+            <DatePicker className="form-control"
+              locale={locale}
+              format={i18n.dateFormat}
+              disabled={readOnly}
+              value={foundedOn}
+              onChange={this.handleDateChange.bind(this, 'foundedOn')}
+              onBlur={this.handleBlur.bind(this, 'foundedOn')}
+            />
+          )
+        }) }
+
+        { this.renderField({ fieldName: 'legalForm', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
+        { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
+
+        { this.renderField({
+          fieldName: 'countryOfRegistration',
+          readOnly,
+          component: (
+            <select className="form-control"
+              disabled={readOnly}
+              value={supplier['countryOfRegistration'] || ''}
+              onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+              onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
+            >
+              <option disabled={true} value="">{i18n.getMessage('SupplierEditor.Select.country')}</option>
+              {countries.map((country, index) => {
+                return (<option key={index} value={country.id}>{country.name}</option>);
+              })}
+            </select>
+          )
+        }) }
+
+        { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
+
+        {!this.props.readOnly && <div style={{ paddingTop: '20px' }}>
+          <div className={`text-right form-submit${isOnboarding ? '' : ' col-sm-10 col-md-8'}`}>
+            {isOnboarding && <button className="btn btn-link" onClick={this.handleCancel}>Cancel</button>}
+            <button className="btn btn-primary" onClick={ this.handleUpdate }>
+              { isOnboarding ? 'Continue' : i18n.getMessage('SupplierEditor.ButtonLabel.save') }
+            </button>
+          </div>
+        </div>}
+      </Wrapper>
     );
   }
 }

@@ -1,4 +1,5 @@
-import Sequelize from 'sequelize';
+'use strict';
+const Sequelize = require('sequelize');
 
 module.exports = function(sequelize) {
   const Country = sequelize.define('Country', {

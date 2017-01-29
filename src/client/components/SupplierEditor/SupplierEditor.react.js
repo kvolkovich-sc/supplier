@@ -16,6 +16,8 @@ class SupplierEditor extends Component {
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
     supplierId: PropTypes.string,
+    supplierName: PropTypes.string,
+    companyRole: PropTypes.string,
     username: React.PropTypes.string,
     dateTimePattern: PropTypes.string.isRequired,
     /**
@@ -24,7 +26,8 @@ class SupplierEditor extends Component {
      */
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
-    onUnauthorized: React.PropTypes.func
+    onUnauthorized: React.PropTypes.func,
+    onLogout: React.PropTypes.func
   }
 
   state = {
@@ -37,14 +40,36 @@ class SupplierEditor extends Component {
       return;
     }
 
-    request.
+    console.log(`===== About to call ${
+      this.props.actionUrl
+    }/api/suppliers/${
+      encodeURIComponent(this.props.supplierId)
+    }`);
+    this.ajaxPromise = request.
       get(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
-      then(response => this.setState({
-        isLoaded: true,
-        supplier: response.body
-      })).
+      promise();
+
+    this.ajaxPromise.
+      then(response => {
+        console.log(`===== Success responding to ${
+          this.props.actionUrl
+        }/api/suppliers/${
+          encodeURIComponent(this.props.supplierId)
+        }`, JSON.stringify(response.body)
+        );
+        this.setState({
+          isLoaded: true,
+          supplier: response.body
+        });
+      }).
       catch(errors => {
+        console.log(`===== Error responding to ${
+          this.props.actionUrl
+        }/api/suppliers/${
+          encodeURIComponent(this.props.supplierId)
+        }`, JSON.stringify(errors)
+        );
         if (errors.status === 401) {
           this.props.onUnauthorized();
           return;
@@ -65,6 +90,13 @@ class SupplierEditor extends Component {
       globalErrorMessage: ''
     });
   }
+
+  componentWillUnmount() {
+    console.log('===== CANCELING ALL REQUESTS');
+    this.ajaxPromise.cancel();
+  }
+
+  ajaxPromise = null;
 
   handleChange = () => {
     if (this.props.onChange) {
@@ -90,6 +122,7 @@ class SupplierEditor extends Component {
     const { i18n } = this.context;
     let requestMethod;
 
+    console.log('===== ABOUT TO REQUEST A PROMISE');
     if (this.props.supplierId && this.props.supplierId.toLowerCase() === newSupplier.supplierId.toLowerCase()) {
       // Updating info of a supplier the user is linked to.
       requestMethod = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`);
@@ -101,29 +134,42 @@ class SupplierEditor extends Component {
       requestMethod = request.post(`${this.props.actionUrl}/api/suppliers`);
     }
 
-    console.log('===== NEW SUPPLIER INFO =====', newSupplier);
-
-    return requestMethod.
+    this.ajaxPromise = requestMethod.
       set('Accept', 'application/json').
       send(newSupplier).
-      then(response => {
-        console.log('===== ADDED/CHANGED SUPPLIER INFO =====', response);
+      promise();
 
+    return this.ajaxPromise.
+      then(response => {
+        console.log('===== A PROMISE HAS BEEN RECEIVED');
         this.setState({
           supplier: response.body,
           globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),
           globalErrorMessage: ''
         });
 
-        if (this.props.supplierId !== response.body.supplierId && this.props.onUpdate) {
-          // Informing wrapper app (BNP/SIM) about supplierId change.
-          this.props.onUpdate({ supplierId: response.body.supplierId });
+        console.log('===== MIDDLE OF PROMISE HANDLING');
+        if (
+          this.props.onUpdate &&
+          (
+            this.props.supplierId !== response.body.supplierId ||
+            this.props.supplierName !== response.body.supplierName ||
+            this.props.companyRole !== response.body.role
+          )
+        ) {
+          // Informing wrapper app (BNP/SIM) about supplier change.
+          this.props.onUpdate({
+            supplierId: response.body.supplierId,
+            supplierName: response.body.supplierName,
+            companyRole: response.body.role
+          });
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });
         }
+        console.log('===== END OF PROMISE HANDLING');
       }).
       catch(errors => {
-        console.log('===== SUPPLIER ADD/CHANGE ERROR =====', errors);
+        console.log('===== PROMISE ERROR CATCH', errors);
         switch (errors.status) {
           case 401:
             this.props.onUnauthorized();
@@ -184,6 +230,7 @@ class SupplierEditor extends Component {
           supplier={ supplier }
           onSupplierChange={ this.handleUpdate }
           onChange={ this.handleChange }
+          onCancel={ this.props.onLogout }
         />
       </div>
     );

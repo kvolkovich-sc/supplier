@@ -4,6 +4,7 @@
     "supplierName": "Hardware AG",
     "cityOfRegistration": "Minsk",
     "countryOfRegistration": "DE",
+    "role": "selling",
     "foundedOn": "2015-10-04T22:00:00Z",
     "globalLocationNo": "123",
     "homePage": "http://hard.ware.ag",
@@ -16,11 +17,30 @@
     "supplierName": "automobile.de",
     "cityOfRegistration": "Minsk",
     "countryOfRegistration": "DE",
+    "role": "buying",
     "foundedOn": "2017-08-15T07:20:14Z",
     "globalLocationNo": "123",
     "homePage": "automobile.de",
     "legalForm": "KG",
     "registrationNumber": "MI3464564356",
     "status": "new"
+  },
+  {
+    "supplierId": "hwi",
+    "supplierName": "Hardware Inc.",
+    "cityOfRegistration": "Los Angeles",
+    "countryOfRegistration": "US",
+    "role": "selling",
+    "createdBy": "scott.tiger@example.com",
+    "changedBy": "scott.tiger@example.com"
+  },
+  {
+    "supplierId": "ncc",
+    "supplierName": "NCC Svenska AB",
+    "cityOfRegistration": "Stockholm",
+    "countryOfRegistration": "SE",
+    "role": "buying",
+    "createdBy": "john.doe@ncc.com",
+    "changedBy": "john.doe@ncc.com"
   }
 ]

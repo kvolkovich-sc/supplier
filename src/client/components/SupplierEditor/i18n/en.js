@@ -35,6 +35,9 @@ let Label = {
   supplierName: {},
   supplierId: {},
   homePage: {},
+  role: {},
+  buying: {},
+  selling: {},
   foundedOn: {},
   legalForm: {},
   registrationNumber: {},
@@ -43,12 +46,17 @@ let Label = {
   taxId: {},
   vatRegNo: {},
   dunsNo: {},
-  globalLocationNo: {}
+  globalLocationNo: {},
+  isNewSupplier: {},
+  supplier: {}
 };
 Label.supplierName.label = 'Company Name';
 Label.supplierId.label = 'Company ID';
 Label.homePage.label = 'Home Page';
-Label.foundedOn.label = 'Founded/Established On';
+Label.role.label = 'Role';
+Label.buying.label = 'Buying';
+Label.selling.label = 'Selling';
+Label.foundedOn.label = 'Founded/\u200bEstablished\u00a0On';
 Label.legalForm.label = 'Legal Form';
 Label.registrationNumber.label = 'Company Registration Number';
 Label.cityOfRegistration.label = 'City Of Registration';
@@ -57,6 +65,8 @@ Label.taxId.label = 'Tax Identification';
 Label.vatRegNo.label = 'VAT Registration Number';
 Label.dunsNo.label = 'D-U-N-S Number';
 Label.globalLocationNo.label = 'Global Location Number';
+Label.isNewSupplier.label = 'Select existing company';
+Label.supplier.label = 'Company';
 
 let SupplierEditor = {};
 SupplierEditor.created = 'Information on this page was initially created by {by} on {on}.';

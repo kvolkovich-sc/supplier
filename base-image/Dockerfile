@@ -7,15 +7,11 @@ MAINTAINER gr4per
 WORKDIR /home/node/supplierDir
 
 RUN mv /var/tmp/base/node_modules ./node_modules && apk add --no-cache mysql-client && apk add --no-cache curl rsync
-
-# Copying modules which are either manually changed or not located in https://registry.npmjs.org/ official registry
-# (i.e. jCatalog registry) - see ".dockerignore" for the list. Otherwise "npm install" will throw an error.
-
-COPY ./jq-linux32 ./jq-linux64 /usr/local/bin/
-
 COPY package.json .
 
-RUN npm set progress=false && npm install 2> /dev/null && npm cache clean
+# Setting NODE_ENV is necessary for "npm install" below.
+ENV NODE_ENV=development
+RUN npm set progress=false && npm install 2> /dev/null ; npm cache clean
 
 # Bundle app source by overwriting all WORKDIR content.
 COPY . tmp

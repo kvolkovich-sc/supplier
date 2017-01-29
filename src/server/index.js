@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import path from "path";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -13,6 +14,19 @@ import config from "ocbesbn-config";
 // import "./logger";
 // initialize sequilize
 import dbPromise from "./db/models";
+=======
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
+const dbReadyPromise = require('./service/dbReadyService');
+const registerRestRoutes = require('./routes');
+// import "./logger";  // initialize logging
+
+const WEBPACK_DEV_CONFIG = '../../webpack.development.config.js';
+>>>>>>> master
 
 // create express app
 const app = express();
@@ -40,6 +54,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 if (process.env.NODE_ENV === 'production') {
 	app.use('/static', express.static(__dirname + '/../../build/client'));
 } else {
+<<<<<<< HEAD
 	const webpack = require('webpack');
 	const webpackMiddleware = require('webpack-dev-middleware');
 
@@ -54,6 +69,17 @@ if (process.env.NODE_ENV === 'production') {
 	app.get(['/', '/address', '/contact'], function(req, res) {
 		res.sendFile(path.normalize(__dirname + '/../client/demo/index.html'));
 	});
+=======
+  const webpack = require('webpack');
+  const webpackMiddleware = require('webpack-dev-middleware');
+  const compiler = webpack(require(WEBPACK_DEV_CONFIG));
+
+  app.use(webpackMiddleware(compiler, {
+    publicPath: '/static',
+    stats: { colors: true },
+    noInfo: true
+  }));
+>>>>>>> master
 }
 
 
@@ -115,3 +141,11 @@ process.on('SIGTERM', gracefulShutdown);
 
 // listen for INT signal e.g. Ctrl-C
 process.on('SIGINT', gracefulShutdown);
+<<<<<<< HEAD
+=======
+
+dbReadyPromise.
+  then(db => registerRestRoutes(app, db)).  // register rest api only after connecting to DB.
+  catch(err => gracefulShutdown(err));
+
+>>>>>>> master

@@ -273,7 +273,7 @@ class SupplierAddressEditor extends Component {
     if (supplierAddresses !== undefined) {
       if (supplierAddresses.length > 0) {
         result = (
-          <div className="row">
+          <div className="table-responsive">
             <SupplierAddressListTable
               countries={countries}
               supplierAddresses={supplierAddresses}
@@ -295,14 +295,14 @@ class SupplierAddressEditor extends Component {
         editMode = 'create-first';
       }
     } else if (loadErrors) {
-      result = (<div className="row">Load errors</div>);
+      result = (<div>Load errors</div>);
     } else {
-      result = (<div className="row">Loading...</div>);
+      result = (<div>Loading...</div>);
     }
 
     return (
       <div>
-        <div className="row">
+        <div>
           <h4 className="tab-description">{this.context.i18n.getMessage('SupplierAddressEditor.Title')}</h4>
         </div>
 
@@ -314,7 +314,7 @@ class SupplierAddressEditor extends Component {
 
         {supplierAddress ? (
           <div className="row" ref="editForm">
-            <div className="col-sm-6">
+            <div className="col-md-6">
               {this.state.globalError && !readOnly ? (
                 <Alert bsStyle="danger" message={this.state.globalError}/>
               ) : null}
@@ -335,7 +335,7 @@ class SupplierAddressEditor extends Component {
         ) : null}
 
         {!supplierAddress && !readOnly ? (
-          <div className="row">
+          <div>
             <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierAddressEditor.Button.add')}
             </Button>
           </div>

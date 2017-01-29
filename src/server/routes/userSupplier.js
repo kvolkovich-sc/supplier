@@ -235,7 +235,7 @@
 *   }
  * ]
  */
-export default function(epilogue, db) {
+module.exports = function(epilogue, db) {
   let userSupplierResource = epilogue.resource({
     model: db.User2Supplier,
     endpoints: ['/suppliers/:supplierId/users', '/suppliers/:supplierId/users/:userId'],
@@ -249,13 +249,13 @@ export default function(epilogue, db) {
         before(req, res, context) {
           db.User2Supplier.findAll({
             attributes: [
-              'UserID'
+              'LoginName'
             ],
             where: {
               supplierId: req.params.supplierId
             }
           }).then(users => {
-            context.instance = users.map(user => user.userId);  // eslint-disable-line no-param-reassign
+            context.instance = users.map(user => user.loginName);  // eslint-disable-line no-param-reassign
             context.skip();
           })
         }

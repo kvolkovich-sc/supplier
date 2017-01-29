@@ -6,7 +6,6 @@ import Popover from 'react-bootstrap/lib/Popover';
 import validator from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierAddressEditForm.css';
-import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 
 import { I18nManager } from 'opuscapita-i18n';
 const globalMessages = require('../../../client-server/validatejs/i18n').default;
@@ -312,7 +311,7 @@ class SupplierAddressEditForm extends Component {
       delete tagProps.tooltip;// eslint-disable-line no-param-reassign
     }
 
-    tagProps.value = this.getProp(this.state.supplierAddress, name);// eslint-disable-line no-param-reassign
+    tagProps.value = this.getProp(this.state.supplierAddress, name) || '';// eslint-disable-line no-param-reassign
     tagProps.onChange = (event) => {// eslint-disable-line no-param-reassign
       let newValue = event.target.value.replace(/^\s+/g, '');
       let supplierAddress = this.state.supplierAddress;
@@ -402,34 +401,6 @@ class SupplierAddressEditForm extends Component {
     );
   }
 
-  auditedInfo = () => {
-    const { supplierAddress } = this.state;
-    if (supplierAddress['createdBy']) {
-      return (
-        <div className="form-group col-sm-12 object-info">
-          <p><strong>{this.auditedInfoPart('created')}</strong></p>
-          <p><strong>{this.auditedInfoPart('changed')}</strong></p>
-        </div>
-      );
-    }
-    return ('');
-  };
-
-  auditedInfoPart = (fieldName) => {
-    const { i18n } = this.context;
-    const locale = i18n.locale;
-    const { supplierAddress } = this.state;
-    const { dateTimePattern } = this.props;
-    const dateConverter = new DateConverter(dateTimePattern, locale);
-    const dateOn = supplierAddress[`${fieldName}On`];
-    const userBy = supplierAddress[`${fieldName}By`];
-
-    return i18n.getMessage(`SupplierAddressEditor.AddressInfo.${fieldName}`, {
-      by: userBy,
-      on: dateConverter.valueToString(dateOn)
-    });
-  };
-
   render() {
     const editMode = this.props.editMode;
     // const supplierAddress = this.state.supplierAddress;
@@ -476,7 +447,6 @@ class SupplierAddressEditForm extends Component {
 
         {this.fieldRender('select', {
           name: 'type',
-          defaultValue: '',
           disabled: (editMode === 'view'),
           required: true
         }, (
@@ -523,7 +493,6 @@ class SupplierAddressEditForm extends Component {
 
         {this.fieldRender('select', {
           name: 'address.countryId',
-          defaultValue: '',
           required: true,
           disabled: (editMode === 'view')
         }, (
@@ -584,8 +553,6 @@ class SupplierAddressEditForm extends Component {
             >{this.context.i18n.getMessage('SupplierAddressEditor.Button.save')}</Button>
           ) : null}
         </div>
-
-        {editMode === 'edit' || editMode === 'view' ? this.auditedInfo() : null}
       </form>
     );
   }
