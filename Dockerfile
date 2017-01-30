@@ -17,7 +17,7 @@ RUN npm set progress=false && npm install && npm cache clean
 # now copy to global modules path in order to prevent the volume mount making them invisible
 RUN mv ./node_modules /var/tmp/base/node_modules
 ENV NODE_PATH=/var/tmp/base/node_modules
-RUN export PATH=${PATH}:${NODE_PATH}/.bin
+ENV PATH=${PATH}:${NODE_PATH}/.bin
 
 # A container must expose a port if it wants to be registered in Consul by Registrator.
 # The port is fed both to node express server and Consul => DRY principle is observed with ENV VAR.
