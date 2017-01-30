@@ -123,7 +123,6 @@
 *   }
 */
 
-// const lib = require('../../client-server/lib');
 const _ = require('lodash');
 
 module.exports = function(epilogue, db) {

@@ -7,7 +7,7 @@ import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
 import { SupplierInput } from '../ReferenceSearch';
 import { I18nManager } from 'opuscapita-i18n';
-const globalMessages = require('../../../client-server/validatejs/i18n').default;
+import globalMessages from '../../utils/validatejs/i18n';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {

@@ -6,7 +6,7 @@ const morgan = require('morgan');
 
 const dbReadyPromise = require('./service/dbReadyService');
 const registerRestRoutes = require('./routes');
-// import "./logger";  // initialize logging
+// require('./logger');  // initialize logging
 
 const WEBPACK_DEV_CONFIG = '../../webpack.development.config.js';
 
