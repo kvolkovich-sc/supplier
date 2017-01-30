@@ -8,7 +8,7 @@ import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierAddressEditForm.css';
 
 import { I18nManager } from 'opuscapita-i18n';
-const globalMessages = require('../../../client-server/validatejs/i18n').default;
+import globalMessages from '../../utils/validatejs/i18n';
 const ADDRESS_TYPES = ['default', 'invoice', 'rma', 'plant'];
 
 /**

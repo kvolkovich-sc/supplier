@@ -8,7 +8,7 @@ import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierContactEditForm.css';
 
 import { I18nManager } from 'opuscapita-i18n';
-const globalMessages = require('../../../client-server/validatejs/i18n').default;
+import globalMessages from '../../utils/validatejs/i18n';
 const CONTACT_TYPES = ['SIM', 'CatalogMan', 'Employee'];
 const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support', 'IT', 'Others'];
 

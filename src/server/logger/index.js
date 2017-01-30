@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import intel from "intel";
+const fs = require('fs');
+const path = require('fs');
+const intel = require('intel');
 
 let rootPath = path.join(__dirname, '..', '..', '..');
 let logsPath = path.join(rootPath, 'logs');
