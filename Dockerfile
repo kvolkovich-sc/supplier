@@ -1,4 +1,4 @@
-FROM gr4per/supplierdir-base:g_v1
+FROM gr4per/supplierdir-base:latest
 MAINTAINER gr4per
 
 # Set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow,
