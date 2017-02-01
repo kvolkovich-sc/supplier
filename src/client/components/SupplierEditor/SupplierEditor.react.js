@@ -40,11 +40,7 @@ class SupplierEditor extends Component {
       return;
     }
 
-    console.log(`===== About to call ${
-      this.props.actionUrl
-    }/api/suppliers/${
-      encodeURIComponent(this.props.supplierId)
-    }`);
+    console.log('===== ABOUT TO REQUEST a PROMISE');
     this.ajaxPromise = request.
       get(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
@@ -52,24 +48,13 @@ class SupplierEditor extends Component {
 
     this.ajaxPromise.
       then(response => {
-        console.log(`===== Success responding to ${
-          this.props.actionUrl
-        }/api/suppliers/${
-          encodeURIComponent(this.props.supplierId)
-        }`, JSON.stringify(response.body)
-        );
+        console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
         this.setState({
           isLoaded: true,
           supplier: response.body
         });
       }).
       catch(errors => {
-        console.log(`===== Error responding to ${
-          this.props.actionUrl
-        }/api/suppliers/${
-          encodeURIComponent(this.props.supplierId)
-        }`, JSON.stringify(errors)
-        );
         if (errors.status === 401) {
           this.props.onUnauthorized();
           return;
@@ -93,7 +78,9 @@ class SupplierEditor extends Component {
 
   componentWillUnmount() {
     console.log('===== CANCELING ALL REQUESTS');
-    this.ajaxPromise.cancel();
+    if (this.ajaxPromise && !this.state.isLoaded) {
+      this.ajaxPromise.cancel();
+    }
   }
 
   ajaxPromise = null;
@@ -141,14 +128,13 @@ class SupplierEditor extends Component {
 
     return this.ajaxPromise.
       then(response => {
-        console.log('===== A PROMISE HAS BEEN RECEIVED');
+        console.log('===== A PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
         this.setState({
           supplier: response.body,
           globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),
           globalErrorMessage: ''
         });
 
-        console.log('===== MIDDLE OF PROMISE HANDLING');
         if (
           this.props.onUpdate &&
           (
@@ -166,10 +152,8 @@ class SupplierEditor extends Component {
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });
         }
-        console.log('===== END OF PROMISE HANDLING');
       }).
       catch(errors => {
-        console.log('===== PROMISE ERROR CATCH', errors);
         switch (errors.status) {
           case 401:
             this.props.onUnauthorized();
