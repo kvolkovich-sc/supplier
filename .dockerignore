@@ -46,9 +46,6 @@ build/Release
 jspm_packages/
 /node_modules/*
 
-# TODO: remove after webpack 2 goes stable:
-!/node_modules/chunk-manifest-webpack-plugin
-
 # Optional npm cache directory
 .npm
 

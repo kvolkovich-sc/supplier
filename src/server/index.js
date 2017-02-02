@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // launch application
-let server = app.listen(process.env.PORT, err => {
+let server = app.listen(process.env.PORT || 3001, err => {
   if (err) {
     console.log(err);
   }

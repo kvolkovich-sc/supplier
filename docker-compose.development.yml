@@ -3,7 +3,7 @@ services:
   nginx:
     image: gr4per/nginx-rp:latest
     ports:
-     - '3100:8080'
+     - "8080:8080"
     depends_on:
      - bnp
     labels:
@@ -31,7 +31,7 @@ services:
       SERVICE_TAGS: 'external'
     volumes:
      - ./../supplierDir:/home/node/supplierDir
-     - /home/node/supplierDir/node_modules
+     #- /home/node/supplierDir/node_modules
   mysql:
     image: gr4per/mysql
     depends_on:
