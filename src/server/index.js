@@ -86,7 +86,7 @@ config.init({ host: 'consul' })
 		require('./routes').default(app, db);  // register rest api for DB specific models
 	})
 	.then(function () {
-		server = app.listen(process.env.PORT, err => {
+		server = app.listen(process.env.PORT || 3001, err => {
 			if (err) {
 				console.log(err);
 			}
