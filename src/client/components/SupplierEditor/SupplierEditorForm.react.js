@@ -533,7 +533,7 @@ class SupplierEditorForm extends Component {
               locale={locale}
               format={i18n.dateFormat}
               disabled={readOnly}
-              value={foundedOn}
+              value={foundedOn || ''}
               onChange={this.handleDateChange.bind(this, 'foundedOn')}
               onBlur={this.handleBlur.bind(this, 'foundedOn')}
             />

@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const getHostnamePort = require('./service/consulService.js').getHostnamePort;
 
 const dbReadyPromise = require('./service/dbReadyService');
 const registerRestRoutes = require('./routes');
@@ -47,20 +48,7 @@ if (process.env.NODE_ENV === 'production') {
   }));
 }
 
-// launch application
-let server = app.listen(process.env.PORT || 3001, err => {
-  if (err) {
-    console.log(err);
-  }
-
-  console.info(
-    'The server is running at http://%s:%s/',
-    server.address().address === '::' ? '0.0.0.0' : server.address().address,
-    server.address().port
-  );
-});
-
-function gracefulShutdown(msg) {
+function gracefulShutdown(server, msg) {
   if (msg) {
     console.log('SERVER GRACEFUL SHUTDONW:', msg);
   }
@@ -68,13 +56,37 @@ function gracefulShutdown(msg) {
   server.close(() => process.exit(0));
 }
 
-// listen for TERM signal .e.g. "kill" or "docker[-compose] stop" commands.
-process.on('SIGTERM', gracefulShutdown);
+Promise.all([
+  dbReadyPromise,
+  process.env.PORT ?
+    Promise.resolve(process.env.PORT) :
+    getHostnamePort(process.env.HOSTNAME).catch(err => {
+      console.log('Unable to read express server port from Consul', err);
+      return 3001;  // Default port.
+    })
+]).
+  then(([db, port]) => {
+    registerRestRoutes(app, db);  // register rest api only after connecting to DB.
 
-// listen for INT signal e.g. Ctrl-C
-process.on('SIGINT', gracefulShutdown);
+    // launch express server.
+    let server = app.listen(port, err => {
+      if (err) {
+        console.log(err);
+        return;
+      }
 
-dbReadyPromise.
-  then(db => registerRestRoutes(app, db)).  // register rest api only after connecting to DB.
+      console.info(
+        'The server is running at http://%s:%s/',
+        server.address().address === '::' ? '0.0.0.0' : server.address().address,
+        server.address().port
+      );
+
+      // listen for TERM signal .e.g. "kill" or "docker[-compose] stop" commands.
+      process.on('SIGTERM', gracefulShutdown.bind(null, server));
+
+      // listen for INT signal e.g. Ctrl-C
+      process.on('SIGINT', gracefulShutdown.bind(null, server));
+    });
+  }).
   catch(err => gracefulShutdown(err));
 

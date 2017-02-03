@@ -20,8 +20,10 @@ function connectDb(config) {
   }
 
   return new Promise((resolve, reject) => {
-    let setDbConnectionTimeout = function(currentRetry) {
-      db.sequelize.query('SELECT 1').
+    let setDbConnectionTimeout = function() {
+      let currentRetry = arguments.length ? arguments[0] : 1;
+
+      db.sequelize.authenticate().
         then(() => resolve(db)).
         catch(() => {
           if (currentRetry === RETRIES_COUNT) {
@@ -33,7 +35,7 @@ function connectDb(config) {
         });
     };
 
-    setDbConnectionTimeout(1);
+    setDbConnectionTimeout();
   });
 }
 

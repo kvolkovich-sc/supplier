@@ -2,14 +2,61 @@
 
 const fs = require('fs');
 const EventEmitter = require('events');
+const Consul = require('consul');
 
+const DEFAULT_CONSUL_HOSTNAME = 'consul';
+const RETRIES_COUNT = 20;
+const RETRY_INTERVAL = 1000;  // in milliseconds.
+const DB_SERVICE_NAME = 'mysql';
 const CONFIG_TO_CONSUL_KEY_MAP = [
   ['database', 'MYSQL_DATABASE'],
   ['username', 'MYSQL_USER'],
   ['password', 'MYSQL_PASSWORD'],
   ['dialect', 'MYSQL_DIALECT']
 ];
-const DB_SERVICE_NAME = 'mysql';
+
+function firstResolved(promises) {
+  // The function returns a promise which
+  // * resolves with a index/value of first resolved promise from input array, or
+  // * rejects with reasons array - when all input promises gets rejected (order is not observed).
+  return new Promise((resolve, reject) => {
+    let errors = [];
+
+    promises.forEach(promise => promise.
+      then(value => resolve(value)).
+      catch(err => promises.length === errors.push(err) && reject(errors))
+    );
+  })
+}
+function retriedPromise(promiseFunction) {
+  // promiseFunction is an async function returning a promise.
+  return new Promise((resolve, reject) => {
+    let setDbConnectionTimeout = function() {
+      let currentRetry = arguments.length ? arguments[0] : 1;
+
+      promiseFunction().
+        then(rez => resolve(rez)).
+        catch(err => {
+          if (currentRetry === RETRIES_COUNT) {
+            reject(err);
+          } else {
+            setTimeout(setDbConnectionTimeout, RETRY_INTERVAL, currentRetry + 1);
+          }
+        });
+    };
+
+    setDbConnectionTimeout();
+  });
+}
+
+function retriedCallback(callbackFunction) {
+  // callbackFunction is an async function accepting the only argument which is callback.
+  return retriedPromise(() => new Promise(
+    (resolve, reject) => callbackFunction(
+      (err, rez) => err ? reject(err) : resolve(rez)
+    )
+  ));
+}
 
 /*
  * NOTE: Consul must be accessible on a network the service is
@@ -24,25 +71,18 @@ const DB_SERVICE_NAME = 'mysql';
  * on services' network.  The gateway IP address must be
  * discovered at each service startup.
  */
-let consulPromise = new Promise((resolve, reject) => {
-  const Consul = require('consul');
-  let consul = Consul({ host: 'consul' });
+let defaultConsul = Consul({ host: DEFAULT_CONSUL_HOSTNAME });
+let gatewayConsul;
 
-  let dbWatch = consul.watch({
-    method: consul.kv.get,
-    options: { key: 'MYSQL_DATABASE' }
-  });
-
-  dbWatch.on('error', err => {
-    dbWatch.end();
-    console.log('"consul" hostname does not work for Consul service. Trying default gateway...')
-
-    fs.readFile('/proc/net/route', 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
+let consulPromise = firstResolved([
+  retriedCallback(defaultConsul.status.leader.bind(defaultConsul.status)).
+    then(() => defaultConsul),
+  new Promise((resolve, reject) => fs.readFile(
+    '/proc/net/route',
+    'utf8',
+    (err, data) => err ? reject(err) : resolve(data)
+  )).
+    then(data => {
       let gateway;
 
       data.split('\n').some(line => {
@@ -56,22 +96,16 @@ let consulPromise = new Promise((resolve, reject) => {
         return true;
       });
 
-      if (gateway) {
-        console.log('===== CONSUL SERVICE IS FOUND AT', gateway);
-        resolve(Consul({ host: gateway }));
-      } else {
-        reject('Unable to parse "/proc/net/route"');
+      if (!gateway) {
+        throw new Error('Unable to parse "/proc/net/route" when trying Consul service at default gateway');
       }
 
-      return;
-    });
-  });
-
-  dbWatch.on('change', data => {  // eslint-disable-line no-loop-func
-    dbWatch.end();
-    resolve(consul);
-  });
-});
+      console.log(`"consul" hostname doesn't work for Consul service. Trying default gateway ${gateway}...`);
+      gatewayConsul = Consul({ host: gateway });
+      return retriedCallback(gatewayConsul.status.leader.bind(gatewayConsul.status));
+    }).
+    then(() => gatewayConsul)
+]);
 
 function getServicesNames(tag) {
   // tag is optional.
@@ -79,21 +113,12 @@ function getServicesNames(tag) {
   // The function returns a promise of an array of names of all services with specified tag (string)
   // or an array of names of all services if tag is not specified.
   return consulPromise.
-    then(consul => consul.catalog.service.list((err, allServices) => {
-      if (err) {
-        return err;
-      }
-
-      return Object.keys(allServices).reduce((rez, serviceName) => {
-        let serviceTags = allServices[serviceName];
-
-        if (!tag || serviceTags.indexOf(tag) !== -1) {
-          rez.push(serviceName);
-        }
-
-        return rez;
-      }, []);
-    }));
+    then(consul => new Promise((resolve, reject) => consul.catalog.service.list((err, allServices) => err ?
+      reject(err) :
+      resolve(Object.keys(allServices).
+        filter(serviceName => !tag || allServices[serviceName].indexOf(tag) !== -1)
+      )
+    )));
 }
 
 function getServiceDetails(serviceName) {
@@ -105,20 +130,17 @@ function getServiceDetails(serviceName) {
   //   tags: ["service tag", ...]
   // }
   return consulPromise.
-    then(consul => consul.catalog.service.nodes(serviceName, (err, nodesInfo) => {
-      if (err) {
-        return err;
-      }
-
-      let serviceInfo = nodesInfo[0];
-
-      return {
-        name: serviceInfo.ServiceName,
-        ip: serviceInfo.ServiceAddress || serviceInfo.Address,
-        port: serviceInfo.ServicePort,
-        tags: serviceInfo.ServiceTags
-      };
-    }));
+    then(consul => new Promise((resolve, reject) => consul.catalog.service.nodes(
+      serviceName,
+      (err, nodes) => err ?
+        reject(err) :
+        resolve({
+          name: nodes[0].ServiceName,
+          ip: nodes[0].ServiceAddress || nodes[0].Address,
+          port: nodes[0].ServicePort,
+          tags: nodes[0].ServiceTags
+        })
+    )));
 }
 
 function getServicesDetails(servicesNames, tag) {
@@ -141,35 +163,27 @@ function getServicesDetails(servicesNames, tag) {
   }
 
   return (servicesNames ? Promise.resolve(servicesNames) : getServicesNames()).
-    then(servicesNames => Promise.all(servicesNames.map(serviceName => getServiceDetails(serviceName)))).
-    then(servicesDetails => servicesDetails.filter(serviceDetails => !tag || serviceDetails.tags.indexOf(tag) !== -1))
+    then(servicesNames => Promise.all(
+      servicesNames.map(serviceName => getServiceDetails(serviceName))
+    )).
+    then(servicesDetails => servicesDetails.
+      filter(serviceDetails => !tag || serviceDetails.tags.indexOf(tag) !== -1)
+    );
 }
 
 function getHostnamePort(hostname) {
   const dns = require('dns');
 
-  return Promise.all([
-    new Promise((resolve, reject) => dns.lookup(hostname, function(err, ip) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(ip);
-      }
-    })),
-    getServicesDetails()
-  ]).
-    then(([ip, allServices]) => {
-      let port;
-
+  return new Promise((resolve, reject) => dns.lookup(hostname, (err, ip) => err ? reject(err) : resolve(ip))).
+    then(ip => retriedPromise(() => getServicesDetails().then(allServices => {
       for (let curService of allServices) {
         if (curService.ip === ip) {
-          port = curService.port;
-          break;
+          return curService.port;
         }
       }
 
-      return port;
-    });
+      throw new Error('No service with IP', ip, 'of HOSTNAME', hostname);
+    })));
 }
 
 class ConsulEmitter extends EventEmitter {
