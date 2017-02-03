@@ -416,7 +416,7 @@ class SupplierEditorForm extends Component {
     let readOnly = this.props.readOnly || (supplier.createdBy && supplier.createdBy !== this.props.username);
 
     let foundedOn = supplier['foundedOn'];
-    if (foundedOn !== null) {
+    if (foundedOn) {
       let date = new Date(foundedOn);
       if (isValidDate(date)) {
         foundedOn = i18n.formatDate(date);
