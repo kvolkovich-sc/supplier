@@ -87,6 +87,5 @@ Promise.all([
       // listen for INT signal e.g. Ctrl-C
       process.on('SIGINT', gracefulShutdown.bind(null, server));
     });
-  }).
-  catch(err => gracefulShutdown(err));
+  });
 
