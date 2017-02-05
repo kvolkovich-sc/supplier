@@ -4,40 +4,12 @@ const Sequelize = require('sequelize');
 const path = require('path');
 const fs = require('fs');
 
+const dbInit = require('ocbesbn-dbinit').init;
 const dbConfigPromise = require('./dbConfigService');
 const populateDemodata = require(`./../db/data`);
 
 const MODELS_DIR = path.join(__dirname, '../db/models');
 const MIGRATIONS_DIR = path.join(__dirname, '../db/migrations');
-const RETRIES_COUNT = 20;
-const RETRY_INTERVAL = 1000;  // in milliseconds.
-
-function connectDb(config) {
-  let db = {
-    config,
-    Sequelize,
-    sequelize: new Sequelize(config.database, config.username, config.password, config)
-  }
-
-  return new Promise((resolve, reject) => {
-    let setDbConnectionTimeout = function() {
-      let currentRetry = arguments.length ? arguments[0] : 1;
-
-      db.sequelize.authenticate().
-        then(() => resolve(db)).
-        catch(() => {
-          if (currentRetry === RETRIES_COUNT) {
-            reject(`Unable to connect to DB after ${RETRIES_COUNT} retries`);
-          } else {
-            console.warn('MySQL is unavailable - sleeping ...');
-            setTimeout(setDbConnectionTimeout, RETRY_INTERVAL, currentRetry + 1);
-          }
-        });
-    };
-
-    setDbConnectionTimeout();
-  });
-}
 
 function getModulesNames(dir) {
   // The function returns all modulesNames in the specified dir.  The dir must not contain another dirs.
@@ -108,7 +80,7 @@ function migrateDb(db) {
     migrations: {
       params: [
         db.sequelize.getQueryInterface(),
-        db.Sequelize
+        Sequelize
       ],
       path: 'src/server/db/migrations'
     }
@@ -127,15 +99,18 @@ function migrateDb(db) {
    *
    * Returns a Promise that is resolved with db object that consists of
    * {
-   *  config: <db config>,
-   *  Sequelize: <Sequelize constructor>,
    *  sequelize: <sequalize instance>
    *  <models>
    * }
    */
+let populateDB;
+
 module.exports = dbConfigPromise.
-  then(connectDb).
-  then(migrateDb).
+  then(([config, populateDatabase]) => {
+    populateDB = populateDatabase;
+    return dbInit(configO);
+  }).
+  then(sequelize => migrateDb({ sequelize })).
   then(registerModels).
-  then(populateDemodata);
+  then(db => populateDemodata(populateDB, db));
 

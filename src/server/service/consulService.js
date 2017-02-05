@@ -1,12 +1,10 @@
 'use strict';
 
-const fs = require('fs');
 const EventEmitter = require('events');
 const Consul = require('consul');
+const commonLib = require('./lib');
 
 const DEFAULT_CONSUL_HOSTNAME = 'consul';
-const RETRIES_COUNT = 20;
-const RETRY_INTERVAL = 1000;  // in milliseconds.
 const DB_SERVICE_NAME = 'mysql';
 const CONFIG_TO_CONSUL_KEY_MAP = [
   ['database', 'MYSQL_DATABASE'],
@@ -14,49 +12,6 @@ const CONFIG_TO_CONSUL_KEY_MAP = [
   ['password', 'MYSQL_PASSWORD'],
   ['dialect', 'MYSQL_DIALECT']
 ];
-
-function firstResolved(promises) {
-  // The function returns a promise which
-  // * resolves with a index/value of first resolved promise from input array, or
-  // * rejects with reasons array - when all input promises gets rejected (order is not observed).
-  return new Promise((resolve, reject) => {
-    let errors = [];
-
-    promises.forEach(promise => promise.
-      then(value => resolve(value)).
-      catch(err => promises.length === errors.push(err) && reject(errors))
-    );
-  })
-}
-function retriedPromise(promiseFunction) {
-  // promiseFunction is an async function returning a promise.
-  return new Promise((resolve, reject) => {
-    let setDbConnectionTimeout = function() {
-      let currentRetry = arguments.length ? arguments[0] : 1;
-
-      promiseFunction().
-        then(rez => resolve(rez)).
-        catch(err => {
-          if (currentRetry === RETRIES_COUNT) {
-            reject(err);
-          } else {
-            setTimeout(setDbConnectionTimeout, RETRY_INTERVAL, currentRetry + 1);
-          }
-        });
-    };
-
-    setDbConnectionTimeout();
-  });
-}
-
-function retriedCallback(callbackFunction) {
-  // callbackFunction is an async function accepting the only argument which is callback.
-  return retriedPromise(() => new Promise(
-    (resolve, reject) => callbackFunction(
-      (err, rez) => err ? reject(err) : resolve(rez)
-    )
-  ));
-}
 
 /*
  * NOTE: Consul must be accessible on a network the service is
@@ -74,35 +29,13 @@ function retriedCallback(callbackFunction) {
 let defaultConsul = Consul({ host: DEFAULT_CONSUL_HOSTNAME });
 let gatewayConsul;
 
-let consulPromise = firstResolved([
-  retriedCallback(defaultConsul.status.leader.bind(defaultConsul.status)).
+let consulPromise = commonLib.firstResolved([
+  commonLib.retriedCallback(defaultConsul.status.leader.bind(defaultConsul.status)).
     then(() => defaultConsul),
-  new Promise((resolve, reject) => fs.readFile(
-    '/proc/net/route',
-    'utf8',
-    (err, data) => err ? reject(err) : resolve(data)
-  )).
-    then(data => {
-      let gateway;
-
-      data.split('\n').some(line => {
-        let parts = line.split('\t');
-
-        if (parts[1] !== '00000000') {
-          return false;
-        }
-
-        gateway = parts[2].match(/.{2}/g).map(hex => parseInt(hex, 16)).reverse().join('.');
-        return true;
-      });
-
-      if (!gateway) {
-        throw new Error('Unable to parse "/proc/net/route" when trying Consul service at default gateway');
-      }
-
-      console.log(`"consul" hostname doesn't work for Consul service. Trying default gateway ${gateway}...`);
+  commonLib.getGatewayIp().
+    then(gateway => {
       gatewayConsul = Consul({ host: gateway });
-      return retriedCallback(gatewayConsul.status.leader.bind(gatewayConsul.status));
+      return commonLib.retriedCallback(gatewayConsul.status.leader.bind(gatewayConsul.status));
     }).
     then(() => gatewayConsul)
 ]);
@@ -175,7 +108,7 @@ function getHostnamePort(hostname) {
   const dns = require('dns');
 
   return new Promise((resolve, reject) => dns.lookup(hostname, (err, ip) => err ? reject(err) : resolve(ip))).
-    then(ip => retriedPromise(() => getServicesDetails().then(allServices => {
+    then(ip => commonLib.retriedPromise(() => getServicesDetails().then(allServices => {
       for (let curService of allServices) {
         if (curService.ip === ip) {
           return curService.port;

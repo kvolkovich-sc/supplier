@@ -1,20 +1,18 @@
-module.exports = function(db) {
-  if (!db.config.populateDatabase) {
+module.exports = function(populateDatabase, db) {
+  if (!populateDatabase) {
     return db;
   }
 
-  console.log(`Populate database: "${db.config.populateDatabase}"`);
+  console.log(`Populate database: "${populateDatabase}"`);
 
-  switch (db.config.populateDatabase) {
+  switch (populateDatabase) {
     case 'demo':
       require('./demo')(db);
       break;
     case 'system':
       break;
     default:
-      throw new Error(
-        `${db.config.populateDatabase} is unknown populateDatabase param in DB config file.`
-      );
+      throw new Error('Unknown value of "populateDatabase" param:', populateDatabase);
   }
 
   return db;

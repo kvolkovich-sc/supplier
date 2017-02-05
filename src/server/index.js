@@ -3,7 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const getHostnamePort = require('./service/consulService.js').getHostnamePort;
+const getHostnamePort = require('./service/consulService').getHostnamePort;
 
 const dbReadyPromise = require('./service/dbReadyService');
 const registerRestRoutes = require('./routes');
@@ -49,10 +49,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 function gracefulShutdown(server, msg) {
-  if (msg) {
-    console.log('SERVER GRACEFUL SHUTDONW:', msg);
-  }
-
+  console.log(`SERVER GRACEFUL SHUTDONW${msg ? ': ' + msg : ''}`);
   server.close(() => process.exit(0));
 }
 
@@ -87,6 +84,5 @@ Promise.all([
       // listen for INT signal e.g. Ctrl-C
       process.on('SIGINT', gracefulShutdown.bind(null, server));
     });
-  }).
-  catch(err => gracefulShutdown(err));
+  });
 

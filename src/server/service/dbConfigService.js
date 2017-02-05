@@ -1,14 +1,10 @@
 'use strict';
 const path = require('path');
-
-const consulEmitter = require('./consulService.js').emitter;
+const ocbesbnConfig = require('ocbesbn-config');
+const commonLib = require('./lib');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const DB_CONFIG_FILE = path.normalize(__dirname + '/../../../../db.config.json');
-
-function getMissingParams(dbConfig) {
-  return Object.keys(dbConfig).filter(key => !dbConfig[key]);
-}
 
 /**
  * The module exports a Promise that is resolved with DB config object
@@ -21,86 +17,48 @@ function getMissingParams(dbConfig) {
  *   dialect: "<string>"
  * }
  */
-module.exports = new Promise((resolve, reject) => {
-  let dbConfig;
 
-  try {
-    // NOTE: config file has priority over env variables.
-    dbConfig = require(DB_CONFIG_FILE)[NODE_ENV];
-  } catch (ignore) {
-    // Config file is not found.
-  }
+let dbConfig;
 
-  dbConfig = {
-    username: dbConfig && dbConfig.username || process.env.DB_USER,
-    password: dbConfig && dbConfig.password || process.env.DB_PASSWORD,
-    database: dbConfig && dbConfig.database || process.env.DB_NAME,
-    host: dbConfig && dbConfig.host || process.env.DB_HOST,
-    port: dbConfig && dbConfig.port || process.env.DB_PORT,
-    dialect: dbConfig && dbConfig.dialect || process.env.DB_DIALECT || 'mysql',
-    populateDatabase: dbConfig && dbConfig.populateDatabase || process.env.DB_POPULATE || 'demo'
-  };
+try {
+  // NOTE: config file has priority over env variables.
+  dbConfig = require(DB_CONFIG_FILE)[NODE_ENV];
+} catch (ignore) {
+  // Config file is not found.
+}
 
-  let origMissingParams = getMissingParams(dbConfig);
+const populateDatabase = dbConfig && dbConfig.populateDatabase || process.env.DB_POPULATE || 'demo';
 
-  if (origMissingParams.length === 0) {
-    resolve(dbConfig);
-    return;
-  }
+dbConfig = {
+  database: dbConfig && dbConfig.database || process.env.DB_NAME,
+  username: dbConfig && dbConfig.username || process.env.DB_USER,
+  password: dbConfig && dbConfig.password || process.env.DB_PASSWORD,
+  host: dbConfig && dbConfig.host || process.env.DB_HOST,
+  port: dbConfig && dbConfig.port || process.env.DB_PORT,
+  dialect: dbConfig && dbConfig.dialect || process.env.DB_DIALECT || 'mysql'
+};
 
-  console.log('Waiting for the following params from Consul:', origMissingParams.join(', '), '...');
+let missingParams = Object.keys(dbConfig).filter(key => !dbConfig[key]);
 
-  consulEmitter.on('dbConfig', (action, details) => {
-    let curMissingParams = getMissingParams(dbConfig);
-    let neededParams = Object.keys(details).filter(param => curMissingParams.indexOf(param) !== -1);
-
-    switch (action) {
-      case 'add':
-        neededParams.forEach(param => {
-          dbConfig[param] = details[param];
-        });
-        break;
-      case 'delete':
-        neededParams.forEach(param => {
-          // config params from either env vars or cofig file should not be modified.
-          if (origMissingParams.indexOf(param) !== -1) {
-            dbConfig[param] = undefined;
-          }
-        });
-        break;
-      case 'update':
-        neededParams.forEach(param => {
-          // config params from either env vars or cofig file should not be modified.
-          if (origMissingParams.indexOf(param) !== -1) {
-            dbConfig[param] = details[param];
-          }
-        });
-        break;
-      case 'error':
-        if (getMissingParams(dbConfig).length) {
-          // A promise can be rejected only once => the function is called only when initial
-          // filling of missing params in dbConfig receives an error.
-          reject(details);
-        }
-        break;
-      default:
-        break;
-    }
-
-    let newMissingParams = getMissingParams(dbConfig);
-
-    if (newMissingParams.length === 0) {
-      // A promise can be resolved only once => the function is called only after initial
-      // filling of all missing params in dbConfig.
-      console.log('\n--------------------\nDB configuration\n', dbConfig, '\n--------------------\n');
-      resolve(dbConfig);
-    } else if (curMissingParams.length !== newMissingParams.length) {
-      // A promise can be resolved only once => the function is called only after initial
-      // filling of all missing params in dbConfig.
-      console.log('Still waiting for the following params from Consul:', newMissingParams.join(', '), '...');
-    }
-
-    return;
-  });
-});
+module.exports = missingParams.length ?
+  ocbesbnConfig.init({ host: 'consul' }).
+    catch(() => commonLib.getGatewayIp().then(gateway => ocbesbnConfig.init({ host: gateway }))).
+    then(consul => Promise.all([
+      commonLib.retriedPromise(() => consul.get("MYSQL_DATABASE")),
+      commonLib.retriedPromise(() => consul.get("MYSQL_USER")),
+      commonLib.retriedPromise(() => consul.get("MYSQL_PASSWORD")),
+      commonLib.retriedPromise(() => consul.getEndPoint("mysql"))
+    ])).
+    then(([database, username, password, { host, port }]) => ([
+      {
+        ...dbConfig,
+        database: dbConfig.database || database,
+        username: dbConfig.username || username,
+        password: dbConfig.password || password,
+        host: dbConfig.host || host,
+        port: dbConfig.port || port
+      },
+      populateDatabase
+    ])) :
+  Promise.resolve([dbConfig, populateDatabase]);
 
