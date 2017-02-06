@@ -23,9 +23,13 @@ services:
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
+    environment:
+      PORT: '${SUPPLIERS_PORT}'
+    expose:
+     - '${SUPPLIERS_PORT}'
     volumes:
-     - ./src:/home/node/supplierDir/src:rw
-     - ./node_modules:/home/node/node_modules:rw
+      - ./src:/home/node/supplierDir/src:rw
+      - ./node_modules:/home/node/node_modules:rw
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
