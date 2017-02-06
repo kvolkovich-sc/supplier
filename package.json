@@ -43,7 +43,7 @@
     "morgan": "^1.7.0",
     "mysql": "2.12.0",
     "opuscapita-i18n": "^1.0.7",
-    "ocbesbn-dbinit": "1.0.0",
+    "ocbesbn-dbinit": "1.0.3-SNAPSHOT",
     "ocbesbn-config": "^1.0.1",
     "passport": "0.3.2",
     "per-env": "^1.0.2",

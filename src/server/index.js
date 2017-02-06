@@ -8,13 +8,7 @@ import Promise from "bluebird";
 import db from "ocbesbn-dbinit";
 import config from "ocbesbn-config";
 
-const getHostnamePort = require('./service/consulService.js').getHostnamePort;
 
-// initialize logging
-// import "./logger";
-// initialize sequilize
-
-const registerRestRoutes = require('./routes');
 const WEBPACK_DEV_CONFIG = '../../webpack.development.config.js';
 
 // create express app
@@ -74,16 +68,21 @@ config.init({ host: 'consul' })
 		return db.init(credentials);
 	})
 	.tap(function() {console.log("DB connection initialized!")})
-	.then(db => {
+  .then(function () {
+    console.log("Migrating Database.");
+    return db.migrate(`./src/server/db/migrations`);
+  })
+  .tap(function() {console.log("DB migrated!")})
+  .then(db => {
 		console.log("Preparing models.")
-		require(`./db/models`).default(db);  // prepare models
+		require(`./db/models`).default(db.getConnection());  // prepare models
 		return db;
 	})
 	.then(db => {
 		console.log("Populating data.")
-		require(`./db/data`).default(db);  // populate data
+		require(`./db/data`).default(db.getConnection());  // populate data
 		console.log("Registering routes.")
-		require('./routes').default(app, db);  // register rest api for DB specific models
+		require('./routes').default(app, db.getConnection());  // register rest api for DB specific models
 	})
 	.then(function () {
 		server = app.listen(process.env.PORT || 3001, err => {
