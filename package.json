@@ -10,7 +10,7 @@
     "build-client": "./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors --bail",
     "build-client-server": "babel src/client-server -d build/client-server --copy-files --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "build-server": "babel src/server -d build/server --copy-files --presets es2015,stage-0,react --plugins transform-decorators-legacy",
-    "start": "per-env",
+    "start": "./node_modules/.bin/per-env",
     "start:development": "nodemon --watch src/server src/server/index --exec babel-node --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "start:production": "node build/server",
     "migratedb": "./node_modules/.bin/sequelize db:migrate --url \"${DB_DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" --migrations-path src/server/db/migrations",

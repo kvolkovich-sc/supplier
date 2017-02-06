@@ -104,8 +104,8 @@ config.init({ host: 'consul' })
       console.log('SERVER GRACEFUL SHUTDONW:', msg);
     }
 
-    server.close(() => process.exit(0));
-  }
+	server && server.close(() => process.exit(0));
+}
 
   // listen for TERM signal .e.g. "kill" or "docker[-compose] stop" commands.
   process.on('SIGTERM', gracefulShutdown.bind(null, server));
