@@ -1,3 +1,4 @@
+const Sequelize = require("Sequelize");
 var countries = [{
   countryName: "Afghanistan",
   countryId: "AF"
@@ -748,7 +749,7 @@ var countries = [{
 }];
 
 module.exports = {
-  up: function(queryInterface, Sequelize) {
+  up: function(queryInterface) {
     return Promise.all([
 
       queryInterface.createTable('SIMSupplier', {
@@ -1122,7 +1123,7 @@ module.exports = {
     ]);
   },
 
-  down: function(queryInterface, Sequelize) {
+  down: function(queryInterface) {
     return Promise.all([
       queryInterface.dropTable('CatalogUser2Supplier'),
       queryInterface.dropTable('SIMSupplier2Address'),
