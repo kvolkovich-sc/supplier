@@ -1,4 +1,4 @@
-let countries = [{
+var countries = [{
   countryName: "Afghanistan",
   countryId: "AF"
 }, {
