@@ -1,4 +1,4 @@
-const Sequelize = require("Sequelize");
+const Sequelize = require("sequelize");
 var countries = [{
   countryName: "Afghanistan",
   countryId: "AF"
