@@ -16,6 +16,8 @@ services:
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
      - suppliers
+    environment:
+      PORT: '3000'
     labels:
       SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
     volumes:
