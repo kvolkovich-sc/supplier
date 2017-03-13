@@ -1,2 +1,2 @@
-# supplierDir
-SupplierDirectory Microservice
+# supplier
+Supplier Microservice
