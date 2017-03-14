@@ -90,7 +90,7 @@ const OnboardingWrapper = ({ children }) =>
         <div className="col-md-8">
           <h2>Company Info</h2>
           <form className="form-horizontal">
-            <div className="row">
+            <div className="row d">
               <div className="col-md-12">
                 {children}
               </div>
@@ -135,6 +135,30 @@ class SupplierEditorForm extends Component {
     fieldErrors: {},
     isNewSupplier: true
   };
+  // getParameterByName(name, url) {
+  //   if (!url) {
+  //     url = window.location.href;
+  //   }
+  //   name = name.replace(/[\[\]]/g, "\\$&");
+  //   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+  //       results = regex.exec(url);
+  //   if (!results) return null;
+  //   if (!results[2]) return '';
+  //   return decodeURIComponent(results[2].replace(/\+/g, " "));
+  // }
+  componentWillMount() {
+    //let urlData = this.getParameterByName('test');
+    this.setState({
+      supplier : {
+        ...this.state.supplier,
+        'supplierName': 'cronJ',
+        'legalForm': 'testLegalForm',
+        'cityOfRegistration': 'blr',
+        'countryOfRegistration': 'IS'
+      },
+      campaignOnboarding: true
+    })
+  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -147,6 +171,7 @@ class SupplierEditorForm extends Component {
       },
       fieldErrors: {},
     });
+
   }
 
   validatejsI18N = new I18nManager(this.context.i18n.locale, globalMessages)
@@ -372,10 +397,9 @@ class SupplierEditorForm extends Component {
   };
 
   renderField = attrs => {
-    const { supplier, fieldErrors } = this.state;
+    let { supplier, fieldErrors } = this.state;
     const { fieldName, readOnly } = attrs;
     const fieldNames = attrs.fieldNames || [fieldName];
-
     let component = attrs.component ||
       <input className="form-control"
         type="text"
@@ -394,7 +418,6 @@ class SupplierEditorForm extends Component {
       (rez, name) => rez.concat(fieldErrors[name] || []),
       []
     );
-
     return (
       <SupplierEditorFormRow
         labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
@@ -434,11 +457,10 @@ class SupplierEditorForm extends Component {
     }
 
     let Wrapper = isOnboarding ? OnboardingWrapper : StandardWrapper;
-
     return (
       <Wrapper
         supplierId={this.props.supplierId}
-        supplier={this.props.supplier}
+        supplier={c}
         username={this.props.username}
         i18n={i18n}
       >
@@ -448,9 +470,10 @@ class SupplierEditorForm extends Component {
             <div className="checkbox">
               <input
                 type="checkbox"
-                checked={this.state.isNewSupplier}
+                checked={this.state.isNewSupplier && !this.state.campaignOnboarding}
                 onChange={() => this.setState({
                   isNewSupplier: !this.state.isNewSupplier,
+                  campaignOnboarding: !this.state.campaignOnboarding,
                   supplier: !readOnly && this.props.supplier || {}
                 })}
               />
@@ -459,7 +482,7 @@ class SupplierEditorForm extends Component {
         }) }
 
         {/* TODO: search for role==='selling' when isOnboarding===true */}
-        { this.state.isNewSupplier ?
+        { this.state.isNewSupplier && !this.state.campaignOnboarding?
           this.renderField({
             fieldName: 'supplier',
             fieldNames: ['supplierId', 'supplierName'],
@@ -542,7 +565,7 @@ class SupplierEditorForm extends Component {
 
         { this.renderField({ fieldName: 'legalForm', readOnly }) }
         { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
-        { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
+        { this.renderField({ fieldName: 'cityOfRegistration', value: 'ddd', readOnly }) }
 
         { this.renderField({
           fieldName: 'countryOfRegistration',
