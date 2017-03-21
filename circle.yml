@@ -2,6 +2,7 @@ machine:
   pre:
    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
    - sudo pip install docker-compose
+   - git clone https://github.com/OpusCapitaBusinessNetwork/supplier.wiki.git && mv supplier.wiki wiki
   services:
     - docker
 
@@ -17,9 +18,11 @@ dependencies:
 test:
   override:
     - docker run gr4per/supplierdir:latest npm run test
+    - docker-compose run main npm run doc
   post:
     - sudo mkdir $CIRCLE_TEST_REPORTS/junit
     - sudo cp test-results.xml $CIRCLE_TEST_REPORTS/junit
+    - cd wiki ; git add --all ; git commit -m 'Updated documentation.' ; git push ; (exit 0)
 
 deployment:
   hub:
