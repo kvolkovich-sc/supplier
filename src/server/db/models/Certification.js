@@ -10,6 +10,7 @@ module.exports = function(sequelize, config) {
 
   /** @lends Certification */
   {
+    /** internal identifier */
     certificationId: {
       field: 'CertificationID',
       type: Sequelize.STRING(20),
@@ -19,6 +20,7 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
+    /** certification group id */
     certificationGroupId: {
       field: 'CertificationGroupID',
       type: Sequelize.STRING(20),
@@ -30,6 +32,7 @@ module.exports = function(sequelize, config) {
       onUpdate: 'cascade',
       onDelete: 'restrict'
     },
+    /** description */
     description: {
       field: 'Description',
       type: Sequelize.STRING(50),

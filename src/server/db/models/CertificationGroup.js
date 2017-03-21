@@ -10,6 +10,7 @@ module.exports = function(sequelize, config) {
 
   /** @lends CertificationGroup */
   {
+    /** certification group id */
     certificationGroupId: {
       field: 'CertificationGroupID',
       type: Sequelize.STRING(20),
@@ -19,6 +20,7 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
+    /** description */
     description: {
       field: 'Description',
       type: Sequelize.STRING(50),

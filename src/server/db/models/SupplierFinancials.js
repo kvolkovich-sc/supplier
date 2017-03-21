@@ -1,7 +1,7 @@
 'use strict';
 import Sequelize from 'sequelize';
 
-module.exports = function(sequelize) {
+module.exports = function(sequelize, config) {
 
   /**
    * @class SupplierFinancials
@@ -10,6 +10,7 @@ module.exports = function(sequelize) {
 
   /** @lends SupplierFinancials */
   {
+    /** internal identifier */
     id: {
       field: 'SupplierFinancialsSN',
       type: Sequelize.BIGINT(),
@@ -20,6 +21,7 @@ module.exports = function(sequelize) {
         notEmpty: true
       }
     },
+    /** supplier id */
     supplierId: {
       field: 'SupplierID',
       type: Sequelize.STRING(30),
@@ -28,6 +30,7 @@ module.exports = function(sequelize) {
         notEmpty: true
       }
     },
+    /** year */
     year: {
       field: 'Year',
       type: Sequelize.DATE(),
