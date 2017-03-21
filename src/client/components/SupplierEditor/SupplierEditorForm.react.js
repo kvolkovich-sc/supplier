@@ -135,29 +135,21 @@ class SupplierEditorForm extends Component {
     fieldErrors: {},
     isNewSupplier: true
   };
-  // getParameterByName(name, url) {
-  //   if (!url) {
-  //     url = window.location.href;
-  //   }
-  //   name = name.replace(/[\[\]]/g, "\\$&");
-  //   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-  //       results = regex.exec(url);
-  //   if (!results) return null;
-  //   if (!results[2]) return '';
-  //   return decodeURIComponent(results[2].replace(/\+/g, " "));
-  // }
+  
   componentWillMount() {
-    //let urlData = this.getParameterByName('test');
-    this.setState({
-      supplier : {
-        ...this.state.supplier,
-        'supplierName': 'cronJ',
-        'legalForm': 'testLegalForm',
-        'cityOfRegistration': 'blr',
-        'countryOfRegistration': 'IS'
-      },
-      campaignOnboarding: true
-    })
+    if(this.props.onboardData){
+      this.setState({
+        supplier : {
+          ...this.state.supplier,
+          'supplierName': this.props.onboardData.companyName,
+          'legalForm': this.props.onboardData.legalForm,
+          'cityOfRegistration': this.props.onboardData.city,
+          'countryOfRegistration': this.props.onboardData.country
+        },
+        campaignOnboarding: true
+      })
+    }
+    
   }
 
   componentWillReceiveProps(nextProps) {
