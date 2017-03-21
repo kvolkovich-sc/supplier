@@ -3,9 +3,9 @@ const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, config) {
 
-    /**
-     * @class TradingPartner
-     */
+  /**
+   * @class TradingPartner
+   */
   let TradingPartner = sequelize.define('TradingPartner',
   /** @lends TradingPartner */
   {
