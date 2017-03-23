@@ -1,4 +1,4 @@
-FROM gr4per/supplierdir-base:latest
+FROM opuscapita/supplier-base:latest
 MAINTAINER gr4per
 
 # Set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow,
@@ -35,4 +35,3 @@ RUN apk add --no-cache curl rsync && rsync -a tmp/* ./ && rm -rf tmp && chown no
 # Set the user name or UID to use when running the image and for any RUN, CMD and ENTRYPOINT instructions that follow
 USER node
 CMD [ "npm", "start" ]
-
