@@ -2,6 +2,7 @@ machine:
   pre:
    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
    - sudo pip install docker-compose
+   - cd supplier ; rm -Rf wiki ; git clone https://github.com/OpusCapitaBusinessNetwork/supplier.wiki.git wiki
   services:
     - docker
 
@@ -41,5 +42,6 @@ deployment:
           echo "running base img deploy..." && docker push opuscapita/supplier-base:latest
         fi 
       - docker push opuscapita/supplier
+      - cd wiki ; git add --all . ; git commit -am 'Updated documentation.' ; git push ; (exit 0)
       - chmod +x deploy.sh
       - ./deploy.sh

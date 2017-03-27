@@ -14,7 +14,9 @@
     "start:development": "nodemon --watch src/server src/server/index --exec babel-node --presets es2015,stage-0,react --plugins transform-decorators-legacy",
     "start:production": "node build/server",
     "migratedb": "./node_modules/.bin/sequelize db:migrate --url \"${DB_DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" --migrations-path src/server/db/migrations",
-    "test": "npm run clean && cross-env nyc mocha --recursive 'src/**/*.spec.js' -R mocha-junit-reporter"
+    "test": "npm run clean && cross-env nyc mocha --recursive 'src/**/*.spec.js' -R mocha-junit-reporter",
+    "domain-doc": "mkdir -p wiki/domain-doc ; ${NODE_PATH}/.bin/sq2md --path-bl=index.js -o file-per-src -p wiki/domain-doc --init=init --field-bl=createdAt,updatedAt --output-ext=.model.md src/server/db/models",
+    "doc" : "npm run domain-doc"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,6 @@
   "dependencies": {
     "babel-loader": "6.2.8",
     "babel-runtime": "6.18.0",
-    "babel-loader": "6.2.8",
     "body-parser": "1.15.2",
     "classnames": "2.2.5",
     "consul": "^0.27.0",
