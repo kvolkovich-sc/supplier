@@ -4,7 +4,7 @@ MAINTAINER gr4per
 # Set the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow,
 # (creates it if does not exist).
 # NOTE: "node" user and corresponding "/home/node" dir are created by "node:6-alpine" image.
-WORKDIR /home/node/supplierDir
+WORKDIR /home/node/supplier
 
 COPY package.json .
 
