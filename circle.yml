@@ -2,7 +2,7 @@ machine:
   pre:
    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
    - sudo pip install docker-compose
-   - cd supplier ; rm -Rf wiki ; git clone https://github.com/OpusCapita/supplier.wiki.git wiki
+   - cd supplier ; rm -Rf wiki ; git clone https://github.com/OpusCapita/supplier.wiki.git wiki && mv supplier.wiki wiki
   services:
     - docker
 
