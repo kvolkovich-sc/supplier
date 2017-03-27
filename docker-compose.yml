@@ -19,7 +19,7 @@ services:
     labels:
       SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
   suppliers:
-    image: gr4per/supplierdir
+    build: .
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
      - mysql
@@ -33,6 +33,8 @@ services:
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
+    volumes:
+     - .:/home/node/supplierDir
   mysql:
     image: gr4per/mysql
     depends_on:

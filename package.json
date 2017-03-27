@@ -1,7 +1,7 @@
 {
-  "name": "supplierDir",
+  "name": "supplier",
   "version": "2.0.3-SNAPSHOT",
-  "description": "Supplier Directory application. Provides base CRUD Rest API for basic Supplier data manipulation.",
+  "description": "Supplier Microservice. Provides base CRUD Rest API for basic Supplier data manipulation.",
   "scripts": {
     "clean": "rimraf build esdoc testdb.sqlite .nyc_output coverage",
     "lint": "eslint src",
