@@ -16,7 +16,8 @@
     "migratedb": "./node_modules/.bin/sequelize db:migrate --url \"${DB_DIALECT}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}\" --migrations-path src/server/db/migrations",
     "test": "npm run clean && cross-env nyc mocha --recursive 'src/**/*.spec.js' -R mocha-junit-reporter",
     "domain-doc": "mkdir -p wiki/domain-doc ; ${NODE_PATH}/.bin/sq2md --path-bl=index.js -o file-per-src -p wiki/domain-doc --field-bl=createdAt,updatedAt --output-ext=.model.md src/server/db/models",
-    "doc" : "npm run domain-doc"
+    "rest-doc": "mkdir -p wiki/rest-doc ; ./node_modules/.bin/raml2md -o file-per-resource -p wiki/rest-doc --output-ext=.endpoint.md rest-doc/main.raml",
+    "doc": "npm run domain-doc"
   },
   "repository": {
     "type": "git",
@@ -104,15 +105,16 @@
     "mocha-junit-reporter": "^1.12.1",
     "nodemon": "1.11.0",
     "nyc": "^10.0.0",
+    "raml-to-markdown": "^1.0.5",
     "raml2html": "3.0.1",
     "rimraf": "2.5.4",
+    "sequelize-to-markdown": "^1.1.0",
     "source-map-loader": "0.1.5",
     "sqlite3": "3.1.8",
     "style-loader": "0.13.1",
     "webpack": "^2.2.0",
     "webpack-dev-middleware": "1.9.0",
-    "webpack-dev-server": "^1.9.0",
-    "sequelize-to-markdown": "^1.1.0"
+    "webpack-dev-server": "^1.9.0"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/test/jest-babel-preprocessor.js",

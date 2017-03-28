@@ -1,0 +1,48 @@
+displayName: Suppliers
+description: Work with `Supplier` objects.
+get:
+    description: List of `Supplier` objects.
+    responses:
+        200:
+            body:
+                application/json:
+                    type: SupplierArray
+post:
+    description: Adds a new supplier.
+    body:
+        application/json:
+            type: Supplier
+    responses:
+        200:
+            body:
+                application/json:
+                    type: Supplier
+        409:
+            description:
+                A supplier with the same supplierId but different set of properties already exists.
+/{supplierId}:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier.
+    get:
+        description: Single `Supplier` object.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: Supplier
+    put:
+        description: Updates a supplier.
+        body:
+            application/json:
+                type: Supplier
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: Supplier
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
