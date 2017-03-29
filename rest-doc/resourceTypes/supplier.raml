@@ -57,7 +57,7 @@ post:
             200:
                 body:
                     application/json:
-                        type: SupplierAddress
+                        type: SupplierAddressArray
     put:
         description: Insert Supplier to Address association
         body:
@@ -67,7 +67,7 @@ post:
             200:
                 body:
                     application/json:
-                        type: SupplierAddress
+                        type: SupplierAddressArray
             403:
                 description: Operation is not authorized
             422:
@@ -82,14 +82,14 @@ post:
             description: Identifeir of supplier address
     post:
         description: Update Supplier to Address association
-            body:
-                application/json:
-                    type: SupplierAddress
+        body:
+            application/json:
+                type: SupplierAddress
         responses:
             200:
                 body:
                     application/json:
-                        type: SupplierAddress
+                        type: SupplierAddressArray
             409:
                 description:
                     A supplier with the same supplierId but different set of properties already exists.
@@ -143,15 +143,12 @@ post:
 
     delete:
         description: Delete SupplierContact association
-            body:
-                application/json:
-                    type: SupplierContact
-            responses:
-                200:
-                    body:
-                        application/json:
-                            type: SupplierContact
-                403:
-                    description: Operation is not authorized
-                422:
-                    description: Inconsistent data
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
