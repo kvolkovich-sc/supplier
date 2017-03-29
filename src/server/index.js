@@ -55,9 +55,9 @@ config.init({ host: 'consul' })
 	.tap(function() {console.log("Consul connection initialized!")})
 	.then(function (config) {
 		return Promise.props({
-			database: config.get("MYSQL_DATABASE"),
-			username: config.get("MYSQL_USER"),
-			password: config.get("MYSQL_PASSWORD"),
+      database: config.get("mysql/database"),
+      username: config.get("mysql/username"),
+      password: config.get("mysql/password"),
 			_service: config.getEndPoint("mysql")
 		});
 	})
@@ -65,6 +65,13 @@ config.init({ host: 'consul' })
 		console.log("Initializing Database connection.");
 		credentials.host = credentials._service.host;
 		credentials.port = credentials._service.port;
+
+    if (process.env.NODE_ENV !== 'production') {
+      credentials.username = credentials.username || "root";
+      credentials.password = credentials.password || process.env.MYSQL_ROOT_PASSWORD;
+      credentials.database = credentials.database || process.env.MYSQL_DATABASE;
+    }
+
 		return db.init(credentials);
 	})
 	.tap(function() {console.log("DB connection initialized!")})
