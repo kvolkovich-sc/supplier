@@ -55,9 +55,9 @@ config.init({ host: 'consul' })
 	.tap(function() {console.log("Consul connection initialized!")})
 	.then(function (config) {
 		return Promise.props({
-			database: config.get("MYSQL_DATABASE"),
-			username: config.get("MYSQL_USER"),
-			password: config.get("MYSQL_PASSWORD"),
+      database: config.get("mysql/database"),
+      username: config.get("mysql/username"),
+      password: config.get("mysql/password"),
 			_service: config.getEndPoint("mysql")
 		});
 	})
