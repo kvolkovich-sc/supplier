@@ -65,6 +65,13 @@ config.init({ host: 'consul' })
 		console.log("Initializing Database connection.");
 		credentials.host = credentials._service.host;
 		credentials.port = credentials._service.port;
+
+    if (process.env.NODE_ENV !== 'production') {
+      credentials.username = credentials.username || "root";
+      credentials.password = credentials.password || process.env.MYSQL_ROOT_PASSWORD;
+      credentials.database = credentials.database || process.env.MYSQL_DATABASE;
+    }
+
 		return db.init(credentials);
 	})
 	.tap(function() {console.log("DB connection initialized!")})
