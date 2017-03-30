@@ -78,7 +78,6 @@
     "nodemon": "1.11.0",
     "raml-to-markdown": "^1.0.5",
     "raml2html": "3.0.1",
-    "webpack-dev-server": "^1.9.0",
     "nyc": "10.2.0"
   }
 }
