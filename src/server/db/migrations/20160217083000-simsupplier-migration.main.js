@@ -749,7 +749,10 @@ var countries = [{
 }];
 
 module.exports = {
-  up: function(queryInterface) {
+
+  up: function(db) {
+    var queryInterface = db.getQueryInterface();
+
     return Promise.all([
 
       queryInterface.createTable('SIMSupplier', {
@@ -1123,7 +1126,10 @@ module.exports = {
     ]);
   },
 
-  down: function(queryInterface) {
+  down: function(db) {
+
+    var queryInterface = db.getQueryInterface();
+
     return Promise.all([
       queryInterface.dropTable('CatalogUser2Supplier'),
       queryInterface.dropTable('SIMSupplier2Address'),
