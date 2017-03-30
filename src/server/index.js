@@ -24,6 +24,6 @@ const productionServerConfig = (db) => ({
 
 const getServerConfig = (db) => process.env.NODE_ENV === 'development' ? developmentServerConfig(db) : productionServerConfig(db);
 
-db.init({ consul : { host : 'consul' } })
+db.init({ consul : { host : 'consul' }, retryCount: 50 })
   .then((db) => server.init(getServerConfig(db)))
   .catch((e) => { server.end(); throw e; });
