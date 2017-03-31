@@ -53,7 +53,7 @@ module.exports.up = function(db, config)
     // -----
 
     // Load data.
-    const user2SupplierData = require(path + '/user2Supplier.json');
+    const user2SupplierData = require(path + '/user2supplier.json');
     // Get database models.
     const User2Supplier  = db.models.User2Supplier;
 
