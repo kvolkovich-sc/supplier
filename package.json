@@ -42,6 +42,7 @@
     "ocbesbn-db-init": "^1.1.0",
     "ocbesbn-web-init": "^1.0.1",
     "opuscapita-i18n": "1.0.10",
+    "network": "0.3.2",
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-bootstrap": "0.30.8",
