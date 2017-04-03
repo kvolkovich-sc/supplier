@@ -177,19 +177,18 @@ module.exports = function(epilogue, db) {
       write: {
         before(req, res, context) {
           const { createdBy, changedBy } = req.body;
-
-          return db.sequelize.
+          return db.
             transaction(t => db.models.Supplier.
               findOrCreate({
-                where: _.omit(findProps, ['_objectLabel', 'createdBy', 'changedBy', 'createdOn', 'changedOn']),  // Comparison is case-insensitive (at least in MySQL).
+                where: _.omit(req.body, ['_objectLabel', 'createdBy', 'changedBy', 'createdOn', 'changedOn']),  // Comparison is case-insensitive (at least in MySQL).
                 transaction: t,
                 defaults: {
                   createdBy,
                   changedBy
                 }
               }).
-              spread(supplier => db.models.User2Supplier.
-                destroy({
+              spread(function (supplier) {
+                return db.models.User2Supplier.destroy({
                   where: {
                     SupplierID: {
                       $ne: supplier.dataValues.supplierId
@@ -197,20 +196,21 @@ module.exports = function(epilogue, db) {
                     loginName: changedBy
                   },
                   transaction: t
-                }).
-                then(rowsDeletedCount => db.models.User2Supplier.create({
-                  SupplierID: supplier.dataValues.supplierId,
-                  loginName: changedBy
-                }, {
-                  transaction: t,
-                  onDuplicate: 'UPDATE SupplierID = SupplierID' // Safe analog of INSERT IGNORE
-                })).
-                then(user2Supplier => {
+                }).then(function (rowsDeletedCount) {
+                  return db.models.User2Supplier.create({
+                    SupplierID: supplier.dataValues.supplierId,
+                    loginName: changedBy
+                  }, {
+                    transaction: t,
+                    onDuplicate: 'UPDATE SupplierID = SupplierID' // Safe analog of INSERT IGNORE
+                  })
+                  
+                }).then(user2Supplier => {
                   // eslint-disable-next-line no-param-reassign
                   context.instance = supplier;
                   return context.skip;
                 })
-              )
+            })
             ).
             catch(err => {
               if (err.errors &&
@@ -224,8 +224,7 @@ module.exports = function(epilogue, db) {
                   'A supplier with the same supplierID but different set of properties already exists'
                 );
               }
-
-              return Promise.reject(err);
+            return Promise.reject(err);
             });
         }
       }
