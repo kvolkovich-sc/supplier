@@ -1,5 +1,6 @@
 const server = require('ocbesbn-web-init'); // Web server
 const db = require('ocbesbn-db-init'); // Database
+const network = require('network'); // Database
 
 const developmentServerConfig = (db) => ({
   server: {
@@ -24,6 +25,9 @@ const productionServerConfig = (db) => ({
 
 const getServerConfig = (db) => process.env.NODE_ENV === 'development' ? developmentServerConfig(db) : productionServerConfig(db);
 
-db.init({ consul : { host : 'consul' } })
-  .then((db) => server.init(getServerConfig(db)))
-  .catch((e) => { server.end(); throw e; });
+if (process.env.NODE_ENV !== 'test') {
+  /* launch aplication */
+  db.init({ consul : { host : 'consul' }, retryCount: 50 })
+    .then((db) => server.init(getServerConfig(db)))
+    .catch((e) => { server.end(); throw e; });
+}

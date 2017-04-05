@@ -3,6 +3,7 @@ awsProject.zip
 *~
 *.swp
 *.kate-swp
+ test-results.xml
 
 base-image/node_modules/
 #/resources/jcatalog/less/jquery-ui-bundle.css
