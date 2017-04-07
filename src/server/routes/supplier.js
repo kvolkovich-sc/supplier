@@ -198,7 +198,7 @@ module.exports = function(epilogue, db) {
                   transaction: t
                 }).then(function (rowsDeletedCount) {
                   return db.models.User2Supplier.create({
-                    SupplierID: supplier.dataValues.supplierId,
+                    supplierId: supplier.dataValues.supplierId,
                     loginName: changedBy
                   }, {
                     transaction: t,
