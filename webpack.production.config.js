@@ -21,11 +21,6 @@ module.exports = {
     dns: 'empty'
   },
 
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
-
   bail: true,
   // devtool: 'source-map',
 
