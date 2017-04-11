@@ -88,7 +88,7 @@ const OnboardingWrapper = ({ children }) =>
     >
       <div className="row">
         <div className="col-md-8">
-          <h2>Company Info</h2>
+          <h2>Company Registration</h2>
           <form className="form-horizontal">
             <div className="row">
               <div className="col-md-12">
@@ -98,9 +98,9 @@ const OnboardingWrapper = ({ children }) =>
           </form>
         </div>
         <div className="col-md-4">
-          <p style={{ margin: '25% 0 0 10%', fontSize: '150%' }}>Company Info</p>
+          <p style={{ margin: '25% 0 0 0', fontSize: '150%' }}>Company Registration</p>
           <br />
-          <p>Choose an existing company or provide information for a new one.</p>
+          <p>Please provide information that helps us to uniquely identify your company and allows us to add it to our trading partner directory.</p>
           <p>After giving this information you are ready to login.</p>
         </div>
       </div>
@@ -442,7 +442,7 @@ class SupplierEditorForm extends Component {
         username={this.props.username}
         i18n={i18n}
       >
-        { this.renderField({
+        {isOnboarding || this.renderField({
           fieldName: 'isNewSupplier',
           component: (
             <div className="checkbox">
@@ -458,8 +458,7 @@ class SupplierEditorForm extends Component {
           )
         }) }
 
-        {/* TODO: search for role==='selling' when isOnboarding===true */}
-        { this.state.isNewSupplier ?
+        { !this.state.isNewSupplier ?
           this.renderField({
             fieldName: 'supplier',
             fieldNames: ['supplierId', 'supplierName'],
@@ -540,8 +539,8 @@ class SupplierEditorForm extends Component {
           )
         }) }
 
-        { this.renderField({ fieldName: 'legalForm', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'registrationNumber', readOnly }) }
+        { isOnboarding || this.renderField({ fieldName: 'legalForm', readOnly }) }
+        { this.renderField({ fieldName: 'registrationNumber', readOnly }) }
         { this.renderField({ fieldName: 'cityOfRegistration', readOnly }) }
 
         { this.renderField({
@@ -562,10 +561,10 @@ class SupplierEditorForm extends Component {
           )
         }) }
 
-        { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
+        { this.renderField({ fieldName: 'taxId', readOnly }) }
+        { this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+        { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+        { this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
         {!this.props.readOnly && <div style={{ paddingTop: '20px' }}>
           <div className={`text-right form-submit${isOnboarding ? '' : ' col-sm-10 col-md-8'}`}>

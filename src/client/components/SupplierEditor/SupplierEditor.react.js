@@ -30,9 +30,14 @@ class SupplierEditor extends Component {
     onLogout: React.PropTypes.func
   }
 
-  state = {
-    isLoaded: !this.props.supplierId,
-    hasErrors: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoaded: !this.props.supplierId,
+      hasErrors: false,
+      supplier: props.supplier
+    }
   }
 
   componentDidMount() {
@@ -48,7 +53,7 @@ class SupplierEditor extends Component {
 
     this.ajaxPromise.
       then(response => {
-        console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
+        console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE', response);
         this.setState({
           isLoaded: true,
           supplier: response.body

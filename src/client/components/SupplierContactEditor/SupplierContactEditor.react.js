@@ -71,10 +71,10 @@ class SupplierContactEditor extends Component {
   }
 
   componentDidUpdate() {
-    let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
-    if (formBlock) {
-      formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
-    }
+    // let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
+    // if (formBlock) {
+    //   formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
+    // }
   }
 
   handleDelete = (contact) => {
@@ -117,7 +117,7 @@ class SupplierContactEditor extends Component {
   handleUpdate = (contact) => {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
-    contact.changedBy = this.props.username;// eslint-disable-line no-param-reassign
+    contact.changedBy = this.props.supplierId;// eslint-disable-line no-param-reassign
 
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(contact.contactId);
@@ -167,8 +167,8 @@ class SupplierContactEditor extends Component {
 
     /* eslint-disable no-param-reassign*/
     contact.supplierId = supplierId;
-    contact.createdBy = this.props.username;
-    contact.changedBy = this.props.username;
+    contact.createdBy = this.props.supplierId;
+    contact.changedBy = this.props.supplierId;
 
     // generate unique value
     contact.contactId = this.generateUUID();

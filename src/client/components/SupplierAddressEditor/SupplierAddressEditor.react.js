@@ -72,10 +72,10 @@ class SupplierAddressEditor extends Component {
   }
 
   componentDidUpdate() {
-    let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
-    if (formBlock) {
-      formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
-    }
+    // let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
+    // if (formBlock) {
+    //   formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
+    // }
   }
 
   handleEdit = (supplierAddress) => {
