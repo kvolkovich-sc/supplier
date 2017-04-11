@@ -138,13 +138,16 @@ class SupplierEditorForm extends Component {
   
   componentWillMount() {
     if(this.props.onboardData){
+      console.log('-----------------Onboarding User Data-------------------', this.props.onboardData);
       this.setState({
         supplier : {
           ...this.state.supplier,
-          'supplierName': this.props.onboardData.companyName,
-          'legalForm': this.props.onboardData.legalForm,
-          'cityOfRegistration': this.props.onboardData.city,
-          'countryOfRegistration': this.props.onboardData.country
+          'supplierName': this.props.onboardData.tradingPartnerDetails.companyName,
+          'cityOfRegistration': this.props.onboardData.tradingPartnerDetails.city,
+          'countryOfRegistration': this.props.onboardData.tradingPartnerDetails.country,
+          'taxId': this.props.onboardData.tradingPartnerDetails.taxIdentNo,
+          'vatRegNo': this.props.onboardData.tradingPartnerDetails.vatIdentNo,
+          'dunsNo': this.props.onboardData.tradingPartnerDetails.dunsNo
         },
         campaignOnboarding: true
       })
@@ -577,10 +580,10 @@ class SupplierEditorForm extends Component {
           )
         }) }
 
-        { isOnboarding || this.renderField({ fieldName: 'taxId', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'vatRegNo', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
-        { isOnboarding || this.renderField({ fieldName: 'dunsNo', readOnly }) }
+        { this.renderField({ fieldName: 'taxId', readOnly }) }
+        { this.renderField({ fieldName: 'vatRegNo', readOnly }) }
+        { this.renderField({ fieldName: 'globalLocationNo', readOnly }) }
+        { this.renderField({ fieldName: 'dunsNo', readOnly }) }
 
         {!this.props.readOnly && <div style={{ paddingTop: '20px' }}>
           <div className={`text-right form-submit${isOnboarding ? '' : ' col-sm-10 col-md-8'}`}>
