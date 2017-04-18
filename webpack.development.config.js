@@ -19,9 +19,6 @@ module.exports = {
   devtool: 'eval-source-map',
 
   plugins: [
-    new webpack.ProvidePlugin({
-        "React": "react",
-    }),
     new webpack.ContextReplacementPlugin(
       new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment\\' + path.sep + 'locale'),
       /en|de/

@@ -4,7 +4,7 @@
   "description": "Supplier Microservice. Provides base CRUD Rest API for basic Supplier data manipulation.",
   "scripts": {
     "start": "npm run build ; node src/server/index.js",
-    "dev": "npm run setup-consul ; ${NODE_PATH}/.bin/nodemon --watch src/server src/server/index.js --exec ${NODE_PATH}/.bin/babel-node --presets es2015,stage-0,react",
+    "dev": "npm run setup-consul ; ${NODE_PATH}/.bin/nodemon --watch src/server src/server/index.js",
     "build": "npm run build:client",
     "build:client": "${NODE_PATH}/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors --bail",
     "test": "npm run clean ; npm run setup-consul ; ${NODE_PATH}/.bin/nyc ${NODE_PATH}/.bin/mocha -R mocha-junit-reporter src/**/*.test.js",
@@ -85,8 +85,6 @@
     "raml-to-markdown": "^1.0.5",
     "raml2html": "3.0.1",
     "nyc": "10.2.0",
-    "html-webpack-plugin": "^2.28.0",
-    "webpack-dev-middleware": "^1.10.1",
     "express-handlebars": "^3.0.0"
   }
 }
