@@ -1,6 +1,5 @@
 const server = require('ocbesbn-web-init'); // Web server
 const db = require('ocbesbn-db-init'); // Database
-const network = require('network'); // Database
 
 const developmentServerConfig = (db) => ({
   server: {
