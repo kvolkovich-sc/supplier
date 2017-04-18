@@ -4,7 +4,7 @@
   "description": "Supplier Microservice. Provides base CRUD Rest API for basic Supplier data manipulation.",
   "scripts": {
     "start": "npm run build ; node src/server/index.js",
-    "dev": "npm run setup-consul ; ${NODE_PATH}/.bin/nodemon --watch src/server src/server/index.js",
+    "dev": "npm run setup-consul ; ${NODE_PATH}/.bin/nodemon --watch src/server src/server/index.js --exec ${NODE_PATH}/.bin/babel-node --presets es2015,stage-0,react",
     "build": "npm run build:client",
     "build:client": "${NODE_PATH}/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors --bail",
     "test": "npm run clean ; npm run setup-consul ; ${NODE_PATH}/.bin/nyc ${NODE_PATH}/.bin/mocha -R mocha-junit-reporter src/**/*.test.js",
@@ -48,7 +48,8 @@
     "react-addons-test-utils": "15.4.2",
     "react-bootstrap": "0.30.8",
     "react-dom": "15.4.2",
-    "react-router": "3.0.0",
+    "react-router": "^4.0.0",
+    "react-router-dom": "^4.0.0",
     "react-select": "1.0.0-rc.3",
     "react-spinkit": "1.1.11",
     "rimraf": "2.6.1",
@@ -83,6 +84,9 @@
     "nodemon": "1.11.0",
     "raml-to-markdown": "^1.0.5",
     "raml2html": "3.0.1",
-    "nyc": "10.2.0"
+    "nyc": "10.2.0",
+    "html-webpack-plugin": "^2.28.0",
+    "webpack-dev-middleware": "^1.10.1",
+    "express-handlebars": "^3.0.0"
   }
 }

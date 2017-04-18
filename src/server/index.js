@@ -6,7 +6,7 @@ const developmentServerConfig = (db) => ({
   server: {
     webpack: {
       useWebpack: true,
-      configFilePath: __dirname + '/../../webpack.production.config.js'
+      configFilePath: __dirname + '/../../webpack.development.config.js'
     }
   },
   routes: {
