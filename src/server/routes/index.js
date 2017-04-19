@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird');
 const epilogue = require('epilogue');
+const express = require('express');
 
 const supplierRoutes = require('./supplier');
 const supplierAddressRoutes = require('./supplierAddress');
@@ -39,6 +40,25 @@ module.exports.init = function(app, db, config) {
 
   // countries
   countries(epilogue, db);
+
+  if (process.env.NODE_ENV === 'development') {
+    const path = require('path');
+    const exphbs = require('express-handlebars');
+
+    app.use('/static', express.static(path.join(__dirname, '../static')));
+
+    app.engine('handlebars', exphbs());
+    app.set('view engine', 'handlebars');
+    app.set('views', path.resolve(__dirname + '/../templates'));
+
+    app.get('/', (req, res) => {
+      res.render('index', {
+        helpers: {
+          json: JSON.stringify
+        }
+      });
+    });
+  }
 
   // Always return a promise.
   return Promise.resolve();

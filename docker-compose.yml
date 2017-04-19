@@ -2,7 +2,7 @@ version: '2'
 services:
   main:
     build: .
-    image: opuscapita/supplier
+    image: opuscapita/supplier:dev
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
       - mysql
@@ -24,30 +24,6 @@ services:
     ports:
       - '${PORT}:${PORT}'
     command: 'npm run dev'
-
-  nginx:
-    image: gr4per/nginx-rp:latest
-    ports:
-     - '3100:${NGINX_PORT}'
-    depends_on:
-     - bnp
-    environment:
-      PORT: '${NGINX_PORT}'
-    labels:
-      SERVICE_NAME: 'nginx'
-
-  bnp:
-    image: opuscapita/bnp:dev
-    #restart: on-failure:5
-    depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
-     - mysql
-     - main
-    labels:
-      SERVICE_NAME: 'bnp'  # Service name used by Registrator for adding to Consul's service discovery registry.
-    environment:
-      PORT: '3000'
-    ports:
-      - '3000:3000'
 
   mysql:
     image: 'mysql:5.6'

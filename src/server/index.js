@@ -1,12 +1,11 @@
 const server = require('ocbesbn-web-init'); // Web server
 const db = require('ocbesbn-db-init'); // Database
-const network = require('network'); // Database
 
 const developmentServerConfig = (db) => ({
   server: {
     webpack: {
       useWebpack: true,
-      configFilePath: __dirname + '/../../webpack.production.config.js'
+      configFilePath: __dirname + '/../../webpack.development.config.js'
     }
   },
   routes: {
