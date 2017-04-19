@@ -31,6 +31,10 @@ deployment:
     commands:
       - docker login -u $DOCKER_USER -p $DOCKER_PASS -e $DOCKER_EMAIL
       - docker tag opuscapita/supplier:latest opuscapita/supplier:dev
+      - >
+        if [ -n "${RUN_NIGHTLY_BUILD}" ]; then
+          echo "running base img deploy..." && docker tag opuscapita/supplier-base:latest opuscapita/supplier-base:dev && docker push opuscapita/supplier-base:dev
+        fi
       - docker push opuscapita/supplier:dev
       - curl https://raw.githubusercontent.com/gr4per/azureswarm/master/deploy_service.sh > deploy_service.sh
       - chmod +x deploy_service.sh
