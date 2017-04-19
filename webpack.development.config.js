@@ -1,13 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
+const _ = require('lodash');
+
+let entry;
+let outputExtention;
+
+if (process.env.DEV_TYPE == 'local') {
+  entry = './src/client/index_dev.js';
+  outputExtention = {};
+} else {
+  entry = './src/client/index.js';
+  outputExtention = { library: 'supplier', libraryTarget: 'umd', umdNamedDefine: true };
+}
 
 module.exports = {
-  entry: './src/client/index_dev.js',
-  output: {
+  entry: entry,
+  output: _.merge({
     path: path.resolve(__dirname, './src/server/static'),
     publicPath: '/static',
     filename: 'bundle.js'
-  },
+  }, outputExtention),
 
   //exclude empty dependencies, require for Joi
   node: {

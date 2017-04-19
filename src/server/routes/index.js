@@ -41,7 +41,7 @@ module.exports.init = function(app, db, config) {
   // countries
   countries(epilogue, db);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.DEV_TYPE === 'local') {
     const path = require('path');
     const exphbs = require('express-handlebars');
 
