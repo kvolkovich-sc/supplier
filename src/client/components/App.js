@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 import SupplierEditor from './SupplierEditor';
 import SupplierAddressEditor from './SupplierAddressEditor';
 import SupplierContactEditor from './SupplierContactEditor';
@@ -21,13 +21,14 @@ const supplier = {
   changedBy: "john.doe@ncc.com"
 };
 const username = 'Bruce Wayne';
+const actionUrl = 'http://localhost:3001'
 
 
 let editor = (
   <SupplierEditor
     key='company'
     readOnly={false}
-    actionUrl='http://localhost:3001'
+    actionUrl={actionUrl}
     supplierId={supplier.supplierId}
     supplierName={supplier.supplierName}
     companyRole={supplier.role}
@@ -44,7 +45,7 @@ let addressEditor = (
   <SupplierAddressEditor
     key='address'
     readOnly={false}
-    actionUrl='http://localhost:3001'
+    actionUrl={actionUrl}
     dateTimePattern='MM/dd/yyyy h:mm:ss a'
     supplierId={supplier.supplierId}
     locale='en'
@@ -58,20 +59,22 @@ let contactEditor = (
     key='contact'
     dateTimePattern='MM/dd/yyyy h:mm:ss a'
     readOnly={false}
-    actionUrl='http://localhost:3001'
+    actionUrl={actionUrl}
     supplierId={supplier.supplierId}
     locale='en'
     username={username}
   />
 );
 
+const activeStyle = {color:' #ffffff', background: '#006677'}
+
 const App = () => (
   <div>
-    <nav>
-      <Link to='/' activeOnlyWhenExact activeClassName='active'>Supplier</Link>
-      <Link to='/address' activeOnlyWhenExact activeClassName='active'>Supplier Address</Link>
-      <Link to='/contact' activeOnlyWhenExact activeClassName='active'>Supplier Contact</Link>
-    </nav>
+    <ul className="nav nav-tabs">
+      <li><NavLink exact activeStyle={activeStyle} to='/'>Supplier</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/address'>Supplier Address</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/contact'>Supplier Contact</NavLink></li>
+    </ul>
     <Route exact path='/' render={() => editor }/>
     <Route exact path='/address' render={() => addressEditor }/>
     <Route exact path='/contact' render={() => contactEditor }/>
