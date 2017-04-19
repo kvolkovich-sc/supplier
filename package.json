@@ -42,7 +42,7 @@
     "ocbesbn-config": "^2.2.0",
     "ocbesbn-db-init": "^1.1.0",
     "ocbesbn-web-init": "1.0.4",
-    "opuscapita-i18n": "1.0.12",
+    "opuscapita-i18n": "github:patrykkopycinski/js-i18n",
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-bootstrap": "0.30.8",
