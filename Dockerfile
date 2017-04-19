@@ -1,4 +1,4 @@
-FROM opuscapita/supplier-base:latest
+FROM opuscapita/supplier-base:dev
 MAINTAINER patrykkopycinski
 
 # NOTE: "node" user and corresponding "/home/node" dir are created by "node:6-alpine" image.
