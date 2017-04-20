@@ -5,14 +5,14 @@
 ## Suppliers
 Work with `Supplier` objects.
 
-### /suppliers
+### /api/suppliers
 
 #### **GET**:
 List of `Supplier` objects.
 
 ### Response code: 200
 
-#### SupplierArray (application/json) 
+#### SupplierArray (application/json)
 
 ```
 [{
@@ -59,7 +59,7 @@ List of `Supplier` objects.
 #### **POST**:
 Adds a new supplier.
 
-#### Supplier (application/json) 
+#### Supplier (application/json)
 Object representing a single supplier item.
 
 ```
@@ -104,7 +104,7 @@ Object representing a single supplier item.
 
 ### Response code: 200
 
-#### Supplier (application/json) 
+#### Supplier (application/json)
 Object representing a single supplier item.
 
 ```
@@ -152,11 +152,11 @@ A supplier with the same supplierId but different set of properties already exis
 
 ---
 
-### /suppliers/{supplierId}
+### /api/suppliers/{supplierId}
 
 * **supplierId**: Identifier of a supplier.
     * Type: string
-    
+
     * Required: true
 
 #### **GET**:
@@ -164,7 +164,7 @@ Single `Supplier` object.
 
 ### Response code: 200
 
-#### Supplier (application/json) 
+#### Supplier (application/json)
 Object representing a single supplier item.
 
 ```
@@ -211,7 +211,7 @@ Object representing a single supplier item.
 #### **PUT**:
 Updates a supplier.
 
-#### Supplier (application/json) 
+#### Supplier (application/json)
 Object representing a single supplier item.
 
 ```
@@ -256,7 +256,7 @@ Object representing a single supplier item.
 
 ### Response code: 200
 
-#### Supplier (application/json) 
+#### Supplier (application/json)
 Object representing a single supplier item.
 
 ```
@@ -307,11 +307,11 @@ Inconsistent data
 
 ---
 
-### /suppliers/{supplierId}/addresses
+### /api/suppliers/{supplierId}/addresses
 
 * **supplierId**: Identifier of a supplier.
     * Type: string
-    
+
     * Required: true
 
 #### **GET**:
@@ -319,7 +319,7 @@ Get all addresses assigned to the Supplier
 
 ### Response code: 200
 
-#### SupplierAddressArray (application/json) 
+#### SupplierAddressArray (application/json)
 
 ```
 [{
@@ -402,7 +402,7 @@ Get all addresses assigned to the Supplier
 #### **PUT**:
 Insert Supplier to Address association
 
-#### SupplierAddress (application/json) 
+#### SupplierAddress (application/json)
 Object representing all addresses assigned to a given supplier.
 
 ```
@@ -483,7 +483,7 @@ Object representing all addresses assigned to a given supplier.
 
 ### Response code: 200
 
-#### SupplierAddressArray (application/json) 
+#### SupplierAddressArray (application/json)
 
 ```
 [{
@@ -570,22 +570,22 @@ Inconsistent data
 
 ---
 
-### /suppliers/{supplierId}/addresses/{addressId}
+### /api/suppliers/{supplierId}/addresses/{addressId}
 
 * **supplierId**: Identifier of a supplier.
     * Type: string
-    
+
     * Required: true
 
 * **addressId**: Identifeir of supplier address
     * Type: number
-    
+
     * Required: true
 
 #### **POST**:
 Update Supplier to Address association
 
-#### SupplierAddress (application/json) 
+#### SupplierAddress (application/json)
 Object representing all addresses assigned to a given supplier.
 
 ```
@@ -666,7 +666,7 @@ Object representing all addresses assigned to a given supplier.
 
 ### Response code: 200
 
-#### SupplierAddressArray (application/json) 
+#### SupplierAddressArray (application/json)
 
 ```
 [{
@@ -750,11 +750,11 @@ A supplier with the same supplierId but different set of properties already exis
 
 ---
 
-### /suppliers/{supplierId}/contacts
+### /api/suppliers/{supplierId}/contacts
 
 * **supplierId**: Identifier of a supplier.
     * Type: string
-    
+
     * Required: true
 
 #### **GET**:
@@ -762,7 +762,7 @@ Get all contacts assigned to the Supplier
 
 ### Response code: 200
 
-#### SupplierContactsArray (application/json) 
+#### SupplierContactsArray (application/json)
 
 ```
 [{
@@ -810,7 +810,7 @@ Get all contacts assigned to the Supplier
 #### **PUT**:
 Insert new Contact association fro Supplier
 
-#### SupplierConstact (application/json) 
+#### SupplierConstact (application/json)
 Object representing all contacts associated with a given supplier.
 
 ```
@@ -856,7 +856,7 @@ Object representing all contacts associated with a given supplier.
 
 ### Response code: 200
 
-#### SupplierConstact (application/json) 
+#### SupplierConstact (application/json)
 Object representing all contacts associated with a given supplier.
 
 ```
@@ -908,16 +908,16 @@ Inconsistent data
 
 ---
 
-### /suppliers/{supplierId}/contacts/{contactId}
+### /api/suppliers/{supplierId}/contacts/{contactId}
 
 * **supplierId**: Identifier of a supplier.
     * Type: string
-    
+
     * Required: true
 
 * **contactId**: Identifier of Supplier to Contact association
     * Type: string
-    
+
     * Required: true
 
 #### **POST**:
@@ -925,7 +925,7 @@ Update SupplierContact association body
 
 ### Response code: 200
 
-#### SupplierConstact (application/json) 
+#### SupplierConstact (application/json)
 Object representing all contacts associated with a given supplier.
 
 ```
@@ -978,7 +978,7 @@ Delete SupplierContact association
 
 ### Response code: 200
 
-#### application/json (application/json) 
+#### application/json (application/json)
 
 ##### *application/json*:
 | Name | Type | Description | Required | Pattern |
