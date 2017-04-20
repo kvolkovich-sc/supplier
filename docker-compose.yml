@@ -21,7 +21,6 @@ services:
       NODE_ENV: $NODE_ENV
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-      DEV_TYPE: ${DEV_TYPE}
     ports:
       - '${PORT}:${PORT}'
     command: 'npm run dev'
