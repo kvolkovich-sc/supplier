@@ -15,6 +15,7 @@ WORKDIR /home/node/supplier
 
 # Bundle app source by overwriting all WORKDIR content.
 COPY . tmp
+RUN cd tmp ; npm run build:client ; cd ..
 
 # Change owner since COPY/ADD assignes UID/GID 0 to all copied content.
 RUN apk add --no-cache rsync curl
