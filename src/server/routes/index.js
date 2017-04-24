@@ -4,7 +4,6 @@ const Promise = require('bluebird');
 const epilogue = require('epilogue');
 const express = require('express');
 
-const supplierRoutes = require('./supplier');
 const supplierAddressRoutes = require('./supplierAddress');
 const countries = require('./countries');
 const suppliers = require('./suppliers');
@@ -41,7 +40,6 @@ module.exports.init = function(app, db, config) {
   supplierContacts(app, db, config);
 
   // supplier routes
-  supplierRoutes(epilogue, db);
 
   // supplier address routes
   supplierAddressRoutes(epilogue, db);

@@ -23,9 +23,9 @@ module.exports.find = function(supplierId, contactId)
 
 module.exports.create = function(contact)
 {
-    return this.db.models.SupplierContact.create(contact).then(contact => {
-      return contact;
-    });
+  return this.db.models.SupplierContact.create(contact).then(contact => {
+    return contact;
+  });
 }
 
 module.exports.update = function(supplierId, contactId, contact)
