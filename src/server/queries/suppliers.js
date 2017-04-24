@@ -13,3 +13,8 @@ module.exports.all = function()
 {
   return this.db.models.Supplier.findAll();
 }
+
+module.exports.find = function(supplierId)
+{
+  return this.db.models.Supplier.findById(supplierId);
+}

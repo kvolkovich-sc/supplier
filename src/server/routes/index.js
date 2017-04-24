@@ -7,9 +7,9 @@ const express = require('express');
 const supplierRoutes = require('./supplier');
 const supplierAddressRoutes = require('./supplierAddress');
 const countries = require('./countries');
-const Supplier = require('../api/suppliers');
-const SupplierAddress = require('../api/supplier_addresses');
-const SupplierContact = require('../api/supplier_contacts');
+const suppliers = require('./suppliers');
+const supplierContacts = require('./supplier_contacts');
+const SupplierAddress = require('../queries/supplier_addresses');
 
 /**
  * Initializes all routes for RESTful access.
@@ -25,20 +25,9 @@ module.exports.init = function(app, db, config) {
   // Use the passed db parameter in order to use Epilogue auto-routes.
   // Use require in order to separate routes into multiple js files.
 
-  Supplier.init(db, config).then(() =>
-  {
-    app.get('/suppliers', (req, res) => this.sendSuppliers(req, res));
-  });
-
   SupplierAddress.init(db, config).then(() =>
   {
     app.get('/suppliers/:supplierId/addresses', (req, res) => this.sendSupplierAddresses(req, res));
-  });
-
-  SupplierContact.init(db, config).then(() =>
-  {
-    app.get('/api/suppliers/:supplierId/contacts', (req, res) => this.sendSupplierContacts(req, res));
-    app.get('/api/suppliers/:supplierId/contacts/:contactId', (req, res) => this.sendSupplierContact(req, res));
   });
 
   epilogue.initialize({
@@ -46,6 +35,10 @@ module.exports.init = function(app, db, config) {
     sequelize: db,
     base: '/api'
   });
+
+  suppliers(app, db, config);
+
+  supplierContacts(app, db, config);
 
   // supplier routes
   supplierRoutes(epilogue, db);
@@ -79,34 +72,10 @@ module.exports.init = function(app, db, config) {
   return Promise.resolve();
 }
 
-module.exports.sendSuppliers = function(req, res)
-{
-  Supplier.all().then(suppliers =>
-  {
-    res.json(suppliers);
-  });
-}
-
 module.exports.sendSupplierAddresses = function(req, res)
 {
   SupplierAddress.all(req.params.supplierId).then(addresses =>
   {
     res.json(addresses);
-  });
-}
-
-module.exports.sendSupplierContacts = function(req, res)
-{
-  SupplierContact.all(req.params.supplierId).then(contacts =>
-  {
-    res.json(contacts);
-  });
-}
-
-module.exports.sendSupplierContact = function(req, res)
-{
-  SupplierContact.find(req.params.supplierId, req.params.contactId).then(contact =>
-  {
-    res.json(contact);
   });
 }
