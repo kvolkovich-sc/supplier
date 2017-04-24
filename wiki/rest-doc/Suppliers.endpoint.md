@@ -399,7 +399,7 @@ Get all addresses assigned to the Supplier
 | name1 | string |  | true |  |
 
 ---
-#### **PUT**:
+#### **POST**:
 Insert Supplier to Address association
 
 #### SupplierAddress (application/json)
@@ -582,7 +582,7 @@ Inconsistent data
 
     * Required: true
 
-#### **POST**:
+#### **PUT**:
 Update Supplier to Address association
 
 #### SupplierAddress (application/json)
@@ -807,7 +807,7 @@ Get all contacts assigned to the Supplier
 | legalForm | string |  | true |  |
 
 ---
-#### **PUT**:
+#### **POST**:
 Insert new Contact association fro Supplier
 
 #### SupplierConstact (application/json)
@@ -920,7 +920,56 @@ Inconsistent data
 
     * Required: true
 
-#### **POST**:
+#### **GET**:
+Single `SupplierContact` object.
+
+### Response code: 200
+
+#### SupplierContact (application/json)
+Object representing a single supplier contact item.
+
+```
+{
+  "supplierId": "hard001",
+  "supplierName": "jCatalog",
+  "foundedOn": "2015-10-04T22:00:00.000Z",
+  "legalForm": "KG",
+  "registrationNumber": "MI651355",
+  "cityOfRegistration": "Dortmund",
+  "countryOfRegistration": "Germany",
+  "taxId": "1234567",
+  "vatRegNo": null,
+  "globalLocationNo": "123",
+  "homePage": "http://jcatalog.com/",
+  "dunsNo": null,
+  "createdOn": "2016-02-19T10:45:26.000Z",
+  "changedOn": "2016-02-19T10:45:26.000Z",
+  "changedBy": "jcadmin",
+  "createdBy": "jcadmin"
+}
+ ```
+
+##### *SupplierContact*:
+| Name | Type | Description | Required | Pattern |
+|:-----|:----:|:------------|:--------:|--------:|
+| foundedOn | string |  | true |  |
+| homePage | string |  | true |  |
+| createdOn | string |  | true |  |
+| createdBy | string |  | true |  |
+| changedOn | string |  | true |  |
+| registrationNumber | string |  | true |  |
+| supplierId | string |  | true |  |
+| countryOfRegistration | string |  | true |  |
+| dunsNo | string |  | false |  |
+| changedBy | string |  | true |  |
+| vatRegNo | string |  | false |  |
+| supplierName | string |  | true |  |
+| globalLocationNo | string |  | true |  |
+| taxId | string |  | true |  |
+| legalForm | string |  | true |  |
+
+---
+#### **PUT**:
 Update SupplierContact association body
 
 ### Response code: 200
