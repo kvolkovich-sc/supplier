@@ -6,20 +6,20 @@ module.exports = function(app, db, config) {
     app.get('/suppliers', (req, res) => sendSuppliers(req, res));
     app.get('/suppliers/:supplierId', (req, res) => sendSupplier(req, res));
   });
+}
 
-  sendSuppliers = function(req, res)
+var sendSuppliers = function(req, res)
+{
+  Supplier.all().then(suppliers =>
   {
-    Supplier.all().then(suppliers =>
-    {
-      res.json(suppliers);
-    });
-  }
+    res.json(suppliers);
+  });
+}
 
-  sendSupplier = function(req, res)
+var sendSupplier = function(req, res)
+{
+  Supplier.find(req.params.supplierId).then(suppliers =>
   {
-    Supplier.find(req.params.supplierId).then(suppliers =>
-    {
-      res.json(suppliers);
-    });
-  }
+    res.json(suppliers);
+  });
 }
