@@ -1,7 +1,6 @@
 'use strict';
 
 const Promise = require('bluebird');
-const epilogue = require('epilogue');
 const express = require('express');
 
 const suppliers = require('./suppliers');
@@ -21,8 +20,6 @@ const countries = require('./countries');
  */
 module.exports.init = function(app, db, config) {
   // Register routes here.
-  // Use the passed db parameter in order to use Epilogue auto-routes.
-  // Use require in order to separate routes into multiple js files.
 
   suppliers(app, db, config);
   supplierContacts(app, db, config);
