@@ -65,6 +65,8 @@ services:
     labels:
       SERVICE_NAME: isodata
     environment:
+      HOST_IP: ${HOST_IP}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       PORT: '3006'
+    command: 'npm run dev'

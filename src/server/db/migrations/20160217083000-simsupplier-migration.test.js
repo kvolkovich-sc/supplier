@@ -66,8 +66,7 @@ module.exports.down = function(db, config)
 {
     return Promise.all([
         db.models.User2Supplier.destroy({ truncate: true }),
-        db.models.SupplierContact.destroy({ truncate: true }),
-        db.models.Supplier2Address.destroy({ truncate: true })
+        db.models.SupplierContact.destroy({ truncate: true })
     ]).then(() => Promise.all([
         db.models.Supplier.destroy({ truncate: true }),
         db.models.Address.destroy({ truncate: true })
