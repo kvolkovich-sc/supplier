@@ -140,6 +140,16 @@ module.exports = {
           unique: true,
           field: 'AddressID'
         },
+        supplierId: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+          field: 'SupplierID'
+        },
+        type: {
+          type: Sequelize.STRING(10),
+          allowNull: false,
+          field: "Type"
+        },
         salutation: {
           type: Sequelize.STRING(20),
           field: 'Salutation'
@@ -233,61 +243,6 @@ module.exports = {
           allowNull: false
         }
       }),
-
-      queryInterface.createTable('SIMSupplier2Address', {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-          field: "Supplier2AddressSN"
-        },
-        type: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-          field: "Type"
-        },
-        isDefault: {
-          type: Sequelize.BOOLEAN,
-          field: "IsDefault"
-        },
-        addressId: {
-          type: Sequelize.STRING(30),
-          allowNull: false,
-          field: "AddressID"
-        },
-        supplierId: {
-          type: Sequelize.STRING(30),
-          allowNull: false,
-          field: "SupplierID"
-        },
-        changedBy: {
-          type: Sequelize.STRING(60),
-          field: "ChangedBy",
-          allowNull: false
-        },
-        createdBy: {
-          type: Sequelize.STRING(60),
-          field: "CreatedBy",
-          allowNull: false
-        },
-        createdOn: {
-          type: Sequelize.DATE,
-          field: "CreatedOn",
-          allowNull: false
-        },
-        changedOn: {
-          type: Sequelize.DATE,
-          field: "ChangedOn",
-          allowNull: false
-        }
-      }).then(() => queryInterface.addIndex(
-        'SIMSupplier2Address',
-        [`SupplierID`, `AddressId`, `Type`],
-        {
-          indexName: 'SIMSupplier2AddressUK',
-          indicesType: 'UNIQUE'
-        }
-      )),
 
       queryInterface.createTable('SIMSupplierContact', {
         contactId: {

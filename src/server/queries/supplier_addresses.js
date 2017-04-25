@@ -4,6 +4,8 @@ const Promise = require('bluebird');
 
 module.exports.init = function(db, config)
 {
+  db.models.Supplier.hasMany(db.models.Address, { as: 'addresses', foreignKey: 'supplierId', onDelete: 'cascade' });
+  db.models.Address.belongsTo(db.models.Supplier, { as: 'supplier', foreignKey: 'supplierId' });
   this.db = db;
 
   return Promise.resolve(this);
@@ -11,13 +13,35 @@ module.exports.init = function(db, config)
 
 module.exports.all = function(supplierId)
 {
-  return this.db.models.Supplier2Address.findAll({
-    include: {
-      model: this.db.models.Address,
-      as: "address"
-    },
-    where: {
-      supplierId: supplierId
-    }
+  return this.db.models.Address.findAll({ where: { supplierId: supplierId } });
+}
+
+module.exports.find = function(supplierId, addressId)
+{
+  return this.db.models.Address.findOne({ where: { supplierId: supplierId, addressId: addressId } });
+}
+
+module.exports.create = function(address)
+{
+  return this.db.models.Address.create(address).then(address => {
+    return address;
   });
+}
+
+module.exports.update = function(supplierId, addressId, address)
+{
+  var self = this;
+  return this.db.models.Address.update(address, { where: { addressId: addressId } }).then(() => {
+    return self.find(supplierId, addressId);
+  });
+}
+
+module.exports.delete = function(supplierId, addressId)
+{
+  return this.db.models.Address.destroy({ where: { supplierId: supplierId, addressId: addressId } }).then(() => null);
+}
+
+module.exports.addressExists = function(supplierId, addressId)
+{
+  return this.find(supplierId, addressId).then(address => address && address.addressId === addressId);
 }

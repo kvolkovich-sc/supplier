@@ -23,6 +23,21 @@ module.exports = function(sequelize) {
         notEmpty: true
       }
     },
+    supplierId: {
+      type: Sequelize.STRING(50),
+      allowNull: false,
+      field: 'SupplierID',
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
+    },
+    type: {
+      type: Sequelize.STRING(10),
+      allowNull: false,
+      field: "Type",
+      defaultValue: "default"
+    },
     salutation: {
       type: Sequelize.STRING(20),
       field: 'Salutation',
@@ -136,6 +151,11 @@ module.exports = function(sequelize) {
       field: "ChangedOn"
     }
   }, {
+    classMethods: {
+      associate: function(models) {
+        Address.belongsTo(models.Supplier, { as: 'supplier', foreignKey: 'supplierId' });
+      }
+    },
     updatedAt: 'changedOn',
     createdAt: 'createdOn',
     timestamps: true,

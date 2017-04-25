@@ -111,7 +111,11 @@ module.exports = function(sequelize) {
     },
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        Supplier.hasMany(models.Address, {
+          as: 'addresses',
+          foreignKey: 'supplierId',
+          onDelete: 'cascade'
+        });
       }
     },
     updatedAt: 'changedOn',

@@ -200,7 +200,6 @@ class SupplierAddressEditor extends Component {
 
     // generate unique value
     supplierAddress.addressId = this.generateUUID();
-    supplierAddress.address.addressId = supplierAddress.addressId;
     /* eslint-enable no-param-reassign*/
 
     request.post(`${actionUrl}/api/suppliers/${encodeURIComponent(supplierId)}/addresses`).set(
@@ -235,7 +234,7 @@ class SupplierAddressEditor extends Component {
 
   handleChange = (supplierAddress, name, oldValue, newValue) => {
     // check only updated objects
-    // if (supplierAddress.address.addressId) {
+    // if (supplierAddress.addressId) {
     this.props.onChange({ isDirty: true });
     // }
   };

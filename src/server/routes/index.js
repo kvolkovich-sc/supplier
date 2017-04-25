@@ -4,10 +4,10 @@ const Promise = require('bluebird');
 const epilogue = require('epilogue');
 const express = require('express');
 
-const supplierAddressRoutes = require('./supplierAddress');
 const countries = require('./countries');
 const suppliers = require('./suppliers');
 const supplierContacts = require('./supplier_contacts');
+const supplierAddresses = require('./supplier_addresses');
 const SupplierAddress = require('../queries/supplier_addresses');
 
 /**
@@ -24,11 +24,6 @@ module.exports.init = function(app, db, config) {
   // Use the passed db parameter in order to use Epilogue auto-routes.
   // Use require in order to separate routes into multiple js files.
 
-  SupplierAddress.init(db, config).then(() =>
-  {
-    app.get('/suppliers/:supplierId/addresses', (req, res) => this.sendSupplierAddresses(req, res));
-  });
-
   epilogue.initialize({
     app: app,
     sequelize: db,
@@ -36,13 +31,9 @@ module.exports.init = function(app, db, config) {
   });
 
   suppliers(app, db, config);
-
   supplierContacts(app, db, config);
+  supplierAddresses(app, db, config);
 
-  // supplier routes
-
-  // supplier address routes
-  supplierAddressRoutes(epilogue, db);
 
   // countries
   countries(epilogue, db);
@@ -68,12 +59,4 @@ module.exports.init = function(app, db, config) {
 
   // Always return a promise.
   return Promise.resolve();
-}
-
-module.exports.sendSupplierAddresses = function(req, res)
-{
-  SupplierAddress.all(req.params.supplierId).then(addresses =>
-  {
-    res.json(addresses);
-  });
 }

@@ -89,7 +89,7 @@ class SupplierAddressEditForm extends Component {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       }
     },
-    "address.name1": {
+    "name1": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -100,7 +100,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.name2": {
+    "name2": {
       length: {
         maximum: 100,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -108,7 +108,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.name3": {
+    "name3": {
       length: {
         maximum: 100,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -116,7 +116,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.street": {
+    "street": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -127,7 +127,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.zipCode": {
+    "zipCode": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -138,7 +138,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.city": {
+    "city": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -149,12 +149,12 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.countryId": {
+    "countryId": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       }
     },
-    "address.areaCode": {
+    "areaCode": {
       length: {
         maximum: 10,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -162,7 +162,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.state": {
+    "state": {
       length: {
         maximum: 50,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -170,7 +170,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.pobox": {
+    "pobox": {
       length: {
         maximum: 10,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -178,7 +178,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.poboxZipCode": {
+    "poboxZipCode": {
       length: {
         maximum: 10,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -186,7 +186,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.phoneNo": {
+    "phoneNo": {
       presence: {
         message: this.validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -197,7 +197,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.faxNo": {
+    "faxNo": {
       length: {
         maximum: 50,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -205,7 +205,7 @@ class SupplierAddressEditForm extends Component {
         })
       }
     },
-    "address.email": {
+    "email": {
       length: {
         maximum: 1024,
         tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
@@ -458,41 +458,41 @@ class SupplierAddressEditForm extends Component {
         ))}
 
         {this.fieldRender('input', {
-          name: 'address.name1',
+          name: 'name1',
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.name2',
+          name: 'name2',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.name3',
+          name: 'name3',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.street',
+          name: 'street',
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.zipCode',
+          name: 'zipCode',
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.city',
+          name: 'city',
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('select', {
-          name: 'address.countryId',
+          name: 'countryId',
           required: true,
           disabled: (editMode === 'view')
         }, (
@@ -502,38 +502,38 @@ class SupplierAddressEditForm extends Component {
         ))}
 
         {this.fieldRender('input', {
-          name: 'address.areaCode',
+          name: 'areaCode',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.state',
+          name: 'state',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.pobox',
+          name: 'pobox',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.poboxZipCode',
+          name: 'poboxZipCode',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.phoneNo',
+          name: 'phoneNo',
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.faxNo',
+          name: 'faxNo',
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'address.email',
+          name: 'email',
           disabled: (editMode === 'view')
         })}
 

@@ -666,10 +666,10 @@ Object representing all addresses assigned to a given supplier.
 
 ### Response code: 200
 
-#### SupplierAddressArray (application/json)
+#### SupplierAddress (application/json)
 
 ```
-[{
+{
   "id":"3",
   "salutation":null,
   "name1":null,
@@ -703,10 +703,10 @@ Object representing all addresses assigned to a given supplier.
        "createdOn":"2016-01-29T00:02:03.000Z",
        "changedOn":"2016-02-22T05:30:56.000Z"
     }
-}]
+}
  ```
 
-##### List of *SupplierAddress*:
+##### *SupplierAddress*:
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|

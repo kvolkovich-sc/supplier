@@ -39,13 +39,6 @@ module.exports.up = function(db, config)
     // -----
 
     // Load data.
-    const supplier2addressData = require(path + '/supplier2address.json');
-    // Get database models.
-    const Supplier2Address  = db.models.Supplier2Address;
-
-    // -----
-
-    // Load data.
     const supplierContactData = require(path + '/supplierContact.json');
     // Get database models.
     const SupplierContact  = db.models.SupplierContact;

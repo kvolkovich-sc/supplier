@@ -42,9 +42,7 @@ var updateSupplierContact = function(req, res)
     if(exists)
     {
       return SupplierContact.update(supplierId, contactId, req.body).then(contact => res.status('200').json(contact));
-    }
-    else
-    {
+    } else {
       return res.status('404').json({ message : 'A supplier contact with this ID does not exist.' });
     }
   })
