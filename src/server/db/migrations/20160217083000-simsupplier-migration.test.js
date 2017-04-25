@@ -25,13 +25,6 @@ module.exports.up = function(db, config)
     // -----
 
     // Load data.
-    const countryData = require(path + '/country.json');
-    // Get database models.
-    const Country  = db.models.Country;
-
-    // -----
-
-    // Load data.
     const supplierData = require(path + '/supplier.json');
     // Get database models.
     const Supplier  = db.models.Supplier;
@@ -52,11 +45,9 @@ module.exports.up = function(db, config)
 
     return Promise.all([
         Promise.all(addressData.map(cur => Address.upsert(cur))),
-        Promise.all(countryData.map(cur => Country.upsert(cur))),
         Promise.all(supplierData.map(cur => Supplier.upsert(cur)))
     ])
     .then(() => Promise.all([
-        Promise.all(supplier2addressData.map(cur => Supplier2Address.upsert(cur))),
         Promise.all(supplierContactData.map(cur => SupplierContact.upsert(cur))),
         Promise.all(user2SupplierData.map(cur => User2Supplier.upsert(cur)))
     ]));
@@ -79,7 +70,6 @@ module.exports.down = function(db, config)
         db.models.Supplier2Address.destroy({ truncate: true })
     ]).then(() => Promise.all([
         db.models.Supplier.destroy({ truncate: true }),
-        db.models.Address.destroy({ truncate: true }),
-        db.models.Country.destroy({ truncate: true })
+        db.models.Address.destroy({ truncate: true })
     ]));
 }

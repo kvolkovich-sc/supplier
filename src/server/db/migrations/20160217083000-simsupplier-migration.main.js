@@ -313,19 +313,6 @@ module.exports = {
           field: "ChangedOn",
           allowNull: false
         }
-      }),
-
-      queryInterface.createTable('Country', {
-        countryId: {
-          type: Sequelize.STRING(2),
-          primaryKey: true,
-          field: "CountryID"
-        },
-        countryName: {
-          type: Sequelize.STRING(50),
-          field: "CountryName",
-          allowNull: false
-        }
       })
     ]);
   },
