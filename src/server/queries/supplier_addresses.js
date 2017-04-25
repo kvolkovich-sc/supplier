@@ -4,8 +4,6 @@ const Promise = require('bluebird');
 
 module.exports.init = function(db, config)
 {
-  db.models.Supplier.hasMany(db.models.Address, { as: 'addresses', foreignKey: 'supplierId', onDelete: 'cascade' });
-  db.models.Address.belongsTo(db.models.Supplier, { as: 'supplier', foreignKey: 'supplierId' });
   this.db = db;
 
   return Promise.resolve(this);

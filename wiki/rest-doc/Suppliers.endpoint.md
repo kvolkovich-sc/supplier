@@ -324,38 +324,27 @@ Get all addresses assigned to the Supplier
 ```
 [{
   "id":"3",
-  "salutation":null,
-  "name1":null,
-  "type":"default",
-  "changedBy":"jcadmin",
-  "createdBy":"jcadmin",
-  "createdOn":"2016-02-22T05:30:56.000Z",
-  "changedOn":"2016-02-22T05:30:56.000Z",
   "supplierId":"hard001",
   "addressId":"central_office",
-  "address":
-    {
-       "addressId":"central_office",
-       "salutation":"Supplier",
-       "name1":"Central Office",
-       "name2":null,
-       "name3":null,
-       "areaCode":null,
-       "street":"BV Borussia 09 e.V.",
-       "state":null,
-       "pobox":null,
-       "poboxZipCode":null,
-       "email":"jana.pape@jcatalog.com",
-       "zipCode":"220100",
-       "city":"Dortmund",
-       "phoneNo":"+491234512345",
-       "faxNo":null,
-       "countryId":"DE",
-       "changedBy":"jcadmin",
-       "createdBy":"jcadmin",
-       "createdOn":"2016-01-29T00:02:03.000Z",
-       "changedOn":"2016-02-22T05:30:56.000Z"
-    }
+  "salutation":"Supplier",
+  "name1":"Central Office",
+  "name2":null,
+  "name3":null,
+  "areaCode":null,
+  "street":"BV Borussia 09 e.V.",
+  "state":null,
+  "pobox":null,
+  "poboxZipCode":null,
+  "email":"jana.pape@jcatalog.com",
+  "zipCode":"220100",
+  "city":"Dortmund",
+  "phoneNo":"+491234512345",
+  "faxNo":null,
+  "countryId":"DE",
+  "changedBy":"jcadmin",
+  "createdBy":"jcadmin",
+  "createdOn":"2016-01-29T00:02:03.000Z",
+  "changedOn":"2016-02-22T05:30:56.000Z"
 }]
  ```
 
@@ -363,21 +352,10 @@ Get all addresses assigned to the Supplier
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|
-| address | object |  | true |  |
-| createdOn | string |  | true |  |
-| createdBy | string |  | true |  |
-| changedOn | string |  | true |  |
-| supplierId | string |  | true |  |
-| addressId | string |  | true |  |
-| salutation | string |  | false |  |
-| changedBy | string |  | true |  |
-| type | string |  | true |  |
 | id | string |  | true |  |
-| name1 | string |  | false |  |
-
-| Name | Type | Description | Required | Pattern |
-|:-----|:----:|:------------|:--------:|--------:|
-| zipCode | string |  | true |  |
+| addressId | string |  | true |  |
+| supplierId | string |  | true |  |
+| name1 | string |  | true |  |
 | name2 | string |  | false |  |
 | email | string |  | true |  |
 | createdOn | string |  | true |  |
@@ -388,7 +366,7 @@ Get all addresses assigned to the Supplier
 | name3 | string |  | false |  |
 | pobox | string |  | false |  |
 | city | string |  | true |  |
-| addressId | string |  | true |  |
+| zipCode | string |  | true |  |
 | salutation | string |  | true |  |
 | changedBy | string |  | true |  |
 | state | string |  | false |  |
@@ -396,7 +374,7 @@ Get all addresses assigned to the Supplier
 | phoneNo | string |  | true |  |
 | areaCode | string |  | false |  |
 | countryId | string |  | true |  |
-| name1 | string |  | true |  |
+| type | string |  | true |  |
 
 ---
 #### **POST**:
@@ -407,60 +385,39 @@ Object representing all addresses assigned to a given supplier.
 
 ```
 {
-  "id":"3",
-  "salutation":null,
-  "name1":null,
-  "type":"default",
-  "changedBy":"jcadmin",
-  "createdBy":"jcadmin",
-  "createdOn":"2016-02-22T05:30:56.000Z",
-  "changedOn":"2016-02-22T05:30:56.000Z",
   "supplierId":"hard001",
   "addressId":"central_office",
-  "address":
-    {
-       "addressId":"central_office",
-       "salutation":"Supplier",
-       "name1":"Central Office",
-       "name2":null,
-       "name3":null,
-       "areaCode":null,
-       "street":"BV Borussia 09 e.V.",
-       "state":null,
-       "pobox":null,
-       "poboxZipCode":null,
-       "email":"jana.pape@jcatalog.com",
-       "zipCode":"220100",
-       "city":"Dortmund",
-       "phoneNo":"+491234512345",
-       "faxNo":null,
-       "countryId":"DE",
-       "changedBy":"jcadmin",
-       "createdBy":"jcadmin",
-       "createdOn":"2016-01-29T00:02:03.000Z",
-       "changedOn":"2016-02-22T05:30:56.000Z"
-    }
+  "type":"default",
+  "salutation":"Supplier",
+  "name1":"Central Office",
+  "name2":null,
+  "name3":null,
+  "areaCode":null,
+  "street":"BV Borussia 09 e.V.",
+  "state":null,
+  "pobox":null,
+  "poboxZipCode":null,
+  "email":"jana.pape@jcatalog.com",
+  "zipCode":"220100",
+  "city":"Dortmund",
+  "phoneNo":"+491234512345",
+  "faxNo":null,
+  "countryId":"DE",
+  "changedBy":"jcadmin",
+  "createdBy":"jcadmin",
+  "createdOn":"2016-01-29T00:02:03.000Z",
+  "changedOn":"2016-02-22T05:30:56.000Z"
 }
  ```
 
 ##### *SupplierAddress*:
-| Name | Type | Description | Required | Pattern |
-|:-----|:----:|:------------|:--------:|--------:|
-| address | object |  | true |  |
-| createdOn | string |  | true |  |
-| createdBy | string |  | true |  |
-| changedOn | string |  | true |  |
-| supplierId | string |  | true |  |
-| addressId | string |  | true |  |
-| salutation | string |  | false |  |
-| changedBy | string |  | true |  |
-| type | string |  | true |  |
-| id | string |  | true |  |
-| name1 | string |  | false |  |
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|
+| addressId | string |  | true |  |
+| supplierId | string |  | true |  |
 | zipCode | string |  | true |  |
+| name1 | string |  | true |  |
 | name2 | string |  | false |  |
 | email | string |  | true |  |
 | createdOn | string |  | true |  |
@@ -479,69 +436,48 @@ Object representing all addresses assigned to a given supplier.
 | phoneNo | string |  | true |  |
 | areaCode | string |  | false |  |
 | countryId | string |  | true |  |
-| name1 | string |  | true |  |
+| type | string |  | true |  |
 
 ### Response code: 200
 
-#### SupplierAddressArray (application/json)
+#### SupplierAddress (application/json)
 
 ```
-[{
+{
   "id":"3",
-  "salutation":null,
-  "name1":null,
   "type":"default",
-  "changedBy":"jcadmin",
-  "createdBy":"jcadmin",
-  "createdOn":"2016-02-22T05:30:56.000Z",
-  "changedOn":"2016-02-22T05:30:56.000Z",
   "supplierId":"hard001",
   "addressId":"central_office",
-  "address":
-    {
-       "addressId":"central_office",
-       "salutation":"Supplier",
-       "name1":"Central Office",
-       "name2":null,
-       "name3":null,
-       "areaCode":null,
-       "street":"BV Borussia 09 e.V.",
-       "state":null,
-       "pobox":null,
-       "poboxZipCode":null,
-       "email":"jana.pape@jcatalog.com",
-       "zipCode":"220100",
-       "city":"Dortmund",
-       "phoneNo":"+491234512345",
-       "faxNo":null,
-       "countryId":"DE",
-       "changedBy":"jcadmin",
-       "createdBy":"jcadmin",
-       "createdOn":"2016-01-29T00:02:03.000Z",
-       "changedOn":"2016-02-22T05:30:56.000Z"
-    }
-}]
+  "salutation":"Supplier",
+  "name1":"Central Office",
+  "name2":null,
+  "name3":null,
+  "areaCode":null,
+  "street":"BV Borussia 09 e.V.",
+  "state":null,
+  "pobox":null,
+  "poboxZipCode":null,
+  "email":"jana.pape@jcatalog.com",
+  "zipCode":"220100",
+  "city":"Dortmund",
+  "phoneNo":"+491234512345",
+  "faxNo":null,
+  "countryId":"DE",
+  "changedBy":"jcadmin",
+  "createdBy":"jcadmin",
+  "createdOn":"2016-01-29T00:02:03.000Z",
+  "changedOn":"2016-02-22T05:30:56.000Z"
+}
  ```
 
-##### List of *SupplierAddress*:
+##### *SupplierAddress* Object:
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|
-| address | object |  | true |  |
-| createdOn | string |  | true |  |
-| createdBy | string |  | true |  |
-| changedOn | string |  | true |  |
-| supplierId | string |  | true |  |
 | addressId | string |  | true |  |
-| salutation | string |  | false |  |
-| changedBy | string |  | true |  |
-| type | string |  | true |  |
-| id | string |  | true |  |
-| name1 | string |  | false |  |
-
-| Name | Type | Description | Required | Pattern |
-|:-----|:----:|:------------|:--------:|--------:|
+| supplierId | string |  | true |  |
 | zipCode | string |  | true |  |
+| name1 | string |  | true |  |
 | name2 | string |  | false |  |
 | email | string |  | true |  |
 | createdOn | string |  | true |  |
@@ -560,7 +496,7 @@ Object representing all addresses assigned to a given supplier.
 | phoneNo | string |  | true |  |
 | areaCode | string |  | false |  |
 | countryId | string |  | true |  |
-| name1 | string |  | true |  |
+| type | string |  | true |  |
 
 ### Response code: 403
 Operation is not authorized
@@ -590,60 +526,40 @@ Object representing all addresses assigned to a given supplier.
 
 ```
 {
-  "id":"3",
-  "salutation":null,
-  "name1":null,
   "type":"default",
-  "changedBy":"jcadmin",
-  "createdBy":"jcadmin",
-  "createdOn":"2016-02-22T05:30:56.000Z",
-  "changedOn":"2016-02-22T05:30:56.000Z",
   "supplierId":"hard001",
   "addressId":"central_office",
-  "address":
-    {
-       "addressId":"central_office",
-       "salutation":"Supplier",
-       "name1":"Central Office",
-       "name2":null,
-       "name3":null,
-       "areaCode":null,
-       "street":"BV Borussia 09 e.V.",
-       "state":null,
-       "pobox":null,
-       "poboxZipCode":null,
-       "email":"jana.pape@jcatalog.com",
-       "zipCode":"220100",
-       "city":"Dortmund",
-       "phoneNo":"+491234512345",
-       "faxNo":null,
-       "countryId":"DE",
-       "changedBy":"jcadmin",
-       "createdBy":"jcadmin",
-       "createdOn":"2016-01-29T00:02:03.000Z",
-       "changedOn":"2016-02-22T05:30:56.000Z"
-    }
+  "salutation":"Supplier",
+  "name1":"Central Office",
+  "name2":null,
+  "name3":null,
+  "areaCode":null,
+  "street":"BV Borussia 09 e.V.",
+  "state":null,
+  "pobox":null,
+  "poboxZipCode":null,
+  "email":"jana.pape@jcatalog.com",
+  "zipCode":"220100",
+  "city":"Dortmund",
+  "phoneNo":"+491234512345",
+  "faxNo":null,
+  "countryId":"DE",
+  "changedBy":"jcadmin",
+  "createdBy":"jcadmin",
+  "createdOn":"2016-01-29T00:02:03.000Z",
+  "changedOn":"2016-02-22T05:30:56.000Z"
 }
  ```
 
 ##### *SupplierAddress*:
-| Name | Type | Description | Required | Pattern |
-|:-----|:----:|:------------|:--------:|--------:|
-| address | object |  | true |  |
-| createdOn | string |  | true |  |
-| createdBy | string |  | true |  |
-| changedOn | string |  | true |  |
-| supplierId | string |  | true |  |
-| addressId | string |  | true |  |
-| salutation | string |  | false |  |
-| changedBy | string |  | true |  |
-| type | string |  | true |  |
-| id | string |  | true |  |
-| name1 | string |  | false |  |
+
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|
+| addressId | string |  | true |  |
+| supplierId | string |  | true |  |
 | zipCode | string |  | true |  |
+| name1 | string |  | true |  |
 | name2 | string |  | false |  |
 | email | string |  | true |  |
 | createdOn | string |  | true |  |
@@ -662,7 +578,7 @@ Object representing all addresses assigned to a given supplier.
 | phoneNo | string |  | true |  |
 | areaCode | string |  | false |  |
 | countryId | string |  | true |  |
-| name1 | string |  | true |  |
+| type | string |  | true |  |
 
 ### Response code: 200
 
@@ -671,38 +587,28 @@ Object representing all addresses assigned to a given supplier.
 ```
 {
   "id":"3",
-  "salutation":null,
-  "name1":null,
   "type":"default",
-  "changedBy":"jcadmin",
-  "createdBy":"jcadmin",
-  "createdOn":"2016-02-22T05:30:56.000Z",
-  "changedOn":"2016-02-22T05:30:56.000Z",
   "supplierId":"hard001",
   "addressId":"central_office",
-  "address":
-    {
-       "addressId":"central_office",
-       "salutation":"Supplier",
-       "name1":"Central Office",
-       "name2":null,
-       "name3":null,
-       "areaCode":null,
-       "street":"BV Borussia 09 e.V.",
-       "state":null,
-       "pobox":null,
-       "poboxZipCode":null,
-       "email":"jana.pape@jcatalog.com",
-       "zipCode":"220100",
-       "city":"Dortmund",
-       "phoneNo":"+491234512345",
-       "faxNo":null,
-       "countryId":"DE",
-       "changedBy":"jcadmin",
-       "createdBy":"jcadmin",
-       "createdOn":"2016-01-29T00:02:03.000Z",
-       "changedOn":"2016-02-22T05:30:56.000Z"
-    }
+  "salutation":"Supplier",
+  "name1":"Central Office",
+  "name2":null,
+  "name3":null,
+  "areaCode":null,
+  "street":"BV Borussia 09 e.V.",
+  "state":null,
+  "pobox":null,
+  "poboxZipCode":null,
+  "email":"jana.pape@jcatalog.com",
+  "zipCode":"220100",
+  "city":"Dortmund",
+  "phoneNo":"+491234512345",
+  "faxNo":null,
+  "countryId":"DE",
+  "changedBy":"jcadmin",
+  "createdBy":"jcadmin",
+  "createdOn":"2016-01-29T00:02:03.000Z",
+  "changedOn":"2016-02-22T05:30:56.000Z"
 }
  ```
 
@@ -710,21 +616,10 @@ Object representing all addresses assigned to a given supplier.
 
 | Name | Type | Description | Required | Pattern |
 |:-----|:----:|:------------|:--------:|--------:|
-| address | object |  | true |  |
-| createdOn | string |  | true |  |
-| createdBy | string |  | true |  |
-| changedOn | string |  | true |  |
-| supplierId | string |  | true |  |
 | addressId | string |  | true |  |
-| salutation | string |  | false |  |
-| changedBy | string |  | true |  |
-| type | string |  | true |  |
-| id | string |  | true |  |
-| name1 | string |  | false |  |
-
-| Name | Type | Description | Required | Pattern |
-|:-----|:----:|:------------|:--------:|--------:|
+| supplierId | string |  | true |  |
 | zipCode | string |  | true |  |
+| name1 | string |  | true |  |
 | name2 | string |  | false |  |
 | email | string |  | true |  |
 | createdOn | string |  | true |  |
@@ -743,7 +638,7 @@ Object representing all addresses assigned to a given supplier.
 | phoneNo | string |  | true |  |
 | areaCode | string |  | false |  |
 | countryId | string |  | true |  |
-| name1 | string |  | true |  |
+| type | string |  | true |  |
 
 ### Response code: 409
 A supplier with the same supplierId but different set of properties already exists.
