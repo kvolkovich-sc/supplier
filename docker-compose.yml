@@ -8,6 +8,7 @@ services:
       - mysql
       - consul
       - registrator
+      - isodata
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
@@ -54,3 +55,18 @@ services:
     labels:
       SERVICE_IGNORE: 'true'  # Do not add any of Consul's services to Consul's service discovery registry.
     command: [agent, '-server', '-ui', '-bootstrap-expect=1', '-bind=${HOST_IP}', '-client=0.0.0.0']
+
+  isodata:
+    image: ocbesbn/isodata:latest
+    ports:
+      - '3006:3006'
+    extra_hosts:
+      - 'consul:${HOST_IP}'
+    labels:
+      SERVICE_NAME: isodata
+    environment:
+      HOST_IP: ${HOST_IP}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      PORT: '3006'
+    command: 'npm run dev'

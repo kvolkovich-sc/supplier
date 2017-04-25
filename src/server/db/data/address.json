@@ -1,6 +1,7 @@
 [
   {
     "addressId": "central_office",
+    "supplierId": "hard001",
     "areaCode": null,
     "city": "Minsk",
     "countryId": "BY",

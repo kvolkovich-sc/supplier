@@ -44,31 +44,31 @@ class SupplierAddressListTable extends Component {
         <thead>
           <tr>
             <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.type')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.street')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.zipCode')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.city')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.countryId')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.phoneNo')}</th>
-            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.address.faxNo')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.street')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.zipCode')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.city')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.countryId')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.phoneNo')}</th>
+            <th>{this.context.i18n.getMessage('SupplierAddressEditor.Label.faxNo')}</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
         {
               supplierAddresses.map((supplierAddress, index) => {
-                let countryId = supplierAddress.address.countryId;
+                let countryId = supplierAddress.countryId;
                 let country = utils.findWhere(countries, { id: countryId });
                 let countryName = country ? country.name : countryId;
 
                 return (
                   <tr key={'address-' + index}>
                     <td>{this.context.i18n.getMessage(`SupplierAddressEditor.AddressType.${supplierAddress.type}`)}</td>
-                    <td>{supplierAddress.address.street}</td>
-                    <td>{supplierAddress.address.zipCode}</td>
-                    <td>{supplierAddress.address.city}</td>
+                    <td>{supplierAddress.street}</td>
+                    <td>{supplierAddress.zipCode}</td>
+                    <td>{supplierAddress.city}</td>
                     <td>{countryName}</td>
-                    <td>{supplierAddress.address.phoneNo}</td>
-                    <td>{supplierAddress.address.faxNo ? supplierAddress.address.faxNo : '-'}</td>
+                    <td>{supplierAddress.phoneNo}</td>
+                    <td>{supplierAddress.faxNo ? supplierAddress.faxNo : '-'}</td>
                     <td className="text-right">
                       {this.props.readOnly ? (
                         <nobr>

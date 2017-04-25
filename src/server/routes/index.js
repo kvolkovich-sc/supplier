@@ -1,12 +1,12 @@
 'use strict';
 
 const Promise = require('bluebird');
-const epilogue = require('epilogue');
 const express = require('express');
 
-const supplierRoutes = require('./supplier');
-const supplierAddressRoutes = require('./supplierAddress');
-const supplierContactRoutes = require('./supplierContact');
+const suppliers = require('./suppliers');
+const supplierContacts = require('./supplier_contacts');
+const supplierAddresses = require('./supplier_addresses');
+const SupplierAddress = require('../queries/supplier_addresses');
 const countries = require('./countries');
 
 /**
@@ -20,26 +20,11 @@ const countries = require('./countries');
  */
 module.exports.init = function(app, db, config) {
   // Register routes here.
-  // Use the passed db parameter in order to use Epilogue auto-routes.
-  // Use require in order to separate routes into multiple js files.
 
-  epilogue.initialize({
-    app: app,
-    sequelize: db,
-    base: '/api'
-  });
-
-  // supplier routes
-  supplierRoutes(epilogue, db);
-
-  // supplier address routes
-  supplierAddressRoutes(epilogue, db);
-
-  // supplier contacts
-  supplierContactRoutes(epilogue, db);
-
-  // countries
-  countries(epilogue, db);
+  suppliers(app, db, config);
+  supplierContacts(app, db, config);
+  supplierAddresses(app, db, config);
+  countries(app);
 
   if (process.env.NODE_ENV === 'development') {
     const path = require('path');
