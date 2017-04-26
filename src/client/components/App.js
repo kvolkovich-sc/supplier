@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import SupplierEditor from './SupplierEditor';
+import SupplierRegistrationEditor from './SupplierRegistrationEditor';
 import SupplierAddressEditor from './SupplierAddressEditor';
 import SupplierContactEditor from './SupplierContactEditor';
 
@@ -36,8 +37,20 @@ let editor = (
     username={username}
     dateTimePattern='MM/dd/yyyy h:mm:ss a'
     countries={countries}
-    isOnboarding={true}
+    isOnboarding={false}
     supplier={supplier}
+  />
+);
+
+let registrationEditor = (
+  <SupplierRegistrationEditor
+    key='company'
+    readOnly={false}
+    actionUrl={actionUrl}
+    locale='en'
+    username={username}
+    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    countries={countries}
   />
 );
 
@@ -72,10 +85,12 @@ const App = () => (
   <div>
     <ul className="nav nav-tabs">
       <li><NavLink exact activeStyle={activeStyle} to='/'>Supplier</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/registration'>Supplier Registration</NavLink></li>
       <li><NavLink activeStyle={activeStyle} to='/address'>Supplier Address</NavLink></li>
       <li><NavLink activeStyle={activeStyle} to='/contact'>Supplier Contact</NavLink></li>
     </ul>
     <Route exact path='/' render={() => editor }/>
+    <Route exact path='/registration' render={() => registrationEditor }/>
     <Route exact path='/address' render={() => addressEditor }/>
     <Route exact path='/contact' render={() => contactEditor }/>
   </div>
