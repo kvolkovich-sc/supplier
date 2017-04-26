@@ -21,31 +21,26 @@ const supplier = {
   createdBy: "john.doe@ncc.com",
   changedBy: "john.doe@ncc.com"
 };
-const username = 'Bruce Wayne';
+const username = 'scott.tiger@example.com';
 const actionUrl = 'http://localhost:3001'
 
 
 let editor = (
   <SupplierEditor
     key='company'
-    readOnly={false}
     actionUrl={actionUrl}
-    supplierId={supplier.supplierId}
-    supplierName={supplier.supplierName}
-    companyRole={supplier.role}
+    supplierId="hwi"
+    supplierName="Hardware Inc."
     locale='en'
     username={username}
     dateTimePattern='MM/dd/yyyy h:mm:ss a'
     countries={countries}
-    isOnboarding={false}
-    supplier={supplier}
   />
 );
 
 let registrationEditor = (
   <SupplierRegistrationEditor
     key='company'
-    readOnly={false}
     actionUrl={actionUrl}
     locale='en'
     username={username}

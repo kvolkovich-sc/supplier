@@ -56,7 +56,5 @@ module.exports.recordExists = function(supplier)
 
 module.exports.isAuthorized = function(supplierId, changedBy)
 {
-  return this.find(supplierId).then(supplier => {
-    return supplier && supplier.getDataValue('changedBy') === changedBy;
-  });
+  return this.db.models.Supplier.findById(supplierId).then(supplier => supplier && supplier.changedBy === changedBy);
 }

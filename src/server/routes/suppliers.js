@@ -47,9 +47,11 @@ var updateSupplier = function(req, res)
     return res.status('422').json({ message: 'inconsistent data' });
   }
 
-  if (!Supplier.isAuthorized(supplierId, req.body.changedBy)) {
-    return res.status('403').json({ message: 'operation is not authorized' });
-  }
+  Supplier.isAuthorized(supplierId, req.body.changedBy).then(authorized => {
+    if (!authorized) {
+      return res.status('403').json({ message: 'operation is not authorized' });
+    }
+  });
 
   Supplier.exists(supplierId).then(exists =>
   {
