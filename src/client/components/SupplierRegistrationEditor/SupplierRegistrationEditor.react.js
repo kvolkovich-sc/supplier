@@ -69,7 +69,7 @@ class SupplierRegistrationEditor extends Component {
 
   handleUpdate = newSupplier => {
     if (!newSupplier) {
-      return this.setState({
+       this.setState({
         globalInfoMessage: '',
         globalErrorMessage: '',
       });

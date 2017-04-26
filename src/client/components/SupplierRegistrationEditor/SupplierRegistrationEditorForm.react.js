@@ -170,7 +170,7 @@ class SupplierRegistrationEditorForm extends Component {
     const { onSupplierChange } = this.props;
     const supplier = { ...this.state.supplier };
 
-    if (!supplier.supplierId && supplier.supplierName) {
+    if (supplier.supplierName) {
       supplier.supplierId = supplier.supplierName.replace(/[^0-9a-z_\-]/gi, '');
     }
 
