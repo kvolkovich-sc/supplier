@@ -8,8 +8,7 @@ export default class AttributeValueEditorRow extends Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
     required: PropTypes.bool,
-    rowErrors: PropTypes.array,
-    isOnboarding: PropTypes.bool
+    rowErrors: PropTypes.array
   };
 
   static defaultProps = {
@@ -18,7 +17,7 @@ export default class AttributeValueEditorRow extends Component {
   };
 
   render() {
-    const { required, rowErrors, isOnboarding } = this.props;
+    const { required, rowErrors } = this.props;
     let labelText = this.props.labelText;
 
     if (required) {
@@ -36,7 +35,7 @@ export default class AttributeValueEditorRow extends Component {
           {labelText}
         </label>
 
-        <div className={`col-sm-${isOnboarding ? '8' : '6 col-md-4'}`}>
+        <div className={`col-sm-6 col-md-4`}>
           { this.props.children }
 
           {rowErrors.map((error, index) =>

@@ -17,13 +17,8 @@ class SupplierEditor extends Component {
     actionUrl: PropTypes.string.isRequired,
     supplierId: PropTypes.string,
     supplierName: PropTypes.string,
-    companyRole: PropTypes.string,
     username: React.PropTypes.string,
     dateTimePattern: PropTypes.string.isRequired,
-    /**
-     * Subscribe to persistent data changes
-     * @arg0 - dirty state: true - if inner data changed, false if inner changes was reset
-     */
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func,
@@ -34,9 +29,9 @@ class SupplierEditor extends Component {
     super(props);
 
     this.state = {
-      isLoaded: !this.props.supplierId,
+      isLoaded: false,
       hasErrors: false,
-      supplier: props.supplier
+      supplier: {}
     }
   }
 
@@ -112,21 +107,9 @@ class SupplierEditor extends Component {
     delete newSupplier.changedOn;  // eslint-disable-line no-param-reassign
     delete newSupplier.createdOn;  // eslint-disable-line no-param-reassign
     const { i18n } = this.context;
-    let requestMethod;
 
     console.log('===== ABOUT TO REQUEST A PROMISE');
-    if (this.props.supplierId && this.props.supplierId.toLowerCase() === newSupplier.supplierId.toLowerCase()) {
-      // Updating info of a supplier the user is linked to.
-      requestMethod = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`);
-    } else {
-      // Linking the user to a new/existing supplier.
-      // or
-      // relinking the user to a new/another supplier.
-      newSupplier.createdBy = this.props.username;// eslint-disable-line no-param-reassign
-      requestMethod = request.post(`${this.props.actionUrl}/api/suppliers`);
-    }
-
-    this.ajaxPromise = requestMethod.
+    this.ajaxPromise = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();
@@ -144,15 +127,13 @@ class SupplierEditor extends Component {
           this.props.onUpdate &&
           (
             this.props.supplierId !== response.body.supplierId ||
-            this.props.supplierName !== response.body.supplierName ||
-            this.props.companyRole !== response.body.role
+            this.props.supplierName !== response.body.supplierName
           )
         ) {
           // Informing wrapper app (BNP/SIM) about supplier change.
           this.props.onUpdate({
             supplierId: response.body.supplierId,
-            supplierName: response.body.supplierName,
-            companyRole: response.body.role
+            supplierName: response.body.supplierName
           });
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });

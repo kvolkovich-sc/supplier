@@ -23,11 +23,6 @@ TableHeader.vatRegNo = 'VAT registration number';
 TableHeader.dunsNo = 'D-U-N-S number';
 TableHeader.globalLocationNo = 'Global location number';
 
-let Description = {};
-Description.chooseSupplier = 'Choose an existing company or provide general information for a new one.';
-Description.modifySupplierOrChooseAnother = 'Please provide general company information here.';
-Description.viewSupplierOrChooseAnother = 'General company information.';
-
 let Select = {};
 Select.country = 'Select country...';
 
@@ -85,7 +80,6 @@ export default {
     Confirmation: Confirmation,
     ButtonLabel: ButtonLabel,
     TableHeader: TableHeader,
-    Description: Description,
     Select: Select,
     SupplierRegistrationEditor: SupplierRegistrationEditor,
     Label: Label,

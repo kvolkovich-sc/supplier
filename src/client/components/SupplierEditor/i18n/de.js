@@ -28,9 +28,7 @@ let Select = {};
 Select.country = 'Bitte ein Land auswählen ...';
 
 let Description = {};
-Description.chooseSupplier = 'Choose an existing company or create a new one.';  // TODO: substitute with EN.
-Description.modifySupplierOrChooseAnother = 'Bitte hinterlegen Sie hier allgemeine Informationen zu Ihrem Unternehmen.';
-Description.viewSupplierOrChooseAnother = 'General company information.';  // TODO: substitute with EN.
+Description.viewSupplierOrChooseAnother = 'General company information.';
 
 let Label = {
   supplierName: {},
