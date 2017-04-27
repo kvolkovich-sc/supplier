@@ -6,6 +6,7 @@ import SupplierRegistrationEditorFormRow from './SupplierRegistrationEditorFormR
 import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
+import SupplierFormConstraints from '../SupplierFormConstraints';
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {
@@ -45,86 +46,7 @@ class SupplierRegistrationEditorForm extends Component {
 
   validatejsI18N = new I18nManager(this.context.i18n.locale, globalMessages)
 
-  SUPPLIER_CONSTRAINTS = {
-    supplierName: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 50,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
-        })
-      }
-    },
-    registrationNumber: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    cityOfRegistration: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    countryOfRegistration: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    taxId: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    vatRegNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    globalLocationNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    dunsNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    }
-  }
+  SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
 
   handleChange = (fieldName, event) => {
     let newValue = event.target.value;

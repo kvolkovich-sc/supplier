@@ -7,6 +7,7 @@ import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
+import SupplierFormConstraints from '../SupplierFormConstraints';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -77,117 +78,9 @@ class SupplierEditorForm extends Component {
     });
   }
 
-  validatejsI18N = new I18nManager(this.context.i18n.locale, globalMessages)
+  validatejsI18N = new I18nManager(this.context.i18n.locale, globalMessages);
 
-  SUPPLIER_CONSTRAINTS = {
-    supplierName: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 50,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
-        })
-      }
-    },
-    homePage: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    role: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      }
-    },
-    foundedOn: {
-      presence: false,
-      datetime: {
-        message: this.validatejsI18N.getMessage('validatejs.typeMismatch.java.util.Date')
-      }
-    },
-    legalForm: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    registrationNumber: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    cityOfRegistration: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    countryOfRegistration: {
-      presence: {
-        message: this.validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    taxId: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    vatRegNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    globalLocationNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    },
-    dunsNo: {
-      presence: false,
-      length: {
-        maximum: 250,
-        tooLong: this.validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 250
-        })
-      }
-    }
-  }
+  SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
 
   handleDateChange = (fieldName, event) => {
     let date;
