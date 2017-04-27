@@ -45,11 +45,11 @@ module.exports.recordExists = function(supplier)
 
   var fields = ['registrationNumber', 'taxId', 'vatRegNo'];
 
-  for (var i = 0; i < fields.length; i++) {
-    if (supplier[fields[i]]) {
-      options[fields[i]] = supplier[fields[i]]
+  ['registrationNumber', 'taxId', 'vatRegNo'].forEach(field => {
+    if (supplier[field]) {
+      options[field] = supplier[field];
     }
-  }
+  });
 
   return this.db.models.Supplier.findOne({ where: options }).then(supplier => Boolean(supplier));
 }
