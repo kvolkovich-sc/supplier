@@ -126,9 +126,23 @@ class SupplierRegistrationEditor extends Component {
       });
   }
 
+  toRender = () => {
+    if (this.state.supplierExist) {
+      return <SupplierExistsView onBack={ this.handleBackToForm }/>
+    } else {
+      return <SupplierRegistrationEditorForm
+               {...this.props}
+               supplier={ this.state.supplier }
+               onSupplierChange={ this.handleUpdate }
+               onChange={ this.handleChange }
+               onCancel={ this.props.onLogout }
+             />
+    }
+  }
+
   render() {
     const { i18n } = this.context;
-    const { isLoaded, hasErrors, supplier, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
+    const { isLoaded, hasErrors, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
 
     if (!isLoaded) {
       return (
@@ -140,19 +154,6 @@ class SupplierRegistrationEditor extends Component {
       return (
         <div>{ i18n.getMessage('SupplierRegistrationEditor.Messages.unableToRender') }</div>
       );
-    }
-
-    let toRender;
-    if (this.state.supplierExist) {
-      toRender = <SupplierExistsView onBack={ this.handleBackToForm }/>
-    } else {
-      toRender = <SupplierRegistrationEditorForm
-                    {...this.props}
-                    supplier={ supplier }
-                    onSupplierChange={ this.handleUpdate }
-                    onChange={ this.handleChange }
-                    onCancel={ this.props.onLogout }
-                  />
     }
 
     return (
@@ -172,7 +173,7 @@ class SupplierRegistrationEditor extends Component {
 
           <h2>Company Registration</h2>
 
-          {toRender}
+          {this.toRender()}
         </div>
       </div>
     );

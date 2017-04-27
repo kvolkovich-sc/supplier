@@ -62,6 +62,6 @@ export default class DatePicker extends React.Component {
       ...inputProps
     } = this.props;
 
-    return (<input {...inputProps} ref="input"/>);
+    return <input ref="input" {...inputProps}/>;
   }
 }

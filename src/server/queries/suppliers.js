@@ -51,7 +51,7 @@ module.exports.recordExists = function(supplier)
     }
   }
 
-  return this.db.models.Supplier.findOne({ where: options }).then(sup => sup ? true : false);
+  return this.db.models.Supplier.findOne({ where: options }).then(supplier => Boolean(supplier));
 }
 
 module.exports.isAuthorized = function(supplierId, changedBy)
