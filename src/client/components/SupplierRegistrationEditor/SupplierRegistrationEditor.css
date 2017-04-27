@@ -8,3 +8,20 @@
   margin-top: 1.4em;
   margin-bottom: 1.4em;
 }
+
+.supplier-registration-container {
+  z-index: 2;
+}
+
+#supplier-registration {
+  width: 87%;
+  margin-top: 15px;
+  padding: 3%;
+  text-align: left;
+  z-index: 3;
+  background-color: white;
+}
+
+.supplier-registration-form-submit {
+  padding-top: 20px;
+}

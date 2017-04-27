@@ -380,11 +380,7 @@ class SupplierAddressEditForm extends Component {
         {tooltipOverlay ? (
           <div className="col-sm-1 text-right">
             <OverlayTrigger trigger="click" placement="bottom" overlay={tooltipOverlay}>
-              <i style={{
-                cursor: 'pointer',
-                verticalAlign: 'middle'
-              }} className="glyphicon glyphicon-info-sign text-muted form-control-static"
-              />
+              <i className="glyphicon glyphicon-info-sign text-muted form-control-static address-info-sign"/>
             </OverlayTrigger>
           </div>
         ) : null}
@@ -537,7 +533,7 @@ class SupplierAddressEditForm extends Component {
           disabled: (editMode === 'view')
         })}
 
-        <div className="col-sm-12 text-right" style={{ 'paddingRight': '0' }}>
+        <div className="col-sm-12 text-right address-form-submit">
           {editMode !== 'create-first' ? (
             <Button bsStyle="link"
               onClick={this.handleCancel}

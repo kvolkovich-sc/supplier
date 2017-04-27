@@ -156,23 +156,8 @@ class SupplierRegistrationEditor extends Component {
     }
 
     return (
-      <div
-        className="container"
-        style={{
-          zIndex: '2'
-        }}
-      >
-        <div
-          className="box"
-          style={{
-            width: '87%',
-            marginTop: '15px',
-            padding: '3%',
-            textAlign: 'left',
-            zIndex: '3',
-            backgroundColor: 'white'
-          }}
-        >
+      <div className="container supplier-registration-container">
+        <div className='box' id='supplier-registration'>
           <Alert bsStyle="info"
             message={globalInfoMessage}
             visible={!!globalInfoMessage}

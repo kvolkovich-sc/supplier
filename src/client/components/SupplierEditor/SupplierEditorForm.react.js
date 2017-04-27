@@ -264,8 +264,8 @@ class SupplierEditorForm extends Component {
           { this.renderField({ fieldName: 'globalLocationNo' }) }
           { this.renderField({ fieldName: 'dunsNo' }) }
 
-          <div style={{ paddingTop: '20px' }}>
-            <div className={`text-right form-submit col-sm-10 col-md-8`}>
+          <div className='supplier-form-submit'>
+            <div className='text-right form-submit col-sm-10 col-md-8'>
               <button className="btn btn-primary" onClick={ this.handleUpdate }>
                 { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
               </button>

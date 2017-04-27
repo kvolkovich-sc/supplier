@@ -204,8 +204,8 @@ class SupplierRegistrationEditorForm extends Component {
                 { this.renderField({ fieldName: 'globalLocationNo' }) }
                 { this.renderField({ fieldName: 'dunsNo' }) }
 
-                <div style={{ paddingTop: '20px' }}>
-                  <div className={`text-right form-submit`}>
+                <div className='supplier-registration-form-submit'>
+                  <div className='text-right form-submit'>
                     <button className="btn btn-link" onClick={this.handleCancel}>Cancel</button>
                     <button className="btn btn-primary" onClick={ this.handleUpdate }>
                       Continue
