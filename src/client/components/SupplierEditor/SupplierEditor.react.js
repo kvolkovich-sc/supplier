@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
+import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
@@ -49,6 +50,7 @@ class SupplierEditor extends Component {
     this.ajaxPromise.
       then(response => {
         console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE', response);
+        response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           isLoaded: true,
           supplier: response.body
@@ -81,6 +83,15 @@ class SupplierEditor extends Component {
     if (this.ajaxPromise && !this.state.isLoaded) {
       this.ajaxPromise.cancel();
     }
+  }
+
+  formatedDate(date) {
+    if (!date) {
+      return;
+    }
+
+    const momentFormat = this.props.dateTimePattern.replace('dd', 'DD').replace('yyyy', 'YYYY');
+    return moment(date).format(momentFormat);
   }
 
   ajaxPromise = null;
@@ -117,6 +128,7 @@ class SupplierEditor extends Component {
     return this.ajaxPromise.
       then(response => {
         console.log('===== A PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
+        response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           supplier: response.body,
           globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),

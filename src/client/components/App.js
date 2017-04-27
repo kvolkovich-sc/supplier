@@ -29,11 +29,11 @@ let editor = (
   <SupplierEditor
     key='company'
     actionUrl={actionUrl}
-    supplierId="hwi"
-    supplierName="Hardware Inc."
+    supplierId={supplier.supplierId}
+    supplierName={supplier.supplierName}
     locale='en'
     username={username}
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     countries={countries}
   />
 );
@@ -44,7 +44,7 @@ let registrationEditor = (
     actionUrl={actionUrl}
     locale='en'
     username={username}
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     countries={countries}
   />
 );
@@ -54,7 +54,7 @@ let addressEditor = (
     key='address'
     readOnly={false}
     actionUrl={actionUrl}
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     supplierId={supplier.supplierId}
     locale='en'
     username={username}
@@ -65,7 +65,7 @@ let addressEditor = (
 let contactEditor = (
   <SupplierContactEditor
     key='contact'
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     readOnly={false}
     actionUrl={actionUrl}
     supplierId={supplier.supplierId}

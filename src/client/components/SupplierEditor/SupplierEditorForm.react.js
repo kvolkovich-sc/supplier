@@ -83,19 +83,10 @@ class SupplierEditorForm extends Component {
   SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
 
   handleDateChange = (fieldName, event) => {
-    let date;
-    try {
-      date = this.context.i18n.parseDate(event.target.value);
-    } catch (e) {
-      date = this.state.supplier.foundedOn;
-    }
-
     this.setState({
       supplier: {
         ...this.state.supplier,
-        [fieldName]: isValidDate(date) ?
-          date.toJSON() :
-          date || ''
+        [fieldName]: event.target.value
       },
       fieldErrors: {
         ...this.state.fieldErrors,
@@ -207,16 +198,10 @@ class SupplierEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { countries } = this.props;
+    const { dateTimePattern, countries } = this.props;
     const { supplier } = this.state;
 
-    let foundedOn = supplier['foundedOn'];
-    if (foundedOn) {
-      let date = new Date(foundedOn);
-      if (isValidDate(date)) {
-        foundedOn = i18n.formatDate(date);
-      }
-    }
+    let foundedOn = supplier['foundedOn'] || '';
 
     return (
       <div>
@@ -232,7 +217,7 @@ class SupplierEditorForm extends Component {
               <DatePicker className="form-control"
                 locale={locale}
                 format={this.props.dateTimePattern}
-                value={foundedOn || ''}
+                value={foundedOn}
                 onChange={this.handleDateChange.bind(this, 'foundedOn')}
                 onBlur={this.handleBlur.bind(this, 'foundedOn')}
               />
