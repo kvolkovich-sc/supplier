@@ -15,9 +15,9 @@ class SupplierEditor extends Component {
 
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
-    supplierId: PropTypes.string,
+    supplierId: PropTypes.string.isRequired,
     supplierName: PropTypes.string,
-    username: React.PropTypes.string,
+    username: React.PropTypes.string.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,

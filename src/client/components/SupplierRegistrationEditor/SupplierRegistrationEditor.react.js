@@ -16,7 +16,7 @@ class SupplierRegistrationEditor extends Component {
 
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
-    username: React.PropTypes.string,
+    username: React.PropTypes.string.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
