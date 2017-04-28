@@ -21,14 +21,6 @@ export default class DatePicker extends React.Component {
     this.options = props.options || {};
   }
 
-  static propTypes = {
-    showIcon: React.PropTypes.bool
-  };
-
-  static defaultProps = {
-    showIcon: true
-  };
-
   prepareOptions() {
     let defaultOptions = {
       autoclose: true,
@@ -49,9 +41,7 @@ export default class DatePicker extends React.Component {
   componentDidMount() {
     let input = ReactDOM.findDOMNode(this.refs.input);
     this.dateElement = input;
-    if (this.props.showIcon) {
-      this.dateElement = this.refs.group;
-    }
+
     jQuery(this.dateElement)
       .datepicker(this.prepareOptions())
       .on('changeDate', function() {
@@ -68,24 +58,10 @@ export default class DatePicker extends React.Component {
 
   render() {
     let {
-      showIcon,
       locale,
       ...inputProps
     } = this.props;
 
-    let element = (<input {...inputProps} ref="input"/>);
-
-    if (this.props.showIcon && !this.props.disabled) {
-      return (
-        <div className="input-group date" ref="group" >
-          {element}
-          <span className="input-group-addon">
-            <span className="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
-      );
-    } else {
-      return element;
-    }
+    return <input ref="input" {...inputProps}/>;
   }
 }

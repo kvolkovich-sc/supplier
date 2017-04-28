@@ -23,9 +23,6 @@ TableHeader.vatRegNo = 'VAT registration number';
 TableHeader.dunsNo = 'D-U-N-S number';
 TableHeader.globalLocationNo = 'Global location number';
 
-let Description = {};
-Description.viewSupplierOrChooseAnother = 'General company information.';
-
 let Select = {};
 Select.country = 'Select country...';
 
@@ -66,27 +63,25 @@ Label.globalLocationNo.label = 'Global Location Number';
 Label.isNewSupplier.label = 'Select existing company';
 Label.supplier.label = 'Company';
 
-let SupplierEditor = {};
-SupplierEditor.created = 'Information on this page was initially created by {by} on {on}.';
-SupplierEditor.changed = 'Information on this page was last updated on {on} by {by}.';
+let SupplierRegistrationEditor = {};
+SupplierRegistrationEditor.created = 'Information on this page was initially created by {by} on {on}.';
+SupplierRegistrationEditor.changed = 'Information on this page was last updated on {on} by {by}.';
 
 const Messages = {};
 Messages.loading = 'Loading...';
 Messages.unableToRender = 'Unable to render editor';
 Messages.saved = 'Data is successfully saved';
 Messages.failed = 'Data saving failed';
-Messages.failedModifyingNotAuthoredSupplier = 'Data saving failed: only the author can update company information';
 Messages.failedCreatingExistingSupplier = 'Data saving failed:' +
   ' a company with the same "Company ID" but different details already exists';
 
 export default {
-  SupplierEditor: {
+  SupplierRegistrationEditor: {
     Confirmation: Confirmation,
     ButtonLabel: ButtonLabel,
     TableHeader: TableHeader,
-    Description: Description,
     Select: Select,
-    SupplierEditor: SupplierEditor,
+    SupplierRegistrationEditor: SupplierRegistrationEditor,
     Label: Label,
     Messages,
   },

@@ -273,9 +273,7 @@ class SupplierContactEditForm extends Component {
         {tooltipOverlay ? (
           <div className="col-sm-1 text-right">
             <OverlayTrigger trigger="click" placement="bottom" overlay={tooltipOverlay} rootClose={true}>
-              <i style={{ cursor: 'pointer', verticalAlign: 'middle' }}
-                className="glyphicon glyphicon-info-sign text-muted form-control-static"
-              />
+              <i className="glyphicon glyphicon-info-sign text-muted form-control-static contact-info-sign" />
             </OverlayTrigger>
           </div>
         ) : null}
@@ -396,7 +394,7 @@ class SupplierContactEditForm extends Component {
           required: true,
         })}
 
-        <div className="col-sm-12 text-right" style={{ 'paddingRight': '0' }}>
+        <div className="col-sm-12 text-right contact-form-submit">
           {editMode !== 'create-first' ? (
             <Button bsStyle="link"
               onClick={this.handleCancel}

@@ -6,17 +6,13 @@
 
 | Name | Type | Required | Description |
 |:-----|:----:|:--------:|------------:|
-| readOnly | boolean | false |  |
 | actionUrl | string | true |  |
-| supplierId | string | false | ID of Supplier |
+| supplierId | string | true | ID of Supplier |
 | supplierName | string | false | Name of Supplier |
-| companyRole | string | false | Supplier Company Role |
 | locale | string | false | Locale |
-| username | string | false | User (customer) name |
+| username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
 | countries | array | false |  |
-| supplier | object | false | Supplier object |
-| isOnboarding | boolean | false |  |
 | onUnauthorized | function | false |  |
 | onChange | function | false |  |
 | onUpdate | function | false |  |
@@ -29,17 +25,44 @@ import { SupplierEditor } from 'supplier';
 
 <SupplierEditor
   key='company'
-  readOnly={false}
   actionUrl='http://localhost:3001'
   supplierId='hard001'
   supplierName='Hardware AG'
-  companyRole='selling'
   locale='en'
   username='Marlon Wayans'
   dateTimePattern='MM/dd/yyyy h:mm:ss a'
   countries={[{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]}
-  isOnboarding={true}
-  supplier={{supplierId: 'hard001', supplierName: 'Hardware AG'}}
+/>
+```
+
+## Supplier Registration Editor
+
+### Props
+
+| Name | Type | Required | Description |
+|:-----|:----:|:--------:|------------:|
+| actionUrl | string | true |  |
+| locale | string | false | Locale |
+| username | string | true | User (customer) name |
+| dateTimePattern | string | true |  |
+| countries | array | false |  |
+| onUnauthorized | function | false |  |
+| onChange | function | false |  |
+| onUpdate | function | false |  |
+| onLogout | function | false |  |
+
+### Basic Example
+
+```
+import { SupplierRegistrationEditor } from 'supplier';
+
+<SupplierRegistrationEditor
+  key='company'
+  actionUrl='http://localhost:3001'
+  locale='en'
+  username='Marlon Wayans'
+  dateTimePattern='MM/dd/yyyy h:mm:ss a'
+  countries={[{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]}
 />
 ```
 
@@ -53,7 +76,7 @@ import { SupplierEditor } from 'supplier';
 | actionUrl | string | true |  |
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
-| username | string | false | User (customer) name |
+| username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
 | countries | array | true |  |
 | onUnauthorized | function | false |  |
@@ -86,7 +109,7 @@ import { SupplierAddressEditor } from 'supplier';
 | actionUrl | string | true |  |
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
-| username | string | false | User (customer) name |
+| username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
 | onUnauthorized | function | false |  |
 | onChange | function | false |  |

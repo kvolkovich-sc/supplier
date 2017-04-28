@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
+import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
@@ -15,15 +16,10 @@ class SupplierEditor extends Component {
 
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
-    supplierId: PropTypes.string,
+    supplierId: PropTypes.string.isRequired,
     supplierName: PropTypes.string,
-    companyRole: PropTypes.string,
-    username: React.PropTypes.string,
+    username: React.PropTypes.string.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
-    /**
-     * Subscribe to persistent data changes
-     * @arg0 - dirty state: true - if inner data changed, false if inner changes was reset
-     */
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func,
@@ -34,9 +30,9 @@ class SupplierEditor extends Component {
     super(props);
 
     this.state = {
-      isLoaded: !this.props.supplierId,
+      isLoaded: false,
       hasErrors: false,
-      supplier: props.supplier
+      supplier: {}
     }
   }
 
@@ -54,6 +50,7 @@ class SupplierEditor extends Component {
     this.ajaxPromise.
       then(response => {
         console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE', response);
+        response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           isLoaded: true,
           supplier: response.body
@@ -88,6 +85,15 @@ class SupplierEditor extends Component {
     }
   }
 
+  formatedDate(date) {
+    if (!date) {
+      return;
+    }
+
+    const momentFormat = this.props.dateTimePattern.replace('dd', 'DD').replace('yyyy', 'YYYY');
+    return moment(date).format(momentFormat);
+  }
+
   ajaxPromise = null;
 
   handleChange = () => {
@@ -112,21 +118,9 @@ class SupplierEditor extends Component {
     delete newSupplier.changedOn;  // eslint-disable-line no-param-reassign
     delete newSupplier.createdOn;  // eslint-disable-line no-param-reassign
     const { i18n } = this.context;
-    let requestMethod;
 
     console.log('===== ABOUT TO REQUEST A PROMISE');
-    if (this.props.supplierId && this.props.supplierId.toLowerCase() === newSupplier.supplierId.toLowerCase()) {
-      // Updating info of a supplier the user is linked to.
-      requestMethod = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`);
-    } else {
-      // Linking the user to a new/existing supplier.
-      // or
-      // relinking the user to a new/another supplier.
-      newSupplier.createdBy = this.props.username;// eslint-disable-line no-param-reassign
-      requestMethod = request.post(`${this.props.actionUrl}/api/suppliers`);
-    }
-
-    this.ajaxPromise = requestMethod.
+    this.ajaxPromise = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();
@@ -134,6 +128,7 @@ class SupplierEditor extends Component {
     return this.ajaxPromise.
       then(response => {
         console.log('===== A PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
+        response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           supplier: response.body,
           globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),
@@ -144,15 +139,13 @@ class SupplierEditor extends Component {
           this.props.onUpdate &&
           (
             this.props.supplierId !== response.body.supplierId ||
-            this.props.supplierName !== response.body.supplierName ||
-            this.props.companyRole !== response.body.role
+            this.props.supplierName !== response.body.supplierName
           )
         ) {
           // Informing wrapper app (BNP/SIM) about supplier change.
           this.props.onUpdate({
             supplierId: response.body.supplierId,
-            supplierName: response.body.supplierName,
-            companyRole: response.body.role
+            supplierName: response.body.supplierName
           });
         } else if (this.props.onChange) {
           this.props.onChange({ isDirty: false });

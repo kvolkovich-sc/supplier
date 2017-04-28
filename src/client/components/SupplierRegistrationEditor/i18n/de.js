@@ -27,9 +27,6 @@ TableHeader.globalLocationNo = 'Global Location Number (GLN/ILN)';
 let Select = {};
 Select.country = 'Bitte ein Land auswählen ...';
 
-let Description = {};
-Description.viewSupplierOrChooseAnother = 'General company information.';
-
 let Label = {
   supplierName: {},
   supplierId: {},
@@ -67,28 +64,25 @@ Label.globalLocationNo.label = 'Global Location Number (GLN/ILN)';
 Label.isNewSupplier.label = 'Existierenden Lieferanten auswählen';
 Label.supplier.label = 'Lieferant';
 
-let SupplierEditor = {};
-SupplierEditor.created = 'Die Informationen auf diesem Reiter wurden erstmalig durch {by} am {on} erstellt.';
-SupplierEditor.changed = 'Die Informationen wurden zuletzt am {on} durch {by} bearbeitet.';
+let SupplierRegistrationEditor = {};
+SupplierRegistrationEditor.created = 'Die Informationen auf diesem Reiter wurden erstmalig durch {by} am {on} erstellt.';
+SupplierRegistrationEditor.changed = 'Die Informationen wurden zuletzt am {on} durch {by} bearbeitet.';
 
 const Messages = {};
 Messages.loading = 'Laden...';
 Messages.unableToRender = 'Der Editor kann nicht geöffnet werden';
 Messages.saved = 'Die Daten wurden erfolgreich gespeichert';
 Messages.failed = 'Speichern von Objekten fehlgeschlagen';
-Messages.failedModifyingNotAuthoredSupplier = 'Data saving failed:' +  // TODO: substitute with EN.
-  ' only the author can update company information';
 Messages.failedCreatingExistingSupplier = 'Data saving failed:' +  // TODO: substitute with EN.
   ' a company with the same "Company ID" but different details already exists';
 
 export default {
-  SupplierEditor: {
+  SupplierRegistrationEditor: {
     Confirmation: Confirmation,
     ButtonLabel: ButtonLabel,
     TableHeader: TableHeader,
-    Description: Description,
     Select: Select,
-    SupplierEditor: SupplierEditor,
+    SupplierRegistrationEditor: SupplierRegistrationEditor,
     Label: Label,
     Messages,
   },

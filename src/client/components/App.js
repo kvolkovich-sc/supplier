@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import SupplierEditor from './SupplierEditor';
+import SupplierRegistrationEditor from './SupplierRegistrationEditor';
 import SupplierAddressEditor from './SupplierAddressEditor';
 import SupplierContactEditor from './SupplierContactEditor';
 
@@ -20,24 +21,31 @@ const supplier = {
   createdBy: "john.doe@ncc.com",
   changedBy: "john.doe@ncc.com"
 };
-const username = 'Bruce Wayne';
+const username = 'scott.tiger@example.com';
 const actionUrl = 'http://localhost:3001'
 
 
 let editor = (
   <SupplierEditor
     key='company'
-    readOnly={false}
     actionUrl={actionUrl}
     supplierId={supplier.supplierId}
     supplierName={supplier.supplierName}
-    companyRole={supplier.role}
     locale='en'
     username={username}
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     countries={countries}
-    isOnboarding={true}
-    supplier={supplier}
+  />
+);
+
+let registrationEditor = (
+  <SupplierRegistrationEditor
+    key='company'
+    actionUrl={actionUrl}
+    locale='en'
+    username={username}
+    dateTimePattern='MM/dd/yyyy'
+    countries={countries}
   />
 );
 
@@ -46,7 +54,7 @@ let addressEditor = (
     key='address'
     readOnly={false}
     actionUrl={actionUrl}
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     supplierId={supplier.supplierId}
     locale='en'
     username={username}
@@ -57,7 +65,7 @@ let addressEditor = (
 let contactEditor = (
   <SupplierContactEditor
     key='contact'
-    dateTimePattern='MM/dd/yyyy h:mm:ss a'
+    dateTimePattern='MM/dd/yyyy'
     readOnly={false}
     actionUrl={actionUrl}
     supplierId={supplier.supplierId}
@@ -72,10 +80,12 @@ const App = () => (
   <div>
     <ul className="nav nav-tabs">
       <li><NavLink exact activeStyle={activeStyle} to='/'>Supplier</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/registration'>Supplier Registration</NavLink></li>
       <li><NavLink activeStyle={activeStyle} to='/address'>Supplier Address</NavLink></li>
       <li><NavLink activeStyle={activeStyle} to='/contact'>Supplier Contact</NavLink></li>
     </ul>
     <Route exact path='/' render={() => editor }/>
+    <Route exact path='/registration' render={() => registrationEditor }/>
     <Route exact path='/address' render={() => addressEditor }/>
     <Route exact path='/contact' render={() => contactEditor }/>
   </div>

@@ -20,10 +20,10 @@ var sendSuppliers = function(req, res)
 
 var createSuppliers = function(req, res)
 {
-  Supplier.exists(req.body.supplierId).then(exists =>
+  Supplier.recordExists(req.body).then(exists =>
   {
     if(exists) {
-      return res.status('409').json({ message : 'A supplier with the same supplierID already exists' });
+      return res.status('409').json({ message : 'A supplier already exists' });
     } else {
       Supplier.create(req.body).then(supplier => res.status('200').json(supplier));
     }
@@ -47,9 +47,11 @@ var updateSupplier = function(req, res)
     return res.status('422').json({ message: 'inconsistent data' });
   }
 
-  if (!Supplier.isAuthorized(supplierId, req.body.changedBy)) {
-    return res.status('403').json({ message: 'operation is not authorized' });
-  }
+  Supplier.isAuthorized(supplierId, req.body.changedBy).then(authorized => {
+    if (!authorized) {
+      return res.status('403').json({ message: 'operation is not authorized' });
+    }
+  });
 
   Supplier.exists(supplierId).then(exists =>
   {

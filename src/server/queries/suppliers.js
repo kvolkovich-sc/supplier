@@ -39,9 +39,22 @@ module.exports.exists = function(supplierId)
   return this.db.models.Supplier.findById(supplierId).then(supplier => supplier && supplier.supplierId === supplierId);
 }
 
+module.exports.recordExists = function(supplier)
+{
+  var options = { supplierName: supplier.supplierName };
+
+  var fields = ['registrationNumber', 'taxId', 'vatRegNo'];
+
+  ['registrationNumber', 'taxId', 'vatRegNo'].forEach(field => {
+    if (supplier[field]) {
+      options[field] = supplier[field];
+    }
+  });
+
+  return this.db.models.Supplier.findOne({ where: options }).then(supplier => Boolean(supplier));
+}
+
 module.exports.isAuthorized = function(supplierId, changedBy)
 {
-  return this.find(supplierId).then(supplier => {
-    return supplier && supplier.getDataValue('changedBy') === changedBy;
-  });
+  return this.db.models.Supplier.findById(supplierId).then(supplier => supplier && supplier.changedBy === changedBy);
 }
