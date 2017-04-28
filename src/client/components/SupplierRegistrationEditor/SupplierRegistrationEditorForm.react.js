@@ -6,7 +6,7 @@ import SupplierRegistrationEditorFormRow from './SupplierRegistrationEditorFormR
 import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-import SupplierFormConstraints from '../SupplierFormConstraints';
+import SupplierFormConstraints from './SupplierFormConstraints';
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {

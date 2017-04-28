@@ -7,7 +7,7 @@ import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-import SupplierFormConstraints from '../SupplierFormConstraints';
+import SupplierFormConstraints from './SupplierFormConstraints';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
