@@ -127,6 +127,9 @@ class SupplierAddressEditor extends Component {
       if (this.updateAddressPromise) {
         this.updateAddressPromise.cancel();
       }
+      if (this.deleteAddressPromise) {
+        this.deleteAddressPromise.cancel();
+      }
       if (this.loadCountriesPromise) {
         this.loadCountriesPromise.cancel();
       }
