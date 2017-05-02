@@ -26,13 +26,18 @@ class SupplierEditor extends Component {
     onLogout: React.PropTypes.func
   }
 
+  loadSupplierPromise = null;
+  updateSupplierPromise = null;
+  loadCountriesPromise = null;
+
   constructor(props) {
     super(props);
 
     this.state = {
       isLoaded: false,
       hasErrors: false,
-      supplier: {}
+      supplier: {},
+      countries: []
     }
   }
 
@@ -42,18 +47,22 @@ class SupplierEditor extends Component {
     }
 
     console.log('===== ABOUT TO REQUEST a PROMISE');
-    this.ajaxPromise = request.
+    this.loadSupplierPromise = request.
       get(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       promise();
 
-    this.ajaxPromise.
-      then(response => {
-        console.log('===== a PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE', response);
-        response.body.foundedOn = this.formatedDate(response.body.foundedOn);
+    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/api/countries`).
+      set('Accept', 'application/json').
+      promise();
+
+    Promise.all([this.loadSupplierPromise, this.loadCountriesPromise])
+      .then(([supplierResponse, countriesResponse]) => {
+        supplierResponse.body.foundedOn = this.formatedDate(supplierResponse.body.foundedOn);
         this.setState({
           isLoaded: true,
-          supplier: response.body
+          supplier: supplierResponse.body,
+          countries: countriesResponse.body.sort((a, b) => a.name.localeCompare(b.name))
         });
       }).
       catch(errors => {
@@ -79,9 +88,16 @@ class SupplierEditor extends Component {
   }
 
   componentWillUnmount() {
-    console.log('===== CANCELING ALL REQUESTS');
-    if (this.ajaxPromise && !this.state.isLoaded) {
-      this.ajaxPromise.cancel();
+    if (!this.state.isLoaded) {
+      if (this.loadSupplierPromise) {
+        this.loadSupplierPromise.cancel();
+      }
+      if (this.updateSupplierPromise) {
+        this.updateSupplierPromise.cancel();
+      }
+      if (this.loadCountriesPromise) {
+        this.loadCountriesPromise.cancel();
+      }
     }
   }
 
@@ -93,8 +109,6 @@ class SupplierEditor extends Component {
     const momentFormat = this.props.dateTimePattern.replace('dd', 'DD').replace('yyyy', 'YYYY');
     return moment(date).format(momentFormat);
   }
-
-  ajaxPromise = null;
 
   handleChange = () => {
     if (this.props.onChange) {
@@ -119,15 +133,13 @@ class SupplierEditor extends Component {
     delete newSupplier.createdOn;  // eslint-disable-line no-param-reassign
     const { i18n } = this.context;
 
-    console.log('===== ABOUT TO REQUEST A PROMISE');
-    this.ajaxPromise = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
+    this.updateSupplierPromise = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();
 
-    return this.ajaxPromise.
+    return this.updateSupplierPromise.
       then(response => {
-        console.log('===== A PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
         response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           supplier: response.body,
@@ -179,7 +191,7 @@ class SupplierEditor extends Component {
 
   render() {
     const { i18n } = this.context;
-    const { isLoaded, hasErrors, supplier, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
+    const { isLoaded, hasErrors, supplier, countries, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
 
     if (!isLoaded) {
       return (
@@ -209,6 +221,7 @@ class SupplierEditor extends Component {
 
         <SupplierEditorForm
           {...this.props}
+          countries={countries}
           supplier={ supplier }
           onSupplierChange={ this.handleUpdate }
           onChange={ this.handleChange }

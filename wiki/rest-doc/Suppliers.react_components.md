@@ -12,7 +12,6 @@
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
-| countries | array | false |  |
 | onUnauthorized | function | false |  |
 | onChange | function | false |  |
 | onUpdate | function | false |  |
@@ -31,7 +30,6 @@ import { SupplierEditor } from 'supplier';
   locale='en'
   username='Marlon Wayans'
   dateTimePattern='MM/dd/yyyy h:mm:ss a'
-  countries={[{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]}
 />
 ```
 
@@ -45,7 +43,6 @@ import { SupplierEditor } from 'supplier';
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
-| countries | array | false |  |
 | onUnauthorized | function | false |  |
 | onChange | function | false |  |
 | onUpdate | function | false |  |
@@ -62,7 +59,6 @@ import { SupplierRegistrationEditor } from 'supplier';
   locale='en'
   username='Marlon Wayans'
   dateTimePattern='MM/dd/yyyy h:mm:ss a'
-  countries={[{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]}
 />
 ```
 

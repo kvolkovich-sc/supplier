@@ -31,14 +31,28 @@ class SupplierRegistrationEditor extends Component {
       isLoaded: false,
       hasErrors: false,
       supplier: {},
-      supplierExist: false
+      supplierExist: false,
+      countries: []
     }
   }
 
+  createSupplierPromise = null;
+  loadCountriesPromise = null;
+
   componentDidMount() {
-    this.setState({
-      isLoaded: true
-    })
+    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/api/countries`).
+      set('Accept', 'application/json').
+      promise();
+
+    this.loadCountriesPromise.then(response => {
+      this.setState({
+        countries: response.body.sort((a, b) => a.name.localeCompare(b.name)),
+        isLoaded: true
+      });
+    }).
+    catch(errors => {
+      return null;
+    });
   }
 
   componentWillReceiveProps(/* nextProps*/) {
@@ -49,13 +63,15 @@ class SupplierRegistrationEditor extends Component {
   }
 
   componentWillUnmount() {
-    console.log('===== CANCELING ALL REQUESTS');
-    if (this.ajaxPromise && !this.state.isLoaded) {
-      this.ajaxPromise.cancel();
+    if (!this.state.isLoaded) {
+      if (this.loadCountriesPromise) {
+        this.loadCountriesPromise.cancel();
+      }
+      if (this.createSupplierPromise) {
+        this.createSupplierPromise.cancel();
+      }
     }
   }
-
-  ajaxPromise = null;
 
   handleChange = () => {
     if (this.props.onChange) {
@@ -83,47 +99,45 @@ class SupplierRegistrationEditor extends Component {
 
     const { i18n } = this.context;
 
-    this.ajaxPromise = request.post(`${this.props.actionUrl}/api/suppliers`).
+    this.createSupplierPromise = request.post(`${this.props.actionUrl}/api/suppliers`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();
 
-    return this.ajaxPromise.
-      then(response => {
-        console.log('===== A PROMISE HAS BEEN RECEIVED. ABOUT TO SET-STATE');
-        this.setState({
-          supplier: response.body,
-          globalInfoMessage: i18n.getMessage('SupplierRegistrationEditor.Messages.saved'),
-          globalErrorMessage: ''
-        });
-
-        if (this.props.onChange) {
-          this.props.onChange({ isDirty: false });
-        }
-      }).
-      catch(errors => {
-        this.setState({
-          supplier: newSupplier
-        })
-
-        switch (errors.status) {
-          case 401:
-            this.props.onUnauthorized();
-            break;
-          case 409:
-            this.setState({
-              supplierExist: true,
-              globalInfoMessage: '',
-              globalErrorMessage: ''
-            });
-            break;
-          default:
-            this.setState({
-              globalInfoMessage: '',
-              globalErrorMessage: i18n.getMessage('SupplierRegistrationEditor.Messages.failed'),
-            });
-        }
+    this.createSupplierPromise.then(response => {
+      this.setState({
+        supplier: response.body,
+        globalInfoMessage: i18n.getMessage('SupplierRegistrationEditor.Messages.saved'),
+        globalErrorMessage: ''
       });
+
+      if (this.props.onChange) {
+        this.props.onChange({ isDirty: false });
+      }
+    }).
+    catch(errors => {
+      this.setState({
+        supplier: newSupplier
+      })
+
+      switch (errors.status) {
+        case 401:
+          this.props.onUnauthorized();
+          break;
+        case 409:
+          this.setState({
+            supplierExist: true,
+            globalInfoMessage: '',
+            globalErrorMessage: ''
+          });
+          break;
+        default:
+          this.setState({
+            globalInfoMessage: '',
+            globalErrorMessage: i18n.getMessage('SupplierRegistrationEditor.Messages.failed'),
+          });
+      }
+    });
   }
 
   toRender = () => {
@@ -133,6 +147,7 @@ class SupplierRegistrationEditor extends Component {
       return <SupplierRegistrationEditorForm
                {...this.props}
                supplier={ this.state.supplier }
+               countries={this.state.countries}
                onSupplierChange={ this.handleUpdate }
                onChange={ this.handleChange }
                onCancel={ this.props.onLogout }
