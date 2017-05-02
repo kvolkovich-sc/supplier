@@ -30,7 +30,9 @@ class SupplierRegistrationEditor extends Component {
     this.state = {
       isLoaded: false,
       hasErrors: false,
-      supplier: {},
+      supplier: {
+        ...this.props.supplier
+      },
       supplierExist: false,
       countries: []
     }

@@ -9,17 +9,16 @@ const countries = [{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]
 const supplier = {
   supplierId: "hard001",
   supplierName: "Hardware AG",
-  cityOfRegistration: "Minsk",
+};
+
+const onboardingSupplier = {
+  supplierName: "E-Farm AG",
+  cityOfRegistration: "Hamburg",
   countryOfRegistration: "DE",
-  role: "selling",
-  foundedOn: "2015-10-04T22:00:00Z",
-  globalLocationNo: "123",
-  homePage: "http://hard.ware.ag",
-  legalForm: "KG",
-  registrationNumber: "MI651355",
-  status: "new",
-  createdBy: "john.doe@ncc.com",
-  changedBy: "john.doe@ncc.com"
+  taxId: "T-534324",
+  vatRegNo: "3480954",
+  dunsNo: null,
+  registrationNumber: "MI342323"
 };
 const username = 'scott.tiger@example.com';
 const actionUrl = 'http://localhost:3001'
@@ -44,6 +43,7 @@ let registrationEditor = (
     locale='en'
     username={username}
     dateTimePattern='MM/dd/yyyy'
+    supplier={onboardingSupplier}
   />
 );
 

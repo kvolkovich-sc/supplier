@@ -39,7 +39,7 @@ export default class DatePicker extends React.Component {
   }
 
   componentDidMount() {
-    let input = ReactDOM.findDOMNode(this.refs.input);
+    let input = ReactDOM.findDOMNode(this.refs.supplierInput);
     this.dateElement = input;
 
     jQuery(this.dateElement)
@@ -62,6 +62,6 @@ export default class DatePicker extends React.Component {
       ...inputProps
     } = this.props;
 
-    return <input ref="input" {...inputProps}/>;
+    return <input ref="supplierInput" {...inputProps}/>;
   }
 }
