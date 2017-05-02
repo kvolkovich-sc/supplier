@@ -159,7 +159,9 @@ class SupplierEditor extends Component {
             supplierId: response.body.supplierId,
             supplierName: response.body.supplierName
           });
-        } else if (this.props.onChange) {
+        }
+
+        if (this.props.onChange) {
           this.props.onChange({ isDirty: false });
         }
       }).

@@ -111,6 +111,13 @@ class SupplierRegistrationEditor extends Component {
         globalErrorMessage: ''
       });
 
+      if (this.props.onUpdate) {
+          this.props.onUpdate({
+            supplierId: response.body.supplierId,
+            supplierName: response.body.supplierName
+          });
+        }
+
       if (this.props.onChange) {
         this.props.onChange({ isDirty: false });
       }
