@@ -34,7 +34,6 @@ let editor = (
     locale='en'
     username={username}
     dateTimePattern='MM/dd/yyyy'
-    countries={countries}
   />
 );
 
@@ -45,7 +44,6 @@ let registrationEditor = (
     locale='en'
     username={username}
     dateTimePattern='MM/dd/yyyy'
-    countries={countries}
   />
 );
 
