@@ -74,7 +74,6 @@ import { SupplierRegistrationEditor } from 'supplier';
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
 | dateTimePattern | string | true |  |
-| countries | array | true |  |
 | onUnauthorized | function | false |  |
 | onChange | function | false |  |
 
@@ -91,7 +90,6 @@ import { SupplierAddressEditor } from 'supplier';
   supplierId='hard001'
   locale='en'
   username='Marlon Wayans'
-  countries={[{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}]}
 />
 ```
 
