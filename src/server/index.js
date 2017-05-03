@@ -10,6 +10,12 @@ const developmentServerConfig = (db) => ({
   },
   routes: {
     dbInstance: db
+  },
+  serviceClient : {
+    injectIntoRequest : true,
+    consul : {
+      host : 'consul'
+    }
   }
 });
 

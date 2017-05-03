@@ -20,12 +20,28 @@ var sendSuppliers = function(req, res)
 
 var createSuppliers = function(req, res)
 {
-  Supplier.recordExists(req.body).then(exists =>
+  const newSupplier = req.body;
+  Supplier.recordExists(newSupplier).then(exists =>
   {
     if(exists) {
       return res.status('409').json({ message : 'A supplier already exists' });
     } else {
-      Supplier.create(req.body).then(supplier => res.status('200').json(supplier));
+      Supplier.create(newSupplier).then(supplier => {
+        const userId = supplier.createdBy;
+        const supplierId = supplier.supplierId;
+        req.ocbesbn.serviceClient.put('user', '/users/' + userId + '?tokenUpdate=true', { supplierId: supplierId, status: 'registered' })
+          .spread(() => res.status('200').json(supplier))
+          .catch(error => {
+            switch (error.response.statusCode) {
+              case 404:
+                Supplier.delete(supplierId).then(() => null);
+                res.status(404).json({ message : 'User not found!' });
+                break;
+              default:
+                res.status(400).json({ message : error.message });
+            };
+          });
+      });
     }
   })
   .catch(e => res.status('400').json({ message : e.message }));

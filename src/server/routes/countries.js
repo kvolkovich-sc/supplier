@@ -1,9 +1,6 @@
-const ServiceClient = require('ocbesbn-service-client');
-
 module.exports = function(app) {
-  var client = new ServiceClient({ consul : { host : 'consul' } });
-  app.get('/api/countries', function(request, response) {
-    client.get('isodata', '/countries').spread(countries => {
+  app.get('/api/countries', function(req, res) {
+    req.ocbesbn.serviceClient.get('isodata', '/countries').spread(countries => {
       let countriesList = [];
       Object.keys(countries).forEach(key => {
         const country_name = countries[key].name;
@@ -11,13 +8,13 @@ module.exports = function(app) {
           countriesList.push({ id: countries[key].id, name: countries[key].name });
         }
       });
-      response.json(countriesList);
+      res.json(countriesList);
     });
   });
 
-  app.get('/api/countries/:id', function(request, response) {
-    client.get('isodata', '/countries/' + request.params.id).spread(country => {
-      response.json({ id: country.id, name: country.name })
+  app.get('/api/countries/:id', function(req, res) {
+    req.ocbesbn.serviceClient.get('isodata', '/countries/' + req.params.id).spread(country => {
+      res.json({ id: country.id, name: country.name })
     });
   });
 }

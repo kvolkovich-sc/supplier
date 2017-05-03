@@ -20,7 +20,7 @@ const onboardingSupplier = {
   dunsNo: null,
   registrationNumber: "MI342323"
 };
-const username = 'scott.tiger@example.com';
+const username = 'john.doe@ncc.com';
 const actionUrl = 'http://localhost:3001'
 
 

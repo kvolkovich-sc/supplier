@@ -58,6 +58,10 @@ services:
 
   isodata:
     image: ocbesbn/isodata:latest
+    depends_on:
+      - mysql
+      - consul
+      - registrator
     ports:
       - '3006:3006'
     extra_hosts:
@@ -70,3 +74,33 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       PORT: '3006'
     command: 'npm run dev'
+
+  user:
+    image: opuscapita/user:dev
+    depends_on:
+      - mysql
+      - consul
+      - registrator
+      - redis
+    labels:
+      SERVICE_NAME: 'user'
+    extra_hosts:
+       - 'consul:${HOST_IP}'
+    environment:
+      PORT: 3008
+      HOST_IP: $HOST_IP
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      REDIS_AUTH: $REDIS_AUTH
+    ports:
+      - '3008:3008'
+    command: 'npm run dev'
+
+  redis:
+    image: ocbesbn/redis:latest
+    ports:
+      - '6379:6379'
+    environment:
+      REDIS_AUTH: ${REDIS_AUTH}
+    depends_on:
+      - registrator
