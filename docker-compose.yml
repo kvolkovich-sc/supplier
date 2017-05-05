@@ -114,8 +114,3 @@ services:
       - '8080:8080'
     depends_on:
       - consul
-    environment:
-      PORT: 8080
-      HOST_IP: $HOST_IP
-    labels:
-      SERVICE_NAME: 'nginx'
