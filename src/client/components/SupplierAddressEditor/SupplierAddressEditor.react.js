@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Alert from '../Alert';
 import SupplierAddressListTable from './SupplierAddressListTable.react.js';
 import SupplierAddressEditForm from './SupplierAddressEditForm.react.js';
+import transformCountries from '../../utils/countries_transform';
 
 /**
  * Supplier address editor
@@ -64,10 +65,10 @@ class SupplierAddressEditor extends Component {
 
     console.log('===== ABOUT TO REQUEST a PROMISE');
     this.loadAddressesPromise = request
-      .get(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}/addresses`)
+      .get(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(this.props.supplierId)}/addresses`)
       .set('Accept', 'application/json').promise();
 
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/api/countries`).
+    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
       set('Accept', 'application/json').
       promise();
 
@@ -76,7 +77,7 @@ class SupplierAddressEditor extends Component {
         this.setState({
           isLoaded: true,
           supplierAddresses: addressesResponse.body,
-          countries: countriesResponse.body.sort((a, b) => a.name.localeCompare(b.name))
+          countries: transformCountries(countriesResponse.body)
         });
       }).
       catch(errors => {
@@ -163,7 +164,7 @@ class SupplierAddressEditor extends Component {
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(supplierAddress.addressId);
 
-    this.deleteAddressPromise = request.del(`${actionUrl}/api/suppliers/${arg0}/addresses/${arg1}`).set(
+    this.deleteAddressPromise = request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/addresses/${arg1}`).set(
         'Accept', 'application/json').promise();
 
     return this.deleteAddressPromise.then((response) => {
@@ -202,7 +203,7 @@ class SupplierAddressEditor extends Component {
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(supplierAddress.addressId);
 
-    this.updateAddressPromise = request.put(`${actionUrl}/api/suppliers/${arg0}/addresses/${arg1}`).set(
+    this.updateAddressPromise = request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/addresses/${arg1}`).set(
       'Accept', 'application/json').send(supplierAddress).promise();
 
     return this.updateAddressPromise.then((response) => {
@@ -253,7 +254,7 @@ class SupplierAddressEditor extends Component {
     supplierAddress.addressId = this.generateUUID();
     /* eslint-enable no-param-reassign*/
 
-    request.post(`${actionUrl}/api/suppliers/${encodeURIComponent(supplierId)}/addresses`).set(
+    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/addresses`).set(
           'Accept', 'application/json').send(supplierAddress).then((response) => {
             console.log(response);
             let supplierAddresses = this.state.supplierAddresses;

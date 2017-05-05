@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
+import transformCountries from '../../utils/countries_transform';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
 
@@ -48,11 +49,11 @@ class SupplierEditor extends Component {
 
     console.log('===== ABOUT TO REQUEST a PROMISE');
     this.loadSupplierPromise = request.
-      get(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
+      get(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       promise();
 
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/api/countries`).
+    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
       set('Accept', 'application/json').
       promise();
 
@@ -62,7 +63,7 @@ class SupplierEditor extends Component {
         this.setState({
           isLoaded: true,
           supplier: supplierResponse.body,
-          countries: countriesResponse.body.sort((a, b) => a.name.localeCompare(b.name))
+          countries: transformCountries(countriesResponse.body)
         });
       }).
       catch(errors => {
@@ -133,7 +134,7 @@ class SupplierEditor extends Component {
     delete newSupplier.createdOn;  // eslint-disable-line no-param-reassign
     const { i18n } = this.context;
 
-    this.updateSupplierPromise = request.put(`${this.props.actionUrl}/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
+    this.updateSupplierPromise = request.put(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();

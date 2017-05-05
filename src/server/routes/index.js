@@ -7,7 +7,6 @@ const suppliers = require('./suppliers');
 const supplierContacts = require('./supplier_contacts');
 const supplierAddresses = require('./supplier_addresses');
 const SupplierAddress = require('../queries/supplier_addresses');
-const countries = require('./countries');
 
 /**
  * Initializes all routes for RESTful access.
@@ -24,7 +23,6 @@ module.exports.init = function(app, db, config) {
   suppliers(app, db, config);
   supplierContacts(app, db, config);
   supplierAddresses(app, db, config);
-  countries(app);
 
   if (process.env.NODE_ENV === 'development') {
     const path = require('path');
@@ -35,6 +33,7 @@ module.exports.init = function(app, db, config) {
     app.engine('handlebars', exphbs());
     app.set('view engine', 'handlebars');
     app.set('views', path.resolve(__dirname + '/../templates'));
+    app.set('trust proxy', true);
 
     app.get('/', (req, res) => {
       res.render('index', {

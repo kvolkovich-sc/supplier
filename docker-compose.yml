@@ -68,6 +68,7 @@ services:
       - 'consul:${HOST_IP}'
     labels:
       SERVICE_NAME: isodata
+      SERVICE_TAGS: 'external'
     environment:
       HOST_IP: ${HOST_IP}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -104,3 +105,17 @@ services:
       REDIS_AUTH: ${REDIS_AUTH}
     depends_on:
       - registrator
+
+  nginx:
+    image: gr4per/nginx-rp:latest
+    extra_hosts:
+       - 'consul:${HOST_IP}'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - consul
+    environment:
+      PORT: 8080
+      HOST_IP: $HOST_IP
+    labels:
+      SERVICE_NAME: 'nginx'

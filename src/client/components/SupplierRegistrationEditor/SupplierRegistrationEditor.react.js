@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import i18n from '../../i18n/I18nDecorator.react.js';
+import transformCountries from '../../utils/countries_transform';
 import Alert from '../Alert';
 import SupplierRegistrationEditorForm from './SupplierRegistrationEditorForm.react.js';
 import SupplierExistsView from './SupplierExistsView.react';
@@ -42,13 +43,13 @@ class SupplierRegistrationEditor extends Component {
   loadCountriesPromise = null;
 
   componentDidMount() {
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/api/countries`).
+    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
       set('Accept', 'application/json').
       promise();
 
     this.loadCountriesPromise.then(response => {
       this.setState({
-        countries: response.body.sort((a, b) => a.name.localeCompare(b.name)),
+        countries: transformCountries(response.body),
         isLoaded: true
       });
     }).
@@ -101,7 +102,7 @@ class SupplierRegistrationEditor extends Component {
 
     const { i18n } = this.context;
 
-    this.createSupplierPromise = request.post(`${this.props.actionUrl}/api/suppliers`).
+    this.createSupplierPromise = request.post(`${this.props.actionUrl}/supplier/api/suppliers`).
       set('Accept', 'application/json').
       send(newSupplier).
       promise();
