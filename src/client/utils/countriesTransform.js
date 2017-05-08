@@ -1,5 +1,4 @@
-export default function(countries)
-{
+export default function(countries) {
   let countriesList = [];
   Object.keys(countries).forEach(key => {
     const country_name = countries[key].name;
