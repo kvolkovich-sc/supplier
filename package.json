@@ -42,7 +42,7 @@
     "lodash": "4.17.4",
     "ocbesbn-config": "^2.2.0",
     "ocbesbn-db-init": "^1.1.0",
-    "ocbesbn-web-init": "^1.1.2",
+    "ocbesbn-web-init": "^1.1.7",
     "ocbesbn-service-client": "^1.0.1",
     "opuscapita-i18n": "github:patrykkopycinski/js-i18n",
     "react": "15.4.2",
