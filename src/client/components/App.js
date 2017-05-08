@@ -21,7 +21,7 @@ const onboardingSupplier = {
   registrationNumber: "MI342323"
 };
 const username = 'john.doe@ncc.com';
-const actionUrl = 'http://localhost:3001'
+const actionUrl = 'http://localhost:8080'
 
 
 let editor = (
@@ -77,15 +77,15 @@ const activeStyle = {color:' #ffffff', background: '#006677'}
 const App = () => (
   <div>
     <ul className="nav nav-tabs">
-      <li><NavLink exact activeStyle={activeStyle} to='/'>Supplier</NavLink></li>
-      <li><NavLink activeStyle={activeStyle} to='/registration'>Supplier Registration</NavLink></li>
-      <li><NavLink activeStyle={activeStyle} to='/address'>Supplier Address</NavLink></li>
-      <li><NavLink activeStyle={activeStyle} to='/contact'>Supplier Contact</NavLink></li>
+      <li><NavLink exact activeStyle={activeStyle} to='/supplier'>Supplier</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/supplier/registration'>Supplier Registration</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/supplier/address'>Supplier Address</NavLink></li>
+      <li><NavLink activeStyle={activeStyle} to='/supplier/contact'>Supplier Contact</NavLink></li>
     </ul>
-    <Route exact path='/' render={() => editor }/>
-    <Route exact path='/registration' render={() => registrationEditor }/>
-    <Route exact path='/address' render={() => addressEditor }/>
-    <Route exact path='/contact' render={() => contactEditor }/>
+    <Route exact path='/supplier' render={() => editor }/>
+    <Route exact path='/supplier/registration' render={() => registrationEditor }/>
+    <Route exact path='/supplier/address' render={() => addressEditor }/>
+    <Route exact path='/supplier/contact' render={() => contactEditor }/>
   </div>
 )
 

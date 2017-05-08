@@ -83,7 +83,7 @@ class SupplierContactEditor extends Component {
 
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(contact.contactId);
-    request.del(`${actionUrl}/api/suppliers/${arg0}/contacts/${arg1}`).
+    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/contacts/${arg1}`).
       set('Accept', 'application/json').
       then((response) => {
         let contacts = this.state.contacts;
@@ -121,7 +121,7 @@ class SupplierContactEditor extends Component {
 
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(contact.contactId);
-    request.put(`${actionUrl}/api/suppliers/${arg0}/contacts/${arg1}`).
+    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/contacts/${arg1}`).
       set('Accept', 'application/json').
       send(contact).
       then((response) => {
@@ -174,7 +174,7 @@ class SupplierContactEditor extends Component {
     contact.contactId = this.generateUUID();
     /* eslint-enable no-param-reassign*/
 
-    request.post(`${actionUrl}/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
+    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
       set('Accept', 'application/json').
       send(contact).
       then((response) => {
@@ -235,7 +235,7 @@ class SupplierContactEditor extends Component {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
     request.
-      get(`${actionUrl}/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
+      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
       set('Accept', 'application/json').
       then((response) => {
         console.log(response);
