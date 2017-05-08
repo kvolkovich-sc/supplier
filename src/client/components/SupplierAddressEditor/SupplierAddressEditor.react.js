@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/lib/Button';
 import Alert from '../Alert';
 import SupplierAddressListTable from './SupplierAddressListTable.react.js';
 import SupplierAddressEditForm from './SupplierAddressEditForm.react.js';
-import transformCountries from '../../utils/countries_transform';
+import transformCountries from '../../utils/countriesTransform';
 
 /**
  * Supplier address editor

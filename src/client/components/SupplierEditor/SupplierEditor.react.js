@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import transformCountries from '../../utils/countries_transform';
+import transformCountries from '../../utils/countriesTransform';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
 

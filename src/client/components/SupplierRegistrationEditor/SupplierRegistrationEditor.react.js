@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import transformCountries from '../../utils/countries_transform';
+import transformCountries from '../../utils/countriesTransform';
 import Alert from '../Alert';
 import SupplierRegistrationEditorForm from './SupplierRegistrationEditorForm.react.js';
 import SupplierExistsView from './SupplierExistsView.react';
