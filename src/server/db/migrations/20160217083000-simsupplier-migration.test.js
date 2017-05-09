@@ -2,6 +2,12 @@
 
 const Promise = require('bluebird');
 const pathjs = require('path');
+const path = pathjs.resolve(__dirname + '/../data');
+
+const addressData = require(path + '/address.json');
+const supplierData = require(path + '/supplier.json');
+const supplierContactData = require(path + '/supplierContact.json');
+const user2SupplierData = require(path + '/user2supplier.json');
 
 /**
  * Inserts test data into existing database structures.
@@ -15,36 +21,14 @@ const pathjs = require('path');
  */
 module.exports.up = function(db, config)
 {
-    const path = pathjs.resolve(__dirname + '/../data');
-
-    // Load data.
-    const addressData = require(path + '/address.json');
-    // Get database models.
-    const Address  = db.models.Address;
-
-    // -----
-
-    // Load data.
-    const supplierData = require(path + '/supplier.json');
-    // Get database models.
-    const Supplier  = db.models.Supplier;
-
-    // -----
-
-    // Load data.
-    const supplierContactData = require(path + '/supplierContact.json');
-    // Get database models.
-    const SupplierContact  = db.models.SupplierContact;
-
-    // -----
-
-    return Promise.all([
-        Promise.all(addressData.map(cur => Address.upsert(cur))),
-        Promise.all(supplierData.map(cur => Supplier.upsert(cur)))
-    ])
-    .then(() => Promise.all([
-        Promise.all(supplierContactData.map(cur => SupplierContact.upsert(cur)))
-    ]));
+  return Promise.all([
+    db.queryInterface.bulkInsert('SIMAddress', addressData),
+    db.queryInterface.bulkInsert('SIMSupplier', supplierData)
+  ])
+  .then(() => Promise.all([
+    db.queryInterface.bulkInsert('SIMSupplierContact', supplierContactData),
+    db.queryInterface.bulkInsert('CatalogUser2Supplier', user2SupplierData)
+  ]));
 }
 
 /**
@@ -58,10 +42,11 @@ module.exports.up = function(db, config)
  */
 module.exports.down = function(db, config)
 {
-    return Promise.all([
-        db.models.SupplierContact.destroy({ truncate: true })
-    ]).then(() => Promise.all([
-        db.models.Supplier.destroy({ truncate: true }),
-        db.models.Address.destroy({ truncate: true })
-    ]));
+  return Promise.all([
+    db.queryInterface.bulkDelete('CatalogUser2Supplier', { supplierId: { $in: user2SupplierData.map(rec => rec.supplierId) } }),
+    db.queryInterface.bulkDelete('SIMSupplierContact', { contactId: { $in: supplierContactData.map(rec => rec.contactId) } })
+  ]).then(() => Promise.all([
+    db.queryInterface.bulkDelete('SIMSupplier', { supplierId: { $in: supplierData.map(rec => rec.supplierId) } }),
+    db.queryInterface.bulkDelete('SIMAddress', { addressId: { $in: addressData.map(rec => rec.addressId) } })
+  ]));
 }
