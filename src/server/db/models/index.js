@@ -13,7 +13,6 @@ const SupplierCertification = require('./SupplierCertification');
 const SupplierContact = require('./SupplierContact');
 const SupplierFinancials = require('./SupplierFinancials');
 const TradingPartner = require('./TradingPartner');
-const User2Supplier = require('./User2Supplier');
 
 module.exports.init = function(db, config)
 {
@@ -32,7 +31,6 @@ module.exports.init = function(db, config)
   db.import('SupplierContact', SupplierContact);
   db.import('SupplierFinancials', SupplierFinancials);
   db.import('TradingPartner', TradingPartner);
-  db.import('User2Supplier', User2Supplier);
 
 
   // Always return a promise.

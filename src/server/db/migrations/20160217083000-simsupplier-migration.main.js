@@ -323,7 +323,6 @@ module.exports = {
 
     return Promise.all([
       queryInterface.dropTable('CatalogUser2Supplier'),
-      queryInterface.dropTable('SIMSupplier2Address'),
       queryInterface.dropTable('SIMAddress'),
       queryInterface.dropTable('SIMSupplier'),
       queryInterface.dropTable('SIMSupplierContact')
