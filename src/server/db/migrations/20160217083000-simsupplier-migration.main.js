@@ -104,7 +104,28 @@ module.exports = {
           field: "ChangedOn",
           allowNull: false
         }
-      }),
+      }).then(() => queryInterface.createTable('CatalogUser2Supplier', {
+        loginName: {
+          field: 'LoginName',
+          type: Sequelize.STRING(50),
+          primaryKey: true
+          // references: {
+          //   model: 'CatalogUser',
+          //   key: 'LoginName'
+          // }
+        },
+        supplierId: {
+          field: 'SupplierID',
+          type: Sequelize.STRING(30),
+          primaryKey: true,
+          references: {
+            model: 'SIMSupplier',
+            key: 'SupplierID'
+          },
+          onUpdate: 'cascade',
+          onDelete: 'cascade'
+        }
+      })).then(() => queryInterface.addIndex('CatalogUser2Supplier', ['SupplierID'])),
 
       queryInterface.createTable('SIMAddress', {
         id: {
@@ -301,6 +322,7 @@ module.exports = {
     var queryInterface = db.getQueryInterface();
 
     return Promise.all([
+      queryInterface.dropTable('CatalogUser2Supplier'),
       queryInterface.dropTable('SIMAddress'),
       queryInterface.dropTable('SIMSupplier'),
       queryInterface.dropTable('SIMSupplierContact')
