@@ -38,18 +38,12 @@ module.exports.up = function(db, config)
 
     // -----
 
-    // Load data.
-    const user2SupplierData = require(path + '/user2supplier.json');
-    // Get database models.
-    const User2Supplier  = db.models.User2Supplier;
-
     return Promise.all([
         Promise.all(addressData.map(cur => Address.upsert(cur))),
         Promise.all(supplierData.map(cur => Supplier.upsert(cur)))
     ])
     .then(() => Promise.all([
-        Promise.all(supplierContactData.map(cur => SupplierContact.upsert(cur))),
-        Promise.all(user2SupplierData.map(cur => User2Supplier.upsert(cur)))
+        Promise.all(supplierContactData.map(cur => SupplierContact.upsert(cur)))
     ]));
 }
 
@@ -65,7 +59,6 @@ module.exports.up = function(db, config)
 module.exports.down = function(db, config)
 {
     return Promise.all([
-        db.models.User2Supplier.destroy({ truncate: true }),
         db.models.SupplierContact.destroy({ truncate: true })
     ]).then(() => Promise.all([
         db.models.Supplier.destroy({ truncate: true }),
