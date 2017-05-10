@@ -4,7 +4,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const Promise = require('bluebird');
 
-const Address = require('./Address');
+const SupplierAddress = require('./SupplierAddress');
 const BankAccount = require('./BankAccount');
 const Certification = require('./Certification');
 const CertificationGroup = require('./CertificationGroup');
@@ -22,7 +22,7 @@ module.exports.init = function(db, config)
   //
   // db.define(...);
 
-  db.import('Address', Address);
+  db.import('SupplierAddress', SupplierAddress);
   db.import('BankAccount', BankAccount);
   db.import('Certification', Certification);
   db.import('CertificationGroup', CertificationGroup);

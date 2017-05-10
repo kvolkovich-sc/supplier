@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const pathjs = require('path');
 const path = pathjs.resolve(__dirname + '/../data');
 
-const addressData = require(path + '/address.json');
+const supplierAddressData = require(path + '/supplierAddress.json');
 const supplierData = require(path + '/supplier.json');
 const supplierContactData = require(path + '/supplierContact.json');
 const user2SupplierData = require(path + '/user2supplier.json');
@@ -22,7 +22,7 @@ const user2SupplierData = require(path + '/user2supplier.json');
 module.exports.up = function(db, config)
 {
   return Promise.all([
-    db.queryInterface.bulkInsert('SIMAddress', addressData),
+    db.queryInterface.bulkInsert('SIMAddress', supplierAddressData),
     db.queryInterface.bulkInsert('SIMSupplier', supplierData)
   ])
   .then(() => Promise.all([
@@ -47,6 +47,6 @@ module.exports.down = function(db, config)
     db.queryInterface.bulkDelete('SIMSupplierContact', { contactId: { $in: supplierContactData.map(rec => rec.contactId) } })
   ]).then(() => Promise.all([
     db.queryInterface.bulkDelete('SIMSupplier', { supplierId: { $in: supplierData.map(rec => rec.supplierId) } }),
-    db.queryInterface.bulkDelete('SIMAddress', { addressId: { $in: addressData.map(rec => rec.addressId) } })
+    db.queryInterface.bulkDelete('SIMAddress', { addressId: { $in: supplierAddressData.map(rec => rec.addressId) } })
   ]));
 }

@@ -122,7 +122,7 @@ module.exports = function(sequelize) {
     createdAt: 'createdOn',
     timestamps: true,
     freezeTableName: true,
-    tableName: 'SIMSupplier' // needs to be just supplier in future
+    tableName: 'Supplier' // needs to be just supplier in future
   });
 
   return Supplier;

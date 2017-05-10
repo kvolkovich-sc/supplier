@@ -7,7 +7,7 @@ module.exports = function(sequelize) {
    * partners can have different types of addresses that are associated using
    * <tt>XXX2Address</tt> tables.</p>
    */
-  let Address = sequelize.define('Address', {
+  let SupplierAddress = sequelize.define('SupplierAddress', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -153,15 +153,15 @@ module.exports = function(sequelize) {
   }, {
     classMethods: {
       associate: function(models) {
-        Address.belongsTo(models.Supplier, { as: 'supplier', foreignKey: 'supplierId' });
+        SupplierAddress.belongsTo(models.Supplier, { as: 'supplier', foreignKey: 'supplierId' });
       }
     },
     updatedAt: 'changedOn',
     createdAt: 'createdOn',
     timestamps: true,
     freezeTableName: true,
-    tableName: 'SIMAddress'
+    tableName: 'SupplierAddress'
   });
 
-  return Address;
+  return SupplierAddress;
 };
