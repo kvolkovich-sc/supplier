@@ -58,7 +58,7 @@ post:
                 body:
                     application/json:
                         type: SupplierAddressArray
-    put:
+    post:
         description: Insert Supplier to Address association
         body:
             application/json:
@@ -67,7 +67,7 @@ post:
             200:
                 body:
                     application/json:
-                        type: SupplierAddressArray
+                        type: SupplierAddress
             403:
                 description: Operation is not authorized
             422:
@@ -80,7 +80,14 @@ post:
         addressId:
             type: number
             description: Identifeir of supplier address
-    post:
+    get:
+        description: Get single `SupplierAddress` object assigned to the Supplier
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierAddress
+    put:
         description: Update Supplier to Address association
         body:
             application/json:
@@ -89,10 +96,22 @@ post:
             200:
                 body:
                     application/json:
-                        type: SupplierAddressArray
+                        type: SupplierAddress
             409:
                 description:
                     A supplier with the same supplierId but different set of properties already exists.
+    delete:
+        description: Delete SupplierAddress association
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+
 /{supplierId}/contacts:
     uriParameters:
         supplierId:
@@ -105,7 +124,7 @@ post:
                 body:
                     application/json:
                         type: SupplierContactsArray
-    put:
+    post:
         description: Insert new Contact association fro Supplier
         body:
             application/json:
@@ -127,7 +146,14 @@ post:
         contactId:
             type: string
             description: Identifier of Supplier to Contact association
-    post:
+    get:
+        description: Get single `SupplierContact` object assigned to the Supplier
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierContact
+    put:
         description: Update SupplierContact association
             body:
                 application/json:
@@ -140,7 +166,6 @@ post:
             409:
                 description:
                     A supplier with the same supplierId but different set of properties already exists.
-
     delete:
         description: Delete SupplierContact association
         responses:
