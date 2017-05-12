@@ -72,7 +72,7 @@ module.exports = function(sequelize) {
     createdAt: 'createdOn',
     timestamps: true,
     freezeTableName: true,
-    tableName: 'SIMSupplierContact'
+    tableName: 'SupplierContact'
   });
 
   return SupplierContact;
