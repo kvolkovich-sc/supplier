@@ -46,6 +46,7 @@
     "ocbesbn-service-client": "^1.0.1",
     "ocbesbn-redis-events": "^1.0.3",
     "opuscapita-i18n": "github:patrykkopycinski/js-i18n",
+    "opuscapita-react-dates": "0.0.1-beta.10",
     "react": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-bootstrap": "0.30.9",

@@ -3,11 +3,11 @@ import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import SupplierEditorFormRow from './SupplierEditorFormRow.react.js';
-import DatePicker from '../DatePicker';
 import './SupplierEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
+import DateInput from 'opuscapita-react-dates/lib/DateInput';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -82,11 +82,11 @@ class SupplierEditorForm extends Component {
 
   SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
 
-  handleDateChange = (fieldName, event) => {
+  handleDateChange = (fieldName, date) => {
     this.setState({
       supplier: {
         ...this.state.supplier,
-        [fieldName]: event.target.value
+        [fieldName]: date
       },
       fieldErrors: {
         ...this.state.fieldErrors,
@@ -201,7 +201,7 @@ class SupplierEditorForm extends Component {
     const { dateTimePattern, countries } = this.props;
     const { supplier } = this.state;
 
-    let foundedOn = supplier['foundedOn'] || '';
+    let foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
 
     return (
       <div>
@@ -214,9 +214,10 @@ class SupplierEditorForm extends Component {
           { this.renderField({
             fieldName: 'foundedOn',
             component: (
-              <DatePicker className="form-control"
+              <DateInput
+                className="form-control"
                 locale={locale}
-                format={this.props.dateTimePattern}
+                dateFormat={this.props.dateTimePattern}
                 value={foundedOn}
                 onChange={this.handleDateChange.bind(this, 'foundedOn')}
                 onBlur={this.handleBlur.bind(this, 'foundedOn')}

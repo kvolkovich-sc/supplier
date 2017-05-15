@@ -2,7 +2,6 @@ version: '2'
 services:
   main:
     build: .
-    image: opuscapita/supplier:dev
     #restart: on-failure:5
     depends_on:  # as of version 1.9.0 Dockerfile's HEALTHCHECK is not supported yet.
       - mysql
