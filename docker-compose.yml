@@ -58,7 +58,7 @@ services:
     command: [agent, '-server', '-ui', '-bootstrap-expect=1', '-bind=${HOST_IP}', '-client=0.0.0.0']
 
   isodata:
-    image: ocbesbn/isodata:latest
+    image: opuscapita/isodata:dev
     depends_on:
       - mysql
       - consul
