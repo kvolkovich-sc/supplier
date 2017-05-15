@@ -124,6 +124,8 @@ class SupplierRegistrationEditor extends Component {
       if (this.props.onChange) {
         this.props.onChange({ isDirty: false });
       }
+
+      request.post('/refreshIdToken').set('Content-Type', 'application/json').then(() => null);
     }).
     catch(errors => {
       this.setState({

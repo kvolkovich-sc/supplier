@@ -35,10 +35,10 @@ var createSuppliers = function(req, res)
         .then(supplier => {
           const userId = supplier.createdBy;
           const supplierId = supplier.supplierId;
-          req.ocbesbn.serviceClient.put('user', `/users/${userId}?tokenUpdate=true`, { supplierId: supplierId, status: 'registered' })
+          req.ocbesbn.serviceClient.put('user', `/users/${userId}`, { supplierId: supplierId, status: 'registered' })
             .spread(() => {
               supplier.status = 'assigned';
-              Supplier.update(supplierId, supplier).then(supplier => {
+              Supplier.update(supplierId, supplier.dataValues).then(supplier => {
                 this.events.emit(supplier, 'supplier').then(() => res.status('200').json(supplier));
               });
             })
