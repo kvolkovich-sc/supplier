@@ -17,7 +17,7 @@ There are four react components. Look at how to use it them [here](/wiki/rest-do
 
 - Add supplier as an external to your webpack config:
 
-  ```json
+  ```
   externals: {
    'supplier': 'supplier',
   }
