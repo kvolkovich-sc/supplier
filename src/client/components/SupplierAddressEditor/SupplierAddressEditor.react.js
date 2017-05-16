@@ -113,13 +113,6 @@ class SupplierAddressEditor extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
-    // if (formBlock) {
-    //   formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
-    // }
-  }
-
   componentWillUnmount() {
     if (!this.state.isLoaded) {
       if (this.loadAddressesPromise) {
@@ -348,7 +341,7 @@ class SupplierAddressEditor extends Component {
         {result}
 
         {supplierAddress ? (
-          <div className="row" ref="editForm">
+          <div className="row">
             <div className="col-md-6">
               {this.state.globalError && !readOnly ? (
                 <Alert bsStyle="danger" message={this.state.globalError}/>

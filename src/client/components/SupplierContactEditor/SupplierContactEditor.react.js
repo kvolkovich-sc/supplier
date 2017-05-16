@@ -70,13 +70,6 @@ class SupplierContactEditor extends Component {
     }
   }
 
-  componentDidUpdate() {
-    // let formBlock = ReactDOM.findDOMNode(this.refs.editForm);
-    // if (formBlock) {
-    //   formBlock.scrollIntoView({ block: "start", behavior: "smooth" });
-    // }
-  }
-
   handleDelete = (contact) => {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
@@ -302,7 +295,7 @@ class SupplierContactEditor extends Component {
         {result}
 
         {contact ? (
-          <div className="row" ref="editForm">
+          <div className="row">
             <div className="col-sm-6">
               {this.state.globalError && !readOnly ? (
                 <Alert bsStyle="danger" message={this.state.globalError}/>

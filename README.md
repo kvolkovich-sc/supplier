@@ -11,7 +11,7 @@ docker service create --publish mode=host,target=3001,published=3001 --dns-searc
 ```
 
 # React Components
-There are four react components. Look at how to use it them [here](/wiki/rest-doc/Suppliers.react_components.md)
+There are four react components. Look at how to use them [here](/wiki/rest-doc/Suppliers.react_components.md)
 
 ## Integration in Other Services
 
