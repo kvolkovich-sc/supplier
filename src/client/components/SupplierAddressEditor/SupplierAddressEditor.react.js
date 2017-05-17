@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import request from 'superagent-bluebird-promise';
 import utils from 'underscore';
 import i18n from '../../i18n/I18nDecorator.react.js';

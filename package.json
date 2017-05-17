@@ -35,7 +35,6 @@
     "cross-env": "4.0.0",
     "css-loader": "0.28.1",
     "intel": "1.1.2",
-    "jquery": "3.2.1",
     "json-loader": "0.5.4",
     "less": "2.7.2",
     "less-loader": "4.0.3",
@@ -48,15 +47,10 @@
     "opuscapita-i18n": "github:patrykkopycinski/js-i18n",
     "opuscapita-react-dates": "0.0.1-beta.13",
     "react": "15.4.2",
-    "react-addons-test-utils": "15.4.2",
     "react-bootstrap": "0.31.0",
-    "react-dom": "15.4.2",
     "react-select": "1.0.0-rc.4",
-    "react-spinkit": "1.1.11",
     "sequelize": "3.30.4",
-    "sequelize-to-markdown": "1.1.13",
     "style-loader": "0.17.0",
-    "superagent": "3.5.2",
     "superagent-bluebird-promise": "4.2.0",
     "underscore": "1.8.3",
     "validate.js": "0.11.1",
@@ -86,8 +80,11 @@
     "nyc": "10.3.2",
     "raml-to-markdown": "1.1.3",
     "raml2html": "3.0.1",
+    "react-dom": "15.4.2",
+    "react-addons-test-utils": "15.4.2",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
-    "rimraf": "2.6.1"
+    "rimraf": "2.6.1",
+    "sequelize-to-markdown": "1.1.13"
   }
 }

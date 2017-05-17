@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import request from 'superagent-bluebird-promise';
 import utils from 'underscore';
 import Button from 'react-bootstrap/lib/Button';
