@@ -31,3 +31,15 @@ The react components are compiled and bundled into a library called `supplier` u
   ```
 
 Read more about webpack externals [here](https://webpack.js.org/configuration/externals/)
+
+
+# Different versions for embeded services:
+
+## Case studies
+
+### React
+
+- Minor version changes (e.g. react v15.4.2 and react v15.5.4) not a problem. Works fine.
+- Major version changes a problem, because some for example some components of the new version which does not exist in the old version can be used.
+
+### underscore
