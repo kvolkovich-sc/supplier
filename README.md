@@ -17,6 +17,15 @@ There are four react components. Look at how to use them [here](/wiki/rest-doc/S
 
 The react components are compiled and bundled into a library called `supplier` using webpack, with the help of the it's `externals` option. Integrate the library into your service as follows:
 
+- In your `docker-compose.yml` file, set environment variable NODE_ENV for supplier to `production`
+  ```
+  supplier:
+    ...
+    environment:
+      ...
+      NODE_ENV: 'production'
+  ```
+
 - Add supplier as an `externals` to your webpack config:
 
   ```
@@ -39,7 +48,10 @@ Read more about webpack externals [here](https://webpack.js.org/configuration/ex
 
 ### React
 
-- Minor version changes (e.g. react v15.4.2 and react v15.5.4) not a problem. Works fine.
-- Major version changes a problem, because some for example some components of the new version which does not exist in the old version can be used.
+- Minor version difference (e.g. react v15.4.2 and react v15.5.4) not a problem. Works fine.
+- Major version difference a problem, because some for example some components of the new version which does not exist in the old version can be used.
 
 ### underscore
+
+- Minor version difference (e.g. 1.8.3 and 1.6.0) not a problem. Works fine.
+- Minor version difference (e.g. 1.8.3 and 0.6.0) not a problem. Works fine.
