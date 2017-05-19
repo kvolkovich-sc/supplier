@@ -55,3 +55,5 @@ Read more about webpack externals [here](https://webpack.js.org/configuration/ex
 
 - Minor version difference (e.g. 1.8.3 and 1.6.0) not a problem. Works fine.
 - Minor version difference (e.g. 1.8.3 and 0.6.0) not a problem. Works fine.
+
+This post on [understanding npm dependency model](https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/) explains in detail how npm manages different versions and when it would result in problems as the case of React.
