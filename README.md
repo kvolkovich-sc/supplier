@@ -57,3 +57,30 @@ Read more about webpack externals [here](https://webpack.js.org/configuration/ex
 - Minor version difference (e.g. 1.8.3 and 0.6.0) not a problem. Works fine.
 
 This post on [understanding npm dependency model](https://lexi-lambda.github.io/blog/2016/08/24/understanding-the-npm-dependency-model/) explains in detail how npm manages different versions and when it would result in problems as the case of React.
+
+# Building Multi-part Library
+
+Mult-part libraries can be built with webpack. See example [here](https://github.com/webpack/webpack/tree/master/examples/multi-part-library).
+
+## Integration in another service
+
+Let's say we have a multi-part library built with webpack for Supplier named 'supplier.alpha' and 'supplier.beta' with filenames `alpha-bundle.js` and `beta-bundle.js` respectively. It can then be integrated as follows:
+
+- Add libraries as an `externals` to your webpack config:
+
+  ```
+  externals: {
+   'supplier.alpha': 'supplier.alpha',
+   'supplier.beta': 'supplier.beta'
+  }
+  ```
+- Include bundles of the libraries in the body tag of your main html:
+
+  ```html
+  <script type="application/javascript" src="/supplier/static/alpha-bundle.js"></script>
+  <script type="application/javascript" src="/supplier/static/beta-bundle.js"></script>
+  ```
+
+## Usage
+
+`import (component) from 'supplier.alpha'` for `supplier.alpha` and `import (component) from 'supplier.beta'` for `supplier.beta`.
