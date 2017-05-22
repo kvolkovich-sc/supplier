@@ -51,7 +51,6 @@ module.exports = {
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
-        exclude: [process.env.NODE_PATH],
         options: {
           presets: [
             ['es2015', {modules: false}],
