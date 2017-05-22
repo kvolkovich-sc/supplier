@@ -1,4 +1,4 @@
-FROM gr4per/node-react-base:latest
+FROM opuscapita/supplier-base:dev
 MAINTAINER patrykkopycinski
 
 # NOTE: "node" user and corresponding "/home/node" dir are created by "node:6-alpine" image.
@@ -9,7 +9,7 @@ COPY package.json .
 # Make sure node can load modules from /var/tmp/base/node_modules
 # Setting NODE_ENV is necessary for "npm install" below.
 ENV NODE_ENV=development NODE_PATH=/var/tmp/base/node_modules PATH=${PATH}:${NODE_PATH}/.bin
-RUN apk add --no-cache rsync curl git ; npm set progress=false && npm install && npm cache clean
+RUN npm set progress=false && npm install ; npm cache clean
 
 WORKDIR /home/node/supplier
 
