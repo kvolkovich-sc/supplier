@@ -54,8 +54,7 @@
     "style-loader": "0.17.0",
     "superagent-bluebird-promise": "4.2.0",
     "underscore": "1.8.3",
-    "validate.js": "0.11.1",
-    "webpack": "2.5.1"
+    "validate.js": "0.11.1"
   },
   "devDependencies": {
     "babel-cli": "6.24.1",
@@ -85,6 +84,7 @@
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "rimraf": "2.6.1",
-    "sequelize-to-markdown": "1.1.13"
+    "sequelize-to-markdown": "1.1.13",
+    "webpack": "2.5.1"
   }
 }
