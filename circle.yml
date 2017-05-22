@@ -13,7 +13,7 @@ dependencies:
       if [ -n "${RUN_NIGHTLY_BUILD}" ]; then
         echo "running base img build..." && docker build --rm=false -t opuscapita/supplier-base:latest -f Dockerfile.base .
       fi
-    - docker build --rm=false -t opuscapita/supplier:latest .
+    - docker build --rm=false --no-cache=true -t opuscapita/supplier:latest .
 
 test:
   override:
