@@ -27,12 +27,10 @@ module.exports = {
   ],
 
   resolve: {
-    modules: [process.env.NODE_PATH, 'node_modules'],
     extensions: ['.json', '.jsx', '.js']
   },
 
   resolveLoader: {
-    modules: [process.env.NODE_PATH, 'node_modules'],
     extensions: ['.js']
   },
 
@@ -53,7 +51,6 @@ module.exports = {
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
-        exclude: [process.env.NODE_PATH],
         options: {
           presets: [
             ['es2015', {modules: false}],
