@@ -6,16 +6,16 @@
 
 | Name | Type | Required | Description |
 |:-----|:----:|:--------:|------------:|
-| actionUrl | string | true |  |
+| actionUrl | string | true | Base url of service |
 | supplierId | string | true | ID of Supplier |
 | supplierName | string | false | Name of Supplier |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true |  |
-| onUnauthorized | function | false |  |
-| onChange | function | false |  |
-| onUpdate | function | false |  |
-| onLogout | function | false |  |
+| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
+| onUnauthorized | function | false | Callback fired when unauthorized |
+| onChange | function | false | Callback fired on input change `(event) => {}` |
+| onUpdate | function | false | Callback fired on supplier update `(supplier) => {}` |
+| onLogout | function | false | Callback fired on logout |
 
 ### Basic Example
 
@@ -24,12 +24,12 @@ import { SupplierEditor } from 'supplier';
 
 <SupplierEditor
   key='company'
-  actionUrl='http://localhost:3001'
+  actionUrl='http://localhost:8080'
   supplierId='hard001'
   supplierName='Hardware AG'
   locale='en'
   username='Marlon Wayans'
-  dateTimePattern='MM/dd/yyyy h:mm:ss a'
+  dateTimePattern='MM/dd/yyyy'
 />
 ```
 
@@ -39,14 +39,14 @@ import { SupplierEditor } from 'supplier';
 
 | Name | Type | Required | Description |
 |:-----|:----:|:--------:|------------:|
-| actionUrl | string | true |  |
+| actionUrl | string | true | Base url of service |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true |  |
-| onUnauthorized | function | false |  |
-| onChange | function | false |  |
-| onUpdate | function | false |  |
-| onLogout | function | false |  |
+| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
+| onUnauthorized | function | false | Callback fired when unauthorized |
+| onChange | function | false | Callback fired on input change `(event) => {}` |
+| onUpdate | function | false | Callback fired on supplier create `(supplier) => {}` |
+| onLogout | function | false | Callback fired on logout |
 
 ### Basic Example
 
@@ -55,10 +55,10 @@ import { SupplierRegistrationEditor } from 'supplier';
 
 <SupplierRegistrationEditor
   key='company'
-  actionUrl='http://localhost:3001'
+  actionUrl='http://localhost:8080'
   locale='en'
   username='Marlon Wayans'
-  dateTimePattern='MM/dd/yyyy h:mm:ss a'
+  dateTimePattern='MM/dd/yyyy'
 />
 ```
 
@@ -68,14 +68,14 @@ import { SupplierRegistrationEditor } from 'supplier';
 
 | Name | Type | Required | Description |
 |:-----|:----:|:--------:|------------:|
-| readOnly | boolean | false |  |
-| actionUrl | string | true |  |
+| readOnly | boolean | false | Read only input |
+| actionUrl | string | true | Base url of service |
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true |  |
-| onUnauthorized | function | false |  |
-| onChange | function | false |  |
+| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
+| onUnauthorized | function | false | Callback fired when unauthorized |
+| onChange | function | false | Callback fired on input change `(event) => {}` |
 
 ### Basic Example
 
@@ -85,8 +85,8 @@ import { SupplierAddressEditor } from 'supplier';
 <SupplierAddressEditor
   key='address'
   readOnly={false}
-  actionUrl='http://localhost:3001'
-  dateTimePattern='MM/dd/yyyy h:mm:ss a'
+  actionUrl='http://localhost:8080'
+  dateTimePattern='MM/dd/yyyy'
   supplierId='hard001'
   locale='en'
   username='Marlon Wayans'
@@ -99,14 +99,14 @@ import { SupplierAddressEditor } from 'supplier';
 
 | Name | Type | Required | Description |
 |:-----|:----:|:--------:|------------:|
-| readOnly | boolean | false |  |
-| actionUrl | string | true |  |
+| readOnly | boolean | false | Read only input |
+| actionUrl | string | true | Base url of service |
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true |  |
-| onUnauthorized | function | false |  |
-| onChange | function | false |  |
+| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
+| onUnauthorized | function | false | Callback fired when unauthorized |
+| onChange | function | false | Callback fired on input change `(event) => {}` |
 
 ### Basic Example
 
@@ -116,11 +116,11 @@ import { SupplierContactEditor } from 'supplier';
 <SupplierContactEditor
   key='contact'
   readOnly={false}
-  actionUrl='http://localhost:3001'
+  actionUrl='http://localhost:8080'
   supplierId='hard001'
   locale='en'
   username='Marlon Wayans'
-  dateTimePattern='MM/dd/yyyy h:mm:ss a'
+  dateTimePattern='MM/dd/yyyy'
   isOnboarding={true}
 />
 ```
