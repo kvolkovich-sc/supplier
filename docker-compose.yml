@@ -13,6 +13,7 @@ services:
       SERVICE_TAGS: 'external'
     volumes:
       - .:/home/node/supplier
+      - /home/node/supplier/node_modules
     extra_hosts:
       - 'consul:${HOST_IP}'
     environment:

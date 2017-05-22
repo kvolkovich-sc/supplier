@@ -27,12 +27,10 @@ module.exports = {
   ],
 
   resolve: {
-    modules: [process.env.NODE_PATH, 'node_modules'],
     extensions: ['.json', '.jsx', '.js']
   },
 
   resolveLoader: {
-    modules: [process.env.NODE_PATH, 'node_modules'],
     extensions: ['.js']
   },
 
