@@ -84,3 +84,12 @@ Let's say we have a multi-part library built with webpack for Supplier named 'su
 ## Usage
 
 `import (component) from 'supplier.alpha'` for `supplier.alpha` and `import (component) from 'supplier.beta'` for `supplier.beta`.
+
+
+# CSS and Integration of Services
+
+## Same CSS class names and/or ids in Services
+
+When `css` is bundled with `webpack`, it does not scope the CSS classes to the scope of the bundle, so styles defined in both services having the same CSS class name or id will conflict.
+
+A solution will be to scope/prefix all custom CSS class names and ids with the service name.

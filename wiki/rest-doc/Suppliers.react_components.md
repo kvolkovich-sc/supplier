@@ -33,6 +33,8 @@ import { SupplierEditor } from 'supplier';
 />
 ```
 
+![supplier_editor_example](https://cloud.githubusercontent.com/assets/1188617/26353550/4e52661e-3fc1-11e7-8492-964b87619599.png)
+
 ## Supplier Registration Editor
 
 ### Props
@@ -53,14 +55,28 @@ import { SupplierEditor } from 'supplier';
 ```
 import { SupplierRegistrationEditor } from 'supplier';
 
+const newSupplier = {
+  supplierName: 'Test AG',
+  cityOfRegistration: 'Hamburg',
+  countryOfRegistration: 'DE',
+  taxId: '123-343-12',
+  vatRegNo: 'DE72342359',
+  dunsNo: '12345',
+  registrationNumber: 'HRB 12873243'
+};
+
 <SupplierRegistrationEditor
   key='company'
   actionUrl='http://localhost:8080'
   locale='en'
   username='Marlon Wayans'
   dateTimePattern='MM/dd/yyyy'
+  supplier={newSupplier}
 />
 ```
+
+![supplier_registration_editor_example](https://cloud.githubusercontent.com/assets/1188617/26354132/a124a15c-3fc3-11e7-812f-eb24f527b466.png)
+
 
 ## Supplier Address Editor
 
@@ -93,6 +109,8 @@ import { SupplierAddressEditor } from 'supplier';
 />
 ```
 
+![supplier_address_editor_example](https://cloud.githubusercontent.com/assets/1188617/26353634/a8df8800-3fc1-11e7-8fc3-37fbff330805.png)
+
 ## Supplier Contact Editor
 
 ### Props
@@ -124,3 +142,5 @@ import { SupplierContactEditor } from 'supplier';
   isOnboarding={true}
 />
 ```
+
+![supplier_contact_editor_example](https://cloud.githubusercontent.com/assets/1188617/26353707/f27a82d0-3fc1-11e7-9d2a-dec679d4f615.png)
