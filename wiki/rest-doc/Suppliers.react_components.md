@@ -44,6 +44,7 @@ import { SupplierEditor } from 'supplier';
 | actionUrl | string | true | Base url of service |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
+| supplier | object | false | Supplier object |
 | dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
 | onUnauthorized | function | false | Callback fired when unauthorized |
 | onChange | function | false | Callback fired on input change `(event) => {}` |
@@ -139,7 +140,6 @@ import { SupplierContactEditor } from 'supplier';
   locale='en'
   username='Marlon Wayans'
   dateTimePattern='MM/dd/yyyy'
-  isOnboarding={true}
 />
 ```
 
