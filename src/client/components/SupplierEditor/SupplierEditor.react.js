@@ -4,7 +4,6 @@ import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
-import CountriesInput from 'isodata.countries';
 
 /**
  * Provide general company information.
@@ -65,7 +64,6 @@ class SupplierEditor extends Component {
       }
 
       console.log(errors);
-      console.log(CountriesInput);
 
       this.setState({
         isLoaded: true,

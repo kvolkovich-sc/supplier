@@ -8,7 +8,7 @@ import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
-import CountriesInput from 'isodata.countries';
+import request from 'superagent-bluebird-promise';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -61,8 +61,22 @@ class SupplierEditorForm extends Component {
       ...this.props.supplier
     },
     fieldErrors: {},
-    isNewSupplier: true
+    isNewSupplier: true,
+    countriesLoaded: false
   };
+
+  componentDidMount() {
+    const req = request.get(`${this.props.actionUrl}/isodata/static/countries-bundle.js`).promise();
+
+    req.then(response => {
+      eval(response.text);
+      this.setState({
+        countriesLoaded: true
+      })
+      return;
+    }).
+    catch(error => {});
+  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -248,14 +262,17 @@ class SupplierEditorForm extends Component {
           { this.renderField({
             fieldName: 'countryOfRegistration',
             component: (
-              <CountriesInput
-                actionUrl={this.props.actionUrl}
-                value={supplier['countryOfRegistration'] || ''}
-                onChange={this.handleCountryChange.bind(this, 'countryOfRegistration')}
-                onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-              />
+              this.state.countriesLoaded ? (
+                React.createElement(
+                  'isodata.countries', {
+                  actionUrl: this.props.actionUrl,
+                  value: this.state.supplier['countryOfRegistration'] || '',
+                  onChange: this.handleCountryChange.bind(this, 'countryOfRegistration'),
+                  onBlur: this.handleBlur.bind(this, 'countryOfRegistration')
+                })
+              ) : React.createElement('Foo')
             )
-          }) }
+          })}
 
           { this.renderField({ fieldName: 'taxId' }) }
           { this.renderField({ fieldName: 'vatRegNo' }) }
