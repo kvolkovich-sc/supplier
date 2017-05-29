@@ -9,6 +9,10 @@ module.exports = {
     filename: 'bundle.js'
   },
 
+  externals: {
+    'isodata.countries': 'isodata.countries',
+  },
+
   //exclude empty dependencies, require for Joi
   node: {
     net: 'empty',
