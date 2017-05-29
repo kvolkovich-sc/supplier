@@ -35,6 +35,9 @@ module.exports.init = function(app, db, config) {
     app.set('views', path.resolve(__dirname + '/../templates'));
     app.set('trust proxy', true);
 
+    // hack for loading chunks in webpack
+    app.get('/*.bundle.js', (req, res) => res.redirect(`/supplier/supplier${req.url}`));
+
     app.get('/', (req, res) => {
       res.render('index', {
         helpers: {

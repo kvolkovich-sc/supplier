@@ -8,7 +8,7 @@ import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
-import request from 'superagent-bluebird-promise';
+import { asyncComponent } from 'react-async-component';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -64,19 +64,6 @@ class SupplierEditorForm extends Component {
     isNewSupplier: true,
     countriesLoaded: false
   };
-
-  componentDidMount() {
-    const req = request.get(`${this.props.actionUrl}/isodata/static/countries-bundle.js`).promise();
-
-    req.then(response => {
-      eval(response.text);
-      this.setState({
-        countriesLoaded: true
-      })
-      return;
-    }).
-    catch(error => {});
-  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -230,8 +217,8 @@ class SupplierEditorForm extends Component {
     const locale = i18n.locale;
     const { dateTimePattern } = this.props;
     const { supplier } = this.state;
-
-    let foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
+    const CountryField = asyncComponent({ resolve: () => import('./countries-bundle.js') });
+    const foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
 
     return (
       <div>
@@ -262,15 +249,12 @@ class SupplierEditorForm extends Component {
           { this.renderField({
             fieldName: 'countryOfRegistration',
             component: (
-              this.state.countriesLoaded ? (
-                React.createElement(
-                  'isodata.countries', {
-                  actionUrl: this.props.actionUrl,
-                  value: this.state.supplier['countryOfRegistration'] || '',
-                  onChange: this.handleCountryChange.bind(this, 'countryOfRegistration'),
-                  onBlur: this.handleBlur.bind(this, 'countryOfRegistration')
-                })
-              ) : React.createElement('Foo')
+              <CountryField
+                actionUrl={this.props.actionUrl}
+                value={this.state.supplier['countryOfRegistration']}
+                onChange={this.handleCountryChange.bind(this, 'countryOfRegistration')}
+                onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
+              />
             )
           })}
 
