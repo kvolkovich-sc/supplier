@@ -8,7 +8,7 @@ import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
-import { asyncComponent } from 'react-async-component';
+import serviceComponent from './serviceComponent.react'
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -64,6 +64,13 @@ class SupplierEditorForm extends Component {
     isNewSupplier: true,
     countriesLoaded: false
   };
+
+  componentWillMount() {
+    let serviceRegistry = (service) => ({ url: `${this.props.actionUrl}/isodata` });
+    const CountryField = serviceComponent({ serviceRegistry, serviceName: 'isodata', moduleName: 'isodata-countries', jsFileName: 'countries-bundle' });
+
+    this.externalComponents = { CountryField };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -217,7 +224,7 @@ class SupplierEditorForm extends Component {
     const locale = i18n.locale;
     const { dateTimePattern } = this.props;
     const { supplier } = this.state;
-    const CountryField = asyncComponent({ resolve: () => import('./countries-bundle.js') });
+    const { CountryField } = this.externalComponents;
     const foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
 
     return (

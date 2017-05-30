@@ -5,8 +5,7 @@ module.exports = {
   entry: './src/client/index_dev.js',
   output: {
     path: path.resolve(__dirname, './src/server/static'),
-    publicPath: '/supplier/',
-    chunkFilename: '[id].bundle.js',
+    publicPath: '/static',
     filename: 'bundle.js'
   },
 
