@@ -32,7 +32,7 @@ export default function({ serviceName, jsFileName, moduleName, componentPath, se
       if (window[moduleName]) {
         this.setState({ loadedComponent: this.getLoadedComponent() });
       } else {
-        scriptjs(serviceRegistry(serviceName).url + `/static/${jsFileName || moduleName}.js`, () => {
+        scriptjs(serviceRegistry(serviceName).url + `/static/components/${jsFileName || moduleName}.js`, () => {
           this.setState({ loadedComponent: this.getLoadedComponent() });
         });
       }

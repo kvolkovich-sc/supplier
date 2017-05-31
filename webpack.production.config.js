@@ -3,13 +3,16 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: './src/client/index.js'
+    registration: './src/client/components/SupplierRegistrationEditor/index.js',
+    information: './src/client/components/SupplierEditor/index.js',
+    address: './src/client/components/SupplierAddressEditor/index.js',
+    contact: './src/client/components/SupplierContactEditor/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
     publicPath: '/static',
-    filename: `bundle.js`,
-    library: 'supplier',
+    filename: 'components/[name]-bundle.js',
+    library: 'supplier-[name]',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },

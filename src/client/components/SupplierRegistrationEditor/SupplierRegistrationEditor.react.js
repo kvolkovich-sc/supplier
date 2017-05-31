@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import transformCountries from '../../utils/countriesTransform';
 import Alert from '../Alert';
 import SupplierRegistrationEditorForm from './SupplierRegistrationEditorForm.react.js';
 import SupplierExistsView from './SupplierExistsView.react';
@@ -29,34 +28,15 @@ class SupplierRegistrationEditor extends Component {
     super(props);
 
     this.state = {
-      isLoaded: false,
       hasErrors: false,
       supplier: {
         ...this.props.supplier
       },
-      supplierExist: false,
-      countries: []
+      supplierExist: false
     }
   }
 
   createSupplierPromise = null;
-  loadCountriesPromise = null;
-
-  componentDidMount() {
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
-      set('Accept', 'application/json').
-      promise();
-
-    this.loadCountriesPromise.then(response => {
-      this.setState({
-        countries: transformCountries(response.body),
-        isLoaded: true
-      });
-    }).
-    catch(errors => {
-      return null;
-    });
-  }
 
   componentWillReceiveProps(/* nextProps*/) {
     this.setState({
@@ -66,13 +46,8 @@ class SupplierRegistrationEditor extends Component {
   }
 
   componentWillUnmount() {
-    if (!this.state.isLoaded) {
-      if (this.loadCountriesPromise) {
-        this.loadCountriesPromise.cancel();
-      }
-      if (this.createSupplierPromise) {
-        this.createSupplierPromise.cancel();
-      }
+    if (this.createSupplierPromise) {
+      this.createSupplierPromise.cancel();
     }
   }
 
@@ -159,7 +134,6 @@ class SupplierRegistrationEditor extends Component {
       return <SupplierRegistrationEditorForm
                {...this.props}
                supplier={ this.state.supplier }
-               countries={this.state.countries}
                onSupplierChange={ this.handleUpdate }
                onChange={ this.handleChange }
                onCancel={ this.props.onLogout }
@@ -169,13 +143,7 @@ class SupplierRegistrationEditor extends Component {
 
   render() {
     const { i18n } = this.context;
-    const { isLoaded, hasErrors, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
-
-    if (!isLoaded) {
-      return (
-        <div>{ i18n.getMessage('SupplierRegistrationEditor.Messages.loading') }</div>
-      );
-    }
+    const { hasErrors, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
 
     if (hasErrors) {
       return (
