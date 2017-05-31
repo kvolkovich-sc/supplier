@@ -60,9 +60,7 @@ class SupplierEditorForm extends Component {
     supplier: {
       ...this.props.supplier
     },
-    fieldErrors: {},
-    isNewSupplier: true,
-    countriesLoaded: false
+    fieldErrors: {}
   };
 
   componentWillMount() {
