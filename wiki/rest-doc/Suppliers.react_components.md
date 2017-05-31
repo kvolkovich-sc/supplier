@@ -45,7 +45,6 @@ import { SupplierEditor } from 'supplier';
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
 | supplier | object | false | Supplier object |
-| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
 | onUnauthorized | function | false | Callback fired when unauthorized |
 | onChange | function | false | Callback fired on input change `(event) => {}` |
 | onUpdate | function | false | Callback fired on supplier create `(supplier) => {}` |
@@ -71,7 +70,6 @@ const newSupplier = {
   actionUrl='http://localhost:8080'
   locale='en'
   username='Marlon Wayans'
-  dateTimePattern='MM/dd/yyyy'
   supplier={newSupplier}
 />
 ```
@@ -90,7 +88,6 @@ const newSupplier = {
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
 | onUnauthorized | function | false | Callback fired when unauthorized |
 | onChange | function | false | Callback fired on input change `(event) => {}` |
 
@@ -103,7 +100,6 @@ import { SupplierAddressEditor } from 'supplier';
   key='address'
   readOnly={false}
   actionUrl='http://localhost:8080'
-  dateTimePattern='MM/dd/yyyy'
   supplierId='hard001'
   locale='en'
   username='Marlon Wayans'
@@ -123,7 +119,6 @@ import { SupplierAddressEditor } from 'supplier';
 | supplierId | string | true | ID of Supplier |
 | locale | string | false | Locale |
 | username | string | true | User (customer) name |
-| dateTimePattern | string | true | Date format . E.g. `dd/MM/yyyy`, `MM.dd.yyyy`, etc. |
 | onUnauthorized | function | false | Callback fired when unauthorized |
 | onChange | function | false | Callback fired on input change `(event) => {}` |
 
@@ -139,7 +134,6 @@ import { SupplierContactEditor } from 'supplier';
   supplierId='hard001'
   locale='en'
   username='Marlon Wayans'
-  dateTimePattern='MM/dd/yyyy'
 />
 ```
 

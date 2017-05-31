@@ -9,8 +9,6 @@ import SupplierAddressEditorForm from './SupplierAddressEditorForm.react.js';
 
 /**
  * Supplier address editor
- *
- * @author Dmitry Divin
  */
 @i18n({
   componentName: 'SupplierAddressEditor',
@@ -23,11 +21,6 @@ class SupplierAddressEditor extends Component {
     supplierId: React.PropTypes.string.isRequired,
     username: React.PropTypes.string,
     readOnly: React.PropTypes.bool,
-    dateTimePattern: React.PropTypes.string.isRequired,
-    /**
-     * Subscribe to persistent data changes
-     * @arg0 - dirty state: true - if inner data changed, false if inner changes was reset
-     */
     onChange: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func
   };
@@ -336,7 +329,6 @@ class SupplierAddressEditor extends Component {
 
               <SupplierAddressEditorForm
                 actionUrl={this.props.actionUrl}
-                dateTimePattern={this.props.dateTimePattern}
                 onChange={this.handleChange}
                 supplierAddress={supplierAddress}
                 errors={errors}

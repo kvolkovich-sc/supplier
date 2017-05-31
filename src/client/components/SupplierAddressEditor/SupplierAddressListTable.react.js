@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
-import utils from 'underscore';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import AddressCountry from './AddressCountry.react.js';
 
-/**
- * Supplier address list table
- *
- * @author Dmitry Divin
- */
 @i18n
 class SupplierAddressListTable extends Component {
 

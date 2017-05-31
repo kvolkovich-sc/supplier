@@ -5,7 +5,6 @@ import SupplierRegistrationEditor from './SupplierRegistrationEditor';
 import SupplierAddressEditor from './SupplierAddressEditor';
 import SupplierContactEditor from './SupplierContactEditor';
 
-const countries = [{id: 'DE', name: 'Germany'}, {id: 'NL', name: 'Netherlands'}];
 const supplier = {
   supplierId: "hard001",
   supplierName: "Hardware AG",
@@ -42,7 +41,6 @@ let registrationEditor = (
     actionUrl={actionUrl}
     locale='en'
     username={username}
-    dateTimePattern='MM/dd/yyyy'
     supplier={onboardingSupplier}
   />
 );
@@ -52,18 +50,15 @@ let addressEditor = (
     key='address'
     readOnly={false}
     actionUrl={actionUrl}
-    dateTimePattern='MM/dd/yyyy'
     supplierId={supplier.supplierId}
     locale='en'
     username={username}
-    countries={countries}
   />
 );
 
 let contactEditor = (
   <SupplierContactEditor
     key='contact'
-    dateTimePattern='MM/dd/yyyy'
     readOnly={false}
     actionUrl={actionUrl}
     supplierId={supplier.supplierId}

@@ -14,7 +14,6 @@ class SupplierRegistrationEditorForm extends Component {
   static propTypes = {
     supplier: PropTypes.object,
     onSupplierChange: PropTypes.func.isRequired,
-    dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onCancel: React.PropTypes.func,
     actionUrl: React.PropTypes.string.isRequired

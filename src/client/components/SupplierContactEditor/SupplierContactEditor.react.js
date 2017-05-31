@@ -23,11 +23,6 @@ class SupplierContactEditor extends Component {
     supplierId: React.PropTypes.string,
     username: React.PropTypes.string,
     readOnly: React.PropTypes.bool,
-    dateTimePattern: React.PropTypes.string.isRequired,
-    /**
-     * Subscribe to persistent data changes
-     * @arg0 - dirty state: true - if inner data changed, false if inner changes was reset
-     */
     onChange: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func
   };
@@ -302,7 +297,6 @@ class SupplierContactEditor extends Component {
 
               <SupplierContactEditForm
                 onChange={this.handleChange}
-                dateTimePattern={this.props.dateTimePattern}
                 contact={contact}
                 errors={errors}
                 editMode={editMode}

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import Button from 'react-bootstrap/lib/Button';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Popover from 'react-bootstrap/lib/Popover';
 import validator from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierAddressEditorForm.css';
@@ -15,8 +12,6 @@ import serviceComponent from '../serviceComponent.react';
 
 /**
  * Supplier address edit form
- *
- * @author Dmitry Divin
  */
 @i18n
 class SupplierAddressEditorForm extends Component {
@@ -27,8 +22,7 @@ class SupplierAddressEditorForm extends Component {
     onSave: React.PropTypes.func.isRequired,
     onUpdate: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    dateTimePattern: React.PropTypes.string.isRequired
+    onChange: React.PropTypes.func.isRequired
   }
 
   static defaultProps = {
