@@ -8,6 +8,7 @@ import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
+import serviceComponent from '../serviceComponent.react';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -48,22 +49,26 @@ class SupplierEditorForm extends Component {
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onCancel: React.PropTypes.func,
-    countries: PropTypes.array,
     actionUrl: React.PropTypes.string.isRequired
   };
 
   static defaultProps = {
-    readOnly: false,
-    countries: []
+    readOnly: false
   };
 
   state = {
     supplier: {
       ...this.props.supplier
     },
-    fieldErrors: {},
-    isNewSupplier: true
+    fieldErrors: {}
   };
+
+  componentWillMount() {
+    let serviceRegistry = (service) => ({ url: `${this.props.actionUrl}/isodata` });
+    const CountryField = serviceComponent({ serviceRegistry, serviceName: 'isodata' , moduleName: 'isodata-countries', jsFileName: 'countries-bundle' });
+
+    this.externalComponents = { CountryField };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -83,6 +88,10 @@ class SupplierEditorForm extends Component {
   SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
 
   handleDateChange = (fieldName, date) => {
+    if (this.props.onChange) {
+      this.props.onChange(fieldName, this.state.supplier[fieldName], date);
+    }
+
     this.setState({
       supplier: {
         ...this.state.supplier,
@@ -91,6 +100,19 @@ class SupplierEditorForm extends Component {
       fieldErrors: {
         ...this.state.fieldErrors,
         [fieldName]: []
+      }
+    });
+  }
+
+  handleCountryChange = (fieldName, country) => {
+    if (this.props.onChange) {
+      this.props.onChange(fieldName, this.state.supplier[fieldName], country);
+    }
+
+    this.setState({
+      supplier: {
+        ...this.state.supplier,
+        [fieldName]: country
       }
     });
   }
@@ -198,10 +220,10 @@ class SupplierEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { dateTimePattern, countries } = this.props;
+    const { dateTimePattern } = this.props;
     const { supplier } = this.state;
-
-    let foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
+    const { CountryField } = this.externalComponents;
+    const foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
 
     return (
       <div>
@@ -232,18 +254,14 @@ class SupplierEditorForm extends Component {
           { this.renderField({
             fieldName: 'countryOfRegistration',
             component: (
-              <select className="form-control"
-                value={supplier['countryOfRegistration'] || ''}
-                onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+              <CountryField
+                actionUrl={this.props.actionUrl}
+                value={this.state.supplier['countryOfRegistration']}
+                onChange={this.handleCountryChange.bind(this, 'countryOfRegistration')}
                 onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-              >
-                <option disabled={true} value="">{i18n.getMessage('SupplierEditor.Select.country')}</option>
-                {countries.map((country, index) => {
-                  return (<option key={index} value={country.id}>{country.name}</option>);
-                })}
-              </select>
+              />
             )
-          }) }
+          })}
 
           { this.renderField({ fieldName: 'taxId' }) }
           { this.renderField({ fieldName: 'vatRegNo' }) }

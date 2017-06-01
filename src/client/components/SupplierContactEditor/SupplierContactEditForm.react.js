@@ -20,49 +20,13 @@ const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support'
 @i18n
 class SupplierContactEditForm extends Component {
   static propTypes = {
-    /**
-     * Contact to edit
-     */
     contact: React.PropTypes.object.isRequired,
     errors: React.PropTypes.object,
-    /**
-     * The edit mode is on of ('edit', 'create', 'create-first', 'view')
-     *
-     * edit - form open to update exits item
-     * create - form open to insert new item
-     * create-first - form open to insert new item without cancel button
-     * view - form open in readonly mode
-     */
     editMode: React.PropTypes.oneOf(['edit', 'create', 'create-first', 'view']),
-    /**
-     * On save handler
-     *
-     * @arg0 - contact object
-     */
     onSave: React.PropTypes.func.isRequired,
-    /**
-     * On update handler
-     *
-     * @arg0 - contact object
-     */
     onUpdate: React.PropTypes.func.isRequired,
-    /**
-     * On cancel handler
-     *
-     * @arg0 - contact object
-     */
     onCancel: React.PropTypes.func.isRequired,
-
-    /**
-     * On form field change element
-     *
-     * @arg0 - contact - object
-     * @arg1 - name - field name
-     * @arg2 - oldValue - old value
-     * @arg3 - newValue - new value
-     */
-    onChange: React.PropTypes.func.isRequired,
-    dateTimePattern: React.PropTypes.string.isRequired
+    onChange: React.PropTypes.func.isRequired
   };
 
   static defaultProps = {

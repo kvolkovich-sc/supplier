@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import transformCountries from '../../utils/countriesTransform';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
 
@@ -29,7 +28,6 @@ class SupplierEditor extends Component {
 
   loadSupplierPromise = null;
   updateSupplierPromise = null;
-  loadCountriesPromise = null;
 
   constructor(props) {
     super(props);
@@ -37,8 +35,7 @@ class SupplierEditor extends Component {
     this.state = {
       isLoaded: false,
       hasErrors: false,
-      supplier: {},
-      countries: []
+      supplier: {}
     }
   }
 
@@ -53,30 +50,26 @@ class SupplierEditor extends Component {
       set('Accept', 'application/json').
       promise();
 
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
-      set('Accept', 'application/json').
-      promise();
-
-    Promise.all([this.loadSupplierPromise, this.loadCountriesPromise])
-      .then(([supplierResponse, countriesResponse]) => {
-        supplierResponse.body.foundedOn = this.formatedDate(supplierResponse.body.foundedOn);
-        this.setState({
-          isLoaded: true,
-          supplier: supplierResponse.body,
-          countries: transformCountries(countriesResponse.body)
-        });
-      }).
-      catch(errors => {
-        if (errors.status === 401) {
-          this.props.onUnauthorized();
-          return;
-        }
-
-        this.setState({
-          isLoaded: true,
-          hasErrors: true,
-        });
+    this.loadSupplierPromise.then(response => {
+      response.body.foundedOn = this.formatedDate(response.body.foundedOn);
+      this.setState({
+        isLoaded: true,
+        supplier: response.body
       });
+    }).
+    catch(errors => {
+      if (errors.status === 401) {
+        this.props.onUnauthorized();
+        return;
+      }
+
+      console.log(errors);
+
+      this.setState({
+        isLoaded: true,
+        hasErrors: true,
+      });
+    });
 
     return;
   }
@@ -95,9 +88,6 @@ class SupplierEditor extends Component {
       }
       if (this.updateSupplierPromise) {
         this.updateSupplierPromise.cancel();
-      }
-      if (this.loadCountriesPromise) {
-        this.loadCountriesPromise.cancel();
       }
     }
   }
@@ -194,7 +184,7 @@ class SupplierEditor extends Component {
 
   render() {
     const { i18n } = this.context;
-    const { isLoaded, hasErrors, supplier, countries, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
+    const { isLoaded, hasErrors, supplier, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
 
     if (!isLoaded) {
       return (
@@ -224,7 +214,6 @@ class SupplierEditor extends Component {
 
         <SupplierEditorForm
           {...this.props}
-          countries={countries}
           supplier={ supplier }
           onSupplierChange={ this.handleUpdate }
           onChange={ this.handleChange }

@@ -5,13 +5,10 @@ import i18n from '../../i18n/I18nDecorator.react.js';
 import Button from 'react-bootstrap/lib/Button';
 import Alert from '../Alert';
 import SupplierAddressListTable from './SupplierAddressListTable.react.js';
-import SupplierAddressEditForm from './SupplierAddressEditForm.react.js';
-import transformCountries from '../../utils/countriesTransform';
+import SupplierAddressEditorForm from './SupplierAddressEditorForm.react.js';
 
 /**
  * Supplier address editor
- *
- * @author Dmitry Divin
  */
 @i18n({
   componentName: 'SupplierAddressEditor',
@@ -24,11 +21,6 @@ class SupplierAddressEditor extends Component {
     supplierId: React.PropTypes.string.isRequired,
     username: React.PropTypes.string,
     readOnly: React.PropTypes.bool,
-    dateTimePattern: React.PropTypes.string.isRequired,
-    /**
-     * Subscribe to persistent data changes
-     * @arg0 - dirty state: true - if inner data changed, false if inner changes was reset
-     */
     onChange: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func
   };
@@ -36,7 +28,6 @@ class SupplierAddressEditor extends Component {
   loadAddressesPromise = null;
   updateAddressPromise = null;
   deleteAddressPromise = null;
-  loadCountriesPromise = null;
 
   static defaultProps = {
     readOnly: false,
@@ -50,7 +41,6 @@ class SupplierAddressEditor extends Component {
   };
 
   state = {
-    countries: [],
     isLoaded: false,
     supplierAddresses: [],
     supplierAddress: null,
@@ -67,29 +57,23 @@ class SupplierAddressEditor extends Component {
       .get(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(this.props.supplierId)}/addresses`)
       .set('Accept', 'application/json').promise();
 
-    this.loadCountriesPromise = request.get(`${this.props.actionUrl}/isodata/countries`).
-      set('Accept', 'application/json').
-      promise();
-
-    Promise.all([this.loadAddressesPromise, this.loadCountriesPromise])
-      .then(([addressesResponse, countriesResponse]) => {
-        this.setState({
-          isLoaded: true,
-          supplierAddresses: addressesResponse.body,
-          countries: transformCountries(countriesResponse.body)
-        });
-      }).
-      catch(errors => {
-        if (errors.status === 401) {
-          this.props.onUnauthorized();
-          return;
-        }
-
-        this.setState({
-          isLoaded: true,
-          hasErrors: true,
-        });
+    this.loadAddressesPromise.then(response => {
+      this.setState({
+        isLoaded: true,
+        supplierAddresses: response.body
       });
+    }).
+    catch(errors => {
+      if (errors.status === 401) {
+        this.props.onUnauthorized();
+        return;
+      }
+
+      this.setState({
+        isLoaded: true,
+        hasErrors: true,
+      });
+    });
 
     return;
   }
@@ -122,9 +106,6 @@ class SupplierAddressEditor extends Component {
       }
       if (this.deleteAddressPromise) {
         this.deleteAddressPromise.cancel();
-      }
-      if (this.loadCountriesPromise) {
-        this.loadCountriesPromise.cancel();
       }
     }
   }
@@ -298,7 +279,7 @@ class SupplierAddressEditor extends Component {
 
   render() {
 
-    const { supplierAddresses, supplierAddress, loadErrors, countries, errors, editMode, isLoaded } = this.state;
+    const { supplierAddresses, supplierAddress, loadErrors, errors, editMode, isLoaded } = this.state;
 
     let readOnly = this.props.readOnly;
 
@@ -316,7 +297,7 @@ class SupplierAddressEditor extends Component {
       result = (
         <div className="table-responsive">
           <SupplierAddressListTable
-            countries={countries}
+            actionUrl={this.props.actionUrl}
             supplierAddresses={supplierAddresses}
             readOnly={readOnly}
             onEdit={this.handleEdit}
@@ -346,11 +327,10 @@ class SupplierAddressEditor extends Component {
                 <Alert bsStyle="danger" message={this.state.globalError}/>
               ) : null}
 
-              <SupplierAddressEditForm
-                dateTimePattern={this.props.dateTimePattern}
+              <SupplierAddressEditorForm
+                actionUrl={this.props.actionUrl}
                 onChange={this.handleChange}
                 supplierAddress={supplierAddress}
-                countries={countries}
                 errors={errors}
                 editMode={editMode}
                 onSave={this.handleSave}

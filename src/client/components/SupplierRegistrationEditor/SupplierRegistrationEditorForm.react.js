@@ -7,21 +7,16 @@ import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
+import serviceComponent from '../serviceComponent.react';
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {
   static propTypes = {
     supplier: PropTypes.object,
     onSupplierChange: PropTypes.func.isRequired,
-    dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
     onCancel: React.PropTypes.func,
-    countries: PropTypes.array,
     actionUrl: React.PropTypes.string.isRequired
-  };
-
-  static defaultProps = {
-    countries: []
   };
 
   state = {
@@ -30,6 +25,13 @@ class SupplierRegistrationEditorForm extends Component {
     },
     fieldErrors: {}
   };
+
+  componentWillMount() {
+    let serviceRegistry = (service) => ({ url: `${this.props.actionUrl}/isodata` });
+    const CountryField = serviceComponent({ serviceRegistry, serviceName: 'isodata' , moduleName: 'isodata-countries', jsFileName: 'countries-bundle' });
+
+    this.externalComponents = { CountryField };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (_.isEqual(this.props.supplier, nextProps.supplier)) {
@@ -59,6 +61,19 @@ class SupplierRegistrationEditorForm extends Component {
       supplier: {
         ...this.state.supplier,
         [fieldName]: newValue
+      }
+    });
+  }
+
+  handleCountryChange = (fieldName, country) => {
+    if (this.props.onChange) {
+      this.props.onChange(fieldName, this.state.supplier[fieldName], country);
+    }
+
+    this.setState({
+      supplier: {
+        ...this.state.supplier,
+        [fieldName]: country
       }
     });
   }
@@ -160,8 +175,8 @@ class SupplierRegistrationEditorForm extends Component {
   render() {
     const { i18n } = this.context;
     const locale = i18n.locale;
-    const { countries } = this.props;
     const { supplier } = this.state;
+    const { CountryField } = this.externalComponents;
 
     let companiesSearchValue = {};
 
@@ -186,16 +201,12 @@ class SupplierRegistrationEditorForm extends Component {
                 { this.renderField({
                   fieldName: 'countryOfRegistration',
                   component: (
-                    <select className="form-control"
-                      value={supplier['countryOfRegistration'] || ''}
-                      onChange={this.handleChange.bind(this, 'countryOfRegistration')}
+                    <CountryField
+                      actionUrl={this.props.actionUrl}
+                      value={this.state.supplier['countryOfRegistration']}
+                      onChange={this.handleCountryChange.bind(this, 'countryOfRegistration')}
                       onBlur={this.handleBlur.bind(this, 'countryOfRegistration')}
-                    >
-                      <option disabled={true} value="">{i18n.getMessage('SupplierRegistrationEditor.Select.country')}</option>
-                      {countries.map((country, index) => {
-                        return (<option key={index} value={country.id}>{country.name}</option>);
-                      })}
-                    </select>
+                    />
                   )
                 }) }
 

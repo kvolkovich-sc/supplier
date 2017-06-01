@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
-import utils from 'underscore';
 import i18n from '../../i18n/I18nDecorator.react.js';
+import AddressCountry from './AddressCountry.react.js';
 
-/**
- * Supplier address list table
- *
- * @author Dmitry Divin
- */
 @i18n
 class SupplierAddressListTable extends Component {
 
   static propTypes = {
+    actionUrl: React.PropTypes.string.isRequired,
     supplierAddresses: React.PropTypes.array.isRequired,
-    countries: React.PropTypes.array.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onView: React.PropTypes.func.isRequired,
@@ -37,7 +32,6 @@ class SupplierAddressListTable extends Component {
 
   render() {
     const supplierAddresses = this.props.supplierAddresses;
-    const countries = this.props.countries;
 
     return (
       <table className="table">
@@ -56,17 +50,13 @@ class SupplierAddressListTable extends Component {
         <tbody>
         {
               supplierAddresses.map((supplierAddress, index) => {
-                let countryId = supplierAddress.countryId;
-                let country = utils.findWhere(countries, { id: countryId });
-                let countryName = country ? country.name : countryId;
-
                 return (
                   <tr key={'address-' + index}>
                     <td>{this.context.i18n.getMessage(`SupplierAddressEditor.AddressType.${supplierAddress.type}`)}</td>
                     <td>{supplierAddress.street}</td>
                     <td>{supplierAddress.zipCode}</td>
                     <td>{supplierAddress.city}</td>
-                    <td>{countryName}</td>
+                    <AddressCountry countryId={supplierAddress.countryId} actionUrl={this.props.actionUrl} />
                     <td>{supplierAddress.phoneNo}</td>
                     <td>{supplierAddress.faxNo ? supplierAddress.faxNo : '-'}</td>
                     <td className="text-right">
