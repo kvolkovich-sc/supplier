@@ -19,6 +19,11 @@ const onboardingSupplier = {
   dunsNo: null,
   registrationNumber: "MI342323"
 };
+const onboardingUser = {
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@ncc.com',
+};
 const username = 'john.doe@ncc.com';
 const actionUrl = 'http://localhost:8080'
 
@@ -42,6 +47,7 @@ let registrationEditor = (
     locale='en'
     username={username}
     supplier={onboardingSupplier}
+    user={onboardingUser}
   />
 );
 
