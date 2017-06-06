@@ -106,7 +106,7 @@ class SupplierRegistrationEditor extends Component {
       const user = this.props.user;
       const contact = {
           contactId: `${this.props.username}_${supplier.supplierId}`,
-          contactType: "SIM",
+          contactType: "Default",
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
