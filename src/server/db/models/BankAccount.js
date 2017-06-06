@@ -10,10 +10,19 @@ module.exports = function(sequelize, config) {
 
   /** @lends BankAccount */
   {
+    /** account number */
+    accountNo: {
+      field: 'AccountNo',
+      type: Sequelize.STRING(12),
+      validate: {
+        notEmpty: true
+      }
+    },
+
     /** internal identifier */
-    id: {
+    accountNumber: {
       field: 'BankAccountSN',
-      type: Sequelize.BIGINT,
+      type: Sequelize.STRING(35),
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -21,25 +30,27 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-    /** owner object type */
-    ownerObjectType: {
-      field: 'OwnerObjectType',
-      type: Sequelize.STRING(200),
-      allowNull: true,
-      validate: {
-        notEmpty: true
-      }
-    },
-      /** owner object id */
-    ownerObjectId: {
-      field: 'OwnerObjectID',
-      type: Sequelize.STRING(200),
+
+    /** BIC - Bank Identifier Codes (BIC) */
+    bankIdentificationCode: {
+      field: 'BIC',
+      type: Sequelize.STRING(15),
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
-      /** bank code */
+
+    /** country id */
+    bankCountryKey: {
+      field: 'BankCountryKey',
+      type: Sequelize.STRING(2),
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    /** bank code */
     bankCode: {
       field: 'BankCode',
       type: Sequelize.STRING(12),
@@ -47,7 +58,8 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-      /** bank name */
+
+    /** bank name */
     bankName: {
       field: 'BankName',
       type: Sequelize.STRING(50),
@@ -56,7 +68,8 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-      /** bank branch code */
+
+    /** bank branch code */
     bankBranchCode: {
       field: 'BankBranchCode',
       type: Sequelize.STRING(6),
@@ -64,14 +77,7 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-      /** country id */
-    countryId: {
-      field: 'CountryID',
-      type: Sequelize.STRING(2),
-      validate: {
-        notEmpty: true
-      }
-    },
+
     /** city */
     city: {
       field: 'City',
@@ -80,6 +86,50 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
+
+    /** currency id */
+    currencyId: {
+      field: 'CurrencyID',
+      type: Sequelize.STRING(3),
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    /** created on */
+    createdOn: {
+      field: 'CreatedOn',
+      type: Sequelize.DATE,
+      allowNull: false
+    },
+
+    /** created by */
+    createdBy: {
+      field: 'CreatedBy',
+      type: Sequelize.STRING(60),
+      allowNull: false
+    },
+
+    /** changed on */
+    changedOn: {
+      field: 'ChangedOn',
+      type: Sequelize.DATE,
+      allowNull: false
+    },
+
+    /** changed by */
+    changedBy: {
+      field: 'ChangedBy',
+      type: Sequelize.STRING(60),
+      allowNull: false
+    },
+
+    /** bank control key */
+    extBankControlKey: {
+      field:'ExternalBankControlKey',
+      type: Sequelize.STRING(2)
+    },
+
     /** IBAN - international bank account number */
     iban: {
       field: 'IBAN',
@@ -89,7 +139,28 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-    /** swift code - a standard format of Bank Identifier Codes (BIC) */
+
+    /** owner object type */
+    ownerObjectType: {
+      field: 'OwnerObjectType',
+      type: Sequelize.STRING(200),
+      allowNull: true,
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    /** owner object id */
+    ownerObjectId: {
+      field: 'OwnerObjectID',
+      type: Sequelize.STRING(200),
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
+    /** Swift code */
     swiftCode: {
       field: 'SwiftCode',
       type: Sequelize.STRING(11),
@@ -98,6 +169,7 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
+
     /** type */
     type: {
       field: 'Type',
@@ -106,46 +178,6 @@ module.exports = function(sequelize, config) {
         notEmpty: true
       }
     },
-    /** account number */
-    accountNo: {
-      field: 'AccountNo',
-      type: Sequelize.STRING(12),
-      validate: {
-        notEmpty: true
-      }
-    },
-    /** currency id */
-    currencyId: {
-      field: 'CurrencyID',
-      type: Sequelize.STRING(3),
-      validate: {
-        notEmpty: true
-      }
-    },
-    /** created on */
-    createdOn: {
-      field: 'CreatedOn',
-      type: Sequelize.DATE,
-      allowNull: false
-    },
-    /** created by */
-    createdBy: {
-      field: 'CreatedBy',
-      type: Sequelize.STRING(60),
-      allowNull: false
-    },
-    /** changed on */
-    changedOn: {
-      field: 'ChangedOn',
-      type: Sequelize.DATE,
-      allowNull: false
-    },
-    /** changed by */
-    changedBy: {
-      field: 'ChangedBy',
-      type: Sequelize.STRING(60),
-      allowNull: false
-    }
   }, {
     updatedAt: 'changedOn',
     createdAt: 'createdOn',
