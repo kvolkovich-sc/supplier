@@ -9,7 +9,7 @@ import './SupplierContactEditForm.css';
 
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-const CONTACT_TYPES = ['SIM', 'CatalogMan', 'Employee'];
+const CONTACT_TYPES = ['Default', 'Sales', 'Escalation', 'Product', 'Technical'];
 const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support', 'IT', 'Others'];
 
 /**

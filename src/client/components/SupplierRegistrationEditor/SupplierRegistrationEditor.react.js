@@ -16,8 +16,8 @@ class SupplierRegistrationEditor extends Component {
 
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
-    username: React.PropTypes.string.isRequired,
-    dateTimePattern: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
+    supplier: PropTypes.object,
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func,
@@ -71,8 +71,8 @@ class SupplierRegistrationEditor extends Component {
 
     newSupplier = {  // eslint-disable-line no-param-reassign
       ...newSupplier,
-      createdBy: this.props.username,
-      changedBy: this.props.username
+      createdBy: this.props.user.id,
+      changedBy: this.props.user.id
     };
 
     const { i18n } = this.context;
@@ -89,16 +89,33 @@ class SupplierRegistrationEditor extends Component {
         globalErrorMessage: ''
       });
 
+      const { supplier } = this.state;
+
       if (this.props.onUpdate) {
           this.props.onUpdate({
-            supplierId: response.body.supplierId,
-            supplierName: response.body.supplierName
+            supplierId: supplier.supplierId,
+            supplierName: supplier.supplierName
           });
         }
 
       if (this.props.onChange) {
         this.props.onChange({ isDirty: false });
       }
+
+      const user = this.props.user;
+      const contact = {
+          contactId: `${user.id}_${supplier.supplierId}`,
+          contactType: "Default",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          supplierId: supplier.supplierId,
+          createdBy: user.id,
+          changedBy: user.id
+      }
+
+      request.post(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplier.supplierId)}/contacts`).
+      set('Accept', 'application/json').send(contact).then((response) => null)
 
       request.post('/refreshIdToken').set('Content-Type', 'application/json').then(() => null);
     }).

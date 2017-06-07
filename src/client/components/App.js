@@ -5,6 +5,9 @@ import SupplierRegistrationEditor from './SupplierRegistrationEditor';
 import SupplierAddressEditor from './SupplierAddressEditor';
 import SupplierContactEditor from './SupplierContactEditor';
 
+const username = 'john.doe@ncc.com';
+const actionUrl = 'http://localhost:8080'
+
 const supplier = {
   supplierId: "hard001",
   supplierName: "Hardware AG",
@@ -19,8 +22,12 @@ const onboardingSupplier = {
   dunsNo: null,
   registrationNumber: "MI342323"
 };
-const username = 'john.doe@ncc.com';
-const actionUrl = 'http://localhost:8080'
+const onboardingUser = {
+  id: username,
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'john.doe@ncc.com',
+};
 
 
 let editor = (
@@ -40,8 +47,8 @@ let registrationEditor = (
     key='company'
     actionUrl={actionUrl}
     locale='en'
-    username={username}
     supplier={onboardingSupplier}
+    user={onboardingUser}
   />
 );
 

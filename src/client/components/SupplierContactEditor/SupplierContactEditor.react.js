@@ -154,8 +154,8 @@ class SupplierContactEditor extends Component {
 
     /* eslint-disable no-param-reassign*/
     contact.supplierId = supplierId;
-    contact.createdBy = this.props.supplierId;
-    contact.changedBy = this.props.supplierId;
+    contact.createdBy = this.props.username;
+    contact.changedBy = this.props.username;
 
     // generate unique value
     contact.contactId = this.generateUUID();

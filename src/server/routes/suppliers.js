@@ -35,8 +35,11 @@ var createSuppliers = function(req, res)
         .then(supplier => {
           const userId = supplier.createdBy;
           const supplierId = supplier.supplierId;
-          req.opuscapita.serviceClient.put('user', `/users/${userId}`, { supplierId: supplierId, status: 'registered' })
-            .spread(() => {
+          const supplierToUserPromise = req.opuscapita.serviceClient.put('user', `/users/${userId}`, { supplierId: supplierId, status: 'registered' });
+          const supplierAdminRolePromise = req.opuscapita.serviceClient.put('user', `/users/${userId}/roles/supplier-admin`, {});
+
+          Promise.all([supplierToUserPromise, supplierAdminRolePromise])
+            .then(() => {
               supplier.status = 'assigned';
               Supplier.update(supplierId, supplier.dataValues).then(supplier => {
                 this.events.emit(supplier, 'supplier').then(() => res.status('200').json(supplier));
@@ -46,7 +49,7 @@ var createSuppliers = function(req, res)
               switch (error.response.statusCode) {
                 case 404:
                   Supplier.delete(supplierId).then(() => null);
-                  res.status(404).json({ message : 'User not found!' });
+                  res.status(404).json({ message : error.message });
                   break;
                 default:
                   res.status(400).json({ message : error.message });
