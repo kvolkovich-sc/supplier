@@ -76,7 +76,6 @@
     "eslint": "3.19.0",
     "eslint-config-opuscapita": "1.0.4",
     "eslint-plugin-react": "7.0.1",
-    "express-handlebars": "^3.0.0",
     "mocha": "3.4.1",
     "mocha-junit-reporter": "1.13.0",
     "nodemon": "1.11.0",

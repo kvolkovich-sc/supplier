@@ -13,33 +13,49 @@ docker service create --publish mode=host,target=3001,published=3001 --dns-searc
 ## React Components
 There are four react components. Look at how to use them [here](/wiki/rest-doc/Suppliers.react_components.md)
 
-### Integration in Other Services
+The react components are compiled and bundled into libraries using webpack. These are:
 
-The react components are compiled and bundled into a library called `supplier` using webpack, with the help of the it's `externals` option. Integrate the library into your service as follows:
+| Component | Library Name | Bundle name |
+|:-----|:----:|:--------:|
+| SupplierRegistrationEditor | supplier-registration | registration-bundle |
+| SupplierEditor | supplier-information | information-bundle |
+| SupplierContactEditor | supplier-contact | contact-bundle |
+| SupplierAddressEditor | supplier-address | address-bundle |
 
-- In your `docker-compose.yml` file, set environment variable NODE_ENV for supplier to `production`
+# Integration of a Service in Other Services
+
+Libraries are dynamically loaded to Integrate the library into your service as follows:
+
+## Config
+
+- Add `scriptjs` as a dependcy in your `package.json` file, if not there.
+
+- Make sure the output filename in webpack config of the library you are adding has prefix `components`, i.e. `components/bundle.js`.
+
+- Copy [this code](/https://github.com/OpusCapita/supplier/blob/develop/src/client/components/serviceComponent.react.js) to file `serviceComponent.react.js` in your react components folder.
+
+## Usage
+
+- Import `serviceComponent.react.js` file: `import serviceComponent from '(path_to_file)/serviceComponent.react'`;
+
+- Preload the component using serviceCompment by adding the following to your `componentWillMount` function. For example:
+
   ```
-  supplier:
-    ...
-    environment:
-      ...
-      NODE_ENV: 'production'
+  let serviceRegistry = (service) => ({ url: `http://localhost:3000/isodata` });
+    const CountryField = serviceComponent({ serviceRegistry, serviceName: 'isodata' , moduleName: 'isodata-countries', jsFileName: 'countries-bundle' });
+
+    this.externalComponents = { CountryField };
   ```
 
-- Add supplier as an `externals` to your webpack config:
+- Use the component as follows in your `render` function:
 
   ```
-  externals: {
-   'supplier': 'supplier',
-  }
-  ```
-- Include bundle of supplier in the body tag of your main html:
+  const { CountryField } = this.externalComponents;
 
-  ```html
-  <script type="application/javascript" src="/supplier/static/bundle.js"></script>
-  ```
+  ...
 
-Read more about webpack externals [here](https://webpack.js.org/configuration/externals/)
+  <CountryField ... />
+  ```
 
 
 # Different versions for embeded services:
@@ -60,30 +76,11 @@ This post on [understanding npm dependency model](https://lexi-lambda.github.io/
 
 # Building Multi-part Library
 
-Mult-part libraries can be built with webpack. See example [here](https://github.com/webpack/webpack/tree/master/examples/multi-part-library).
-
-## Integration in another service
-
-Let's say we have a multi-part library built with webpack for Supplier named 'supplier.alpha' and 'supplier.beta' with filenames `alpha-bundle.js` and `beta-bundle.js` respectively. It can then be integrated as follows:
-
-- Add libraries as an `externals` to your webpack config:
-
-  ```
-  externals: {
-   'supplier.alpha': 'supplier.alpha',
-   'supplier.beta': 'supplier.beta'
-  }
-  ```
-- Include bundles of the libraries in the body tag of your main html:
-
-  ```html
-  <script type="application/javascript" src="/supplier/static/alpha-bundle.js"></script>
-  <script type="application/javascript" src="/supplier/static/beta-bundle.js"></script>
-  ```
+Mult-part libraries can be built with webpack. See example [here](https://github.com/OpusCapita/supplier/blob/develop/webpack.production.config.js).
 
 ## Usage
 
-`import (component) from 'supplier.alpha'` for `supplier.alpha` and `import (component) from 'supplier.beta'` for `supplier.beta`.
+`import (component) from 'supplier-alpha'` for `supplier-alpha` and `import (component) from 'supplier-beta'` for `supplier-beta`.
 
 
 # CSS and Integration of Services
