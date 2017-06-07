@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import SupplierEditor from './SupplierEditor';
-import SupplierRegistrationEditor from './SupplierRegistrationEditor';
-import SupplierAddressEditor from './SupplierAddressEditor';
-import SupplierContactEditor from './SupplierContactEditor';
+import SupplierEditor from '../src/client/components/SupplierEditor';
+import SupplierRegistrationEditor from '../src/client/components/SupplierRegistrationEditor';
+import SupplierAddressEditor from '../src/client/components/SupplierAddressEditor';
+import SupplierContactEditor from '../src/client/components/SupplierContactEditor';
 
 const username = 'john.doe@ncc.com';
 const actionUrl = 'http://localhost:8080'

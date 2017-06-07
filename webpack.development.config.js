@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/client/index_dev.js',
+  entry: './www/index-page.js',
   output: {
     path: path.resolve(__dirname, './src/server/static'),
     publicPath: '/static',

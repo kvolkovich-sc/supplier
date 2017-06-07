@@ -24,26 +24,6 @@ module.exports.init = function(app, db, config) {
   supplierContacts(app, db, config);
   supplierAddresses(app, db, config);
 
-  if (process.env.NODE_ENV === 'development') {
-    const path = require('path');
-    const exphbs = require('express-handlebars');
-
-    app.use('/static', express.static(path.join(__dirname, '../static')));
-
-    app.engine('handlebars', exphbs());
-    app.set('view engine', 'handlebars');
-    app.set('views', path.resolve(__dirname + '/../templates'));
-    app.set('trust proxy', true);
-
-    app.get('/', (req, res) => {
-      res.render('index', {
-        helpers: {
-          json: JSON.stringify
-        }
-      });
-    });
-  }
-
   // Always return a promise.
   return Promise.resolve();
 }
