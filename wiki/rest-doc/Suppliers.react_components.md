@@ -43,9 +43,8 @@ import { SupplierEditor } from 'supplier';
 |:-----|:----:|:--------:|------------:|
 | actionUrl | string | true | Base url of service |
 | locale | string | false | Locale |
-| username | string | true | User (customer) name |
 | supplier | object | false | Supplier object |
-| user | object | false | User object. Should contain attributes `firstName`, `lastName` and `email` |
+| user | object | true | User object. Should contain attributes `id`, `firstName`, `lastName` and `email` |
 | onUnauthorized | function | false | Callback fired when unauthorized |
 | onChange | function | false | Callback fired on input change `(event) => {}` |
 | onUpdate | function | false | Callback fired on supplier create `(supplier) => {}` |
@@ -70,9 +69,8 @@ const newSupplier = {
   key='company'
   actionUrl='http://localhost:8080'
   locale='en'
-  username='Marlon Wayans'
   supplier={newSupplier}
-  user={{ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }}
+  user={{ id: 'john.doe@example.com', firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }}
 />
 ```
 

@@ -16,9 +16,8 @@ class SupplierRegistrationEditor extends Component {
 
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
-    username: React.PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
     supplier: PropTypes.object,
-    user: PropTypes.object,
     onChange: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
     onUnauthorized: React.PropTypes.func,
@@ -72,8 +71,8 @@ class SupplierRegistrationEditor extends Component {
 
     newSupplier = {  // eslint-disable-line no-param-reassign
       ...newSupplier,
-      createdBy: this.props.username,
-      changedBy: this.props.username
+      createdBy: this.props.user.id,
+      changedBy: this.props.user.id
     };
 
     const { i18n } = this.context;
@@ -105,14 +104,14 @@ class SupplierRegistrationEditor extends Component {
 
       const user = this.props.user;
       const contact = {
-          contactId: `${this.props.username}_${supplier.supplierId}`,
+          contactId: `${user.id}_${supplier.supplierId}`,
           contactType: "Default",
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
           supplierId: supplier.supplierId,
-          createdBy: this.props.username,
-          changedBy: this.props.username
+          createdBy: user.id,
+          changedBy: user.id
       }
 
       request.post(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplier.supplierId)}/contacts`).
