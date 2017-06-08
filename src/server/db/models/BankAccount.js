@@ -1,188 +1,128 @@
 'use strict';
 const Sequelize = require('sequelize');
 
-module.exports = function(sequelize, config) {
+module.exports = function (sequelize, config) {
 
-  /**
-   * @class BankAccount
-   */
   return sequelize.define('BankAccount',
 
-  /** @lends BankAccount */
-  {
-    /** account number */
-    accountNo: {
-      field: 'AccountNo',
-      type: Sequelize.STRING(12),
-      validate: {
-        notEmpty: true
+    /** @lends BankAccount */
+    {
+
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        field: 'ID'
+      },
+
+      accountNumber: {
+        field: 'IBAN',
+        type: Sequelize.STRING(35),
+        autoIncrement: true,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankAccountId: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        field: 'BankAccountID',
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      supplierId: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        field: 'SupplierID',
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankIdentificationCode: {
+        field: 'BIC',
+        type: Sequelize.STRING(15),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankCountryKey: {
+        field: 'BankCountryKey',
+        type: Sequelize.STRING(2),
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankCode: {
+        field: 'BankCode',
+        type: Sequelize.STRING(12),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankName: {
+        field: 'BankName',
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      createdOn: {
+        field: 'CreatedOn',
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+
+      createdBy: {
+        field: 'CreatedBy',
+        type: Sequelize.STRING(60),
+        allowNull: false
+      },
+
+      changedOn: {
+        field: 'ChangedOn',
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+
+      changedBy: {
+        field: 'ChangedBy',
+        type: Sequelize.STRING(60),
+        allowNull: false
+      },
+
+      extBankControlKey: {
+        field: 'ExternalBankControlKey',
+        type: Sequelize.STRING(2)
+      },
+
+      swiftCode: {
+        field: 'SwiftCode',
+        type: Sequelize.STRING(11),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       }
-    },
 
-    /** internal identifier */
-    accountNumber: {
-      field: 'BankAccountSN',
-      type: Sequelize.STRING(35),
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** BIC - Bank Identifier Codes (BIC) */
-    bankIdentificationCode: {
-      field: 'BIC',
-      type: Sequelize.STRING(15),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** country id */
-    bankCountryKey: {
-      field: 'BankCountryKey',
-      type: Sequelize.STRING(2),
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** bank code */
-    bankCode: {
-      field: 'BankCode',
-      type: Sequelize.STRING(12),
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** bank name */
-    bankName: {
-      field: 'BankName',
-      type: Sequelize.STRING(50),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** bank branch code */
-    bankBranchCode: {
-      field: 'BankBranchCode',
-      type: Sequelize.STRING(6),
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** city */
-    city: {
-      field: 'City',
-      type: Sequelize.STRING(50),
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** currency id */
-    currencyId: {
-      field: 'CurrencyID',
-      type: Sequelize.STRING(3),
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** created on */
-    createdOn: {
-      field: 'CreatedOn',
-      type: Sequelize.DATE,
-      allowNull: false
-    },
-
-    /** created by */
-    createdBy: {
-      field: 'CreatedBy',
-      type: Sequelize.STRING(60),
-      allowNull: false
-    },
-
-    /** changed on */
-    changedOn: {
-      field: 'ChangedOn',
-      type: Sequelize.DATE,
-      allowNull: false
-    },
-
-    /** changed by */
-    changedBy: {
-      field: 'ChangedBy',
-      type: Sequelize.STRING(60),
-      allowNull: false
-    },
-
-    /** bank control key */
-    extBankControlKey: {
-      field:'ExternalBankControlKey',
-      type: Sequelize.STRING(2)
-    },
-
-    /** IBAN - international bank account number */
-    iban: {
-      field: 'IBAN',
-      type: Sequelize.STRING(43),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** owner object type */
-    ownerObjectType: {
-      field: 'OwnerObjectType',
-      type: Sequelize.STRING(200),
-      allowNull: true,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** owner object id */
-    ownerObjectId: {
-      field: 'OwnerObjectID',
-      type: Sequelize.STRING(200),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** Swift code */
-    swiftCode: {
-      field: 'SwiftCode',
-      type: Sequelize.STRING(11),
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-
-    /** type */
-    type: {
-      field: 'Type',
-      type: Sequelize.STRING(30),
-      validate: {
-        notEmpty: true
-      }
-    },
-  }, {
-    updatedAt: 'changedOn',
-    createdAt: 'createdOn',
-    timestamps: true,
-    freezeTableName: true,
-    tableName: 'BankAccount'
-  });
+    }, {
+      updatedAt: 'changedOn',
+      createdAt: 'createdOn',
+      timestamps: true,
+      freezeTableName: true,
+      tableName: 'BankAccount'
+    });
 };
