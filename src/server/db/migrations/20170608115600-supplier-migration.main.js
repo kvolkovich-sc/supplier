@@ -17,7 +17,6 @@ module.exports = {
       accountNumber: {
         field: 'IBAN',
         type: Sequelize.STRING(35),
-        autoIncrement: true,
         allowNull: false,
         validate: {
           notEmpty: true
@@ -105,13 +104,7 @@ module.exports = {
         field: 'SwiftCode',
         type: Sequelize.STRING(11),
         allowNull: false,
-        validate: {
-          notEmpty: true
-        }
-      },
-
-
-
+      }
     });
   },
 
