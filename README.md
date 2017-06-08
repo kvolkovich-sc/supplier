@@ -32,7 +32,7 @@ Libraries are dynamically loaded to Integrate the library into your service as f
 
 - Make sure the output filename in webpack config of the library you are adding has prefix `components`, i.e. `components/bundle.js`.
 
-- Copy [this code](/https://github.com/OpusCapita/supplier/blob/develop/src/client/components/serviceComponent.react.js) to file `serviceComponent.react.js` in your react components folder.
+- Copy [this code](https://github.com/OpusCapita/supplier/blob/develop/src/client/components/serviceComponent.react.js) to file `serviceComponent.react.js` in your react components folder.
 
 ## Usage
 
