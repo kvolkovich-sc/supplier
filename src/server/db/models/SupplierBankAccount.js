@@ -13,7 +13,7 @@ module.exports = function (sequelize, config) {
       },
 
       accountNumber: {
-        field: 'IBAN',
+        field: 'AccountNumber',
         type: Sequelize.STRING(35),
         allowNull: false,
         validate: {
@@ -42,7 +42,7 @@ module.exports = function (sequelize, config) {
       },
 
       bankIdentificationCode: {
-        field: 'BIC',
+        field: 'BankIdentificationCode',
         type: Sequelize.STRING(15),
         allowNull: false,
         validate: {
@@ -101,7 +101,7 @@ module.exports = function (sequelize, config) {
       },
 
       extBankControlKey: {
-        field: 'ExternalBankControlKey',
+        field: 'ExtBankControlKey',
         type: Sequelize.STRING(2)
       },
 

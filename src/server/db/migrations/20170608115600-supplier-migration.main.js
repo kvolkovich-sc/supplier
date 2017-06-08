@@ -15,7 +15,7 @@ module.exports = {
       },
 
       accountNumber: {
-        field: 'IBAN',
+        field: 'AccountNumber',
         type: Sequelize.STRING(35),
         allowNull: false
       },
@@ -38,7 +38,7 @@ module.exports = {
       },
 
       bankIdentificationCode: {
-        field: 'BIC',
+        field: 'BankIdentificationCode',
         type: Sequelize.STRING(15),
         allowNull: false
       },
@@ -81,7 +81,7 @@ module.exports = {
       },
 
       extBankControlKey: {
-        field: 'ExternalBankControlKey',
+        field: 'ExtBankControlKey',
         type: Sequelize.STRING(2)
       },
 
