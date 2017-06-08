@@ -7,7 +7,7 @@ import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
-import serviceComponent from '../serviceComponent.react';
+import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {

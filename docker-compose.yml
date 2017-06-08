@@ -8,6 +8,7 @@ services:
       - consul
       - registrator
       - isodata
+      - nginx
     labels:
       SERVICE_NAME: 'supplier'  # Service name used by Registrator for adding to Consul's service discovery registry.
       SERVICE_TAGS: 'external'
@@ -66,6 +67,7 @@ services:
       - mysql
       - consul
       - registrator
+      - nginx
     ports:
       - '3006:3006'
     extra_hosts:
@@ -87,6 +89,7 @@ services:
       - consul
       - registrator
       - redis
+      - nginx
     labels:
       SERVICE_NAME: 'user'
     extra_hosts:
