@@ -24,6 +24,32 @@ module.exports = {
         }
       },
 
+      bankCountryKey: {
+        field: 'BankCountryKey',
+        type: Sequelize.STRING(2),
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankCode: {
+        field: 'BankCode',
+        type: Sequelize.STRING(12),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+      bankName: {
+        field: 'BankName',
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
       bankIdentificationCode: {
         field: 'BIC',
         type: Sequelize.STRING(15),
@@ -68,7 +94,23 @@ module.exports = {
         type: Sequelize.DATE,
         field: "ChangedOn",
         allowNull: false
-      }
+      },
+
+      extBankControlKey: {
+        field: 'ExternalBankControlKey',
+        type: Sequelize.STRING(2)
+      },
+
+      swiftCode: {
+        field: 'SwiftCode',
+        type: Sequelize.STRING(11),
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+
+
 
     });
   },
