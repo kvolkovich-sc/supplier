@@ -1,6 +1,5 @@
 const pathjs = require('path');
-const path = pathjs.resolve(__dirname + '/../data');
-const supplierBankData = require(path + '/supplierBankAccount.json');
+const supplierBankData = require(pathjs.resolve(__dirname + '/../data/supplierBankAccount.json'));
 
 /**
  * Inserts test data into existing database structures.

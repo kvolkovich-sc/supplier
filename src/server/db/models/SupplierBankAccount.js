@@ -3,11 +3,8 @@ const Sequelize = require('sequelize');
 
 module.exports = function (sequelize, config) {
 
-  return sequelize.define('BankAccount',
-
-    /** @lends BankAccount */
+  return sequelize.define('SupplierBankAccount',
     {
-
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -18,7 +15,6 @@ module.exports = function (sequelize, config) {
       accountNumber: {
         field: 'IBAN',
         type: Sequelize.STRING(35),
-        autoIncrement: true,
         allowNull: false,
         validate: {
           notEmpty: true
@@ -123,6 +119,6 @@ module.exports = function (sequelize, config) {
       createdAt: 'createdOn',
       timestamps: true,
       freezeTableName: true,
-      tableName: 'BankAccount'
+      tableName: 'SupplierBankAccount'
     });
 };

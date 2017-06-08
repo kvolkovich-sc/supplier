@@ -17,45 +17,30 @@ module.exports = {
       accountNumber: {
         field: 'IBAN',
         type: Sequelize.STRING(35),
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        allowNull: false
       },
 
       bankCountryKey: {
         field: 'BankCountryKey',
-        type: Sequelize.STRING(2),
-        validate: {
-          notEmpty: true
-        }
+        type: Sequelize.STRING(2)
       },
 
       bankCode: {
         field: 'BankCode',
         type: Sequelize.STRING(12),
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        allowNull: false
       },
 
       bankName: {
         field: 'BankName',
         type: Sequelize.STRING(50),
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        allowNull: false
       },
 
       bankIdentificationCode: {
         field: 'BIC',
         type: Sequelize.STRING(15),
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        allowNull: false
       },
 
       bankAccountId: {
