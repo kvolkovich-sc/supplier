@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Promise = require('bluebird');
 const pathjs = require('path');
@@ -29,7 +29,7 @@ module.exports.up = function(db, config)
     db.queryInterface.bulkInsert('SIMSupplierContact', supplierContactData),
     db.queryInterface.bulkInsert('CatalogUser2Supplier', user2SupplierData)
   ]));
-}
+};
 
 /**
  * Reverts all migrations for databse tables and data.
@@ -49,4 +49,4 @@ module.exports.down = function(db, config)
     db.queryInterface.bulkDelete('SIMSupplier', { supplierId: { $in: supplierData.map(rec => rec.supplierId) } }),
     db.queryInterface.bulkDelete('SIMAddress', { addressId: { $in: supplierAddressData.map(rec => rec.addressId) } })
   ]));
-}
+};
