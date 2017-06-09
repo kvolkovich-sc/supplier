@@ -25,13 +25,13 @@ Select.type = 'Select type...';
 Select.department = 'Select department...';
 
 let Label = {
-  accountNumber : 'Account Number',
+  accountNumber : 'IBAN',
   bankIdentificationCode: 'BIC',
   bankAccountID: 'Bank Account ID',
   bankCountryKey: 'Bank Country Key',
   bankCode: 'Bank Code',
   bankName: 'Bank Name',
-  extBankControlKey: 'Bank Control Key',
+  extBankControlKey: 'External Bank Control Key',
   swiftCode: 'SwiftCode'
 };
 
