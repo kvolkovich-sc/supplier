@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
+import CountryTableField from '../CountryTableField.react.js';
 
 /**
  * Supplier contact list table
@@ -8,7 +9,7 @@ import i18n from '../../i18n/I18nDecorator.react.js';
  * @author Dmitry Divin
  */
 @i18n
-class SupplierBankListTable extends Component {
+class SupplierBankAccountListTable extends Component {
 
   static propTypes = {
     contacts: React.PropTypes.array.isRequired,
@@ -75,8 +76,8 @@ class SupplierBankListTable extends Component {
                 <td>{ account.accountNumber}</td>
                 <td>{ account.bankIdentificationCode }</td>
                 <td>{ account.bankName }</td>
+                <CountryTableField countryId={account.bankCountryKey} actionUrl={this.props.actionUrl} />
                 <td>{ account.bankCode }</td>
-                <td>{ account.bankCountryKey }</td>
                 <td>{ account.extBankControlKey }</td>
                 <td>{ account.swiftCode }</td>
                 <td className="text-right">
@@ -110,4 +111,4 @@ class SupplierBankListTable extends Component {
   }
 }
 
-export default SupplierBankListTable;
+export default SupplierBankAccountListTable;

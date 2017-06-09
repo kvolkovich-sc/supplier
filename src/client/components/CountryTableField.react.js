@@ -6,7 +6,7 @@ import request from 'superagent-bluebird-promise';
  *
  * @author Dmitry Divin
  */
-class AddressCountry extends Component {
+class CountryTableField extends Component {
   static propTypes = {
     actionUrl: React.PropTypes.string.isRequired,
     countryId: React.PropTypes.string.isRequired
@@ -64,4 +64,4 @@ class AddressCountry extends Component {
   }
 }
 
-export default AddressCountry;
+export default CountryTableField;

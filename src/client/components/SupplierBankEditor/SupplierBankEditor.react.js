@@ -4,7 +4,7 @@ import utils from 'underscore';
 import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
-import SupplierBankListTable from './SupplierBankListTable.react.js';
+import SupplierBankAccountListTable from './SupplierBankAccountListTable.react.js';
 import SupplierBankEditForm from './SupplierBankEditForm.react.js';
 
 /**
@@ -255,9 +255,10 @@ class SupplierBankEditor extends Component {
       if (contacts.length > 0) {
         result = (
           <div className="table-responsive">
-            <SupplierBankListTable
+            <SupplierBankAccountListTable
               contacts={contacts}
               readOnly={readOnly}
+              actionUrl={this.props.actionUrl}
               onEdit={this.handleEdit}
               onDelete={this.handleDelete}
               onView={this.handleView}

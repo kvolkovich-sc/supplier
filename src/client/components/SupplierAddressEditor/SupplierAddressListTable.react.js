@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import AddressCountry from './AddressCountry.react.js';
+import CountryTableField from '../CountryTableField.react.js';
 
 @i18n
 class SupplierAddressListTable extends Component {
@@ -56,7 +56,7 @@ class SupplierAddressListTable extends Component {
                     <td>{supplierAddress.street}</td>
                     <td>{supplierAddress.zipCode}</td>
                     <td>{supplierAddress.city}</td>
-                    <AddressCountry countryId={supplierAddress.countryId} actionUrl={this.props.actionUrl} />
+                    <CountryTableField countryId={supplierAddress.countryId} actionUrl={this.props.actionUrl} />
                     <td>{supplierAddress.phoneNo}</td>
                     <td>{supplierAddress.faxNo ? supplierAddress.faxNo : '-'}</td>
                     <td className="text-right">
