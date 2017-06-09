@@ -30,7 +30,8 @@ let Label = {
   bankCountryKey: 'Bank Country Key',
   bankCode: 'Bank Code',
   bankName: 'Bank Name',
-  extBankControlKey: 'Bank Control Key'
+  extBankControlKey: 'Bank Control Key',
+  swiftCode: 'SwiftCode'
 };
 
 let Tooltip = {

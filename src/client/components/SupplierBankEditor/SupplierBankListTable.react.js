@@ -40,11 +40,12 @@ class SupplierBankListTable extends Component {
         <thead>
           <tr>
             <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.accountNumber')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankName')}</th>
             <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankIdentificationCode')}</th>
             <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCountryKey')}</th>
             <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCode')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankName')}</th>
             <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.extBankControlKey')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.swiftCode')}</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
