@@ -6,20 +6,6 @@ let Confirmation = {
 // eslint-disable-next-line max-len
 let Title = 'Please enter your bank account details';
 
-let ContactType = {};
-ContactType.SIM = 'Supplier Information Manager';
-ContactType.CatalogMan = 'Catalog Manager';
-ContactType.Employee = 'Employee';
-
-let Department = {};
-Department.Management = 'Management';
-Department.Logistics = 'Logistics';
-Department.Sales = 'Sales';
-Department.Accounting = 'Accounting';
-Department.Support = 'Support';
-Department.IT = 'IT';
-Department.Others = 'Others';
-
 let Select = {};
 Select.type = 'Select type...';
 Select.department = 'Select department...';
@@ -71,12 +57,10 @@ let Error = {
 };
 
 export default {
-  SupplierContactEditor: {
+  SupplierBankAccountEditor: {
     Title: Title,
     Tooltip: Tooltip,
     Select: Select,
-    ContactType: ContactType,
-    Department: Department,
     Message: Message,
     Error: Error,
     ContactInfo: ContactInfo,

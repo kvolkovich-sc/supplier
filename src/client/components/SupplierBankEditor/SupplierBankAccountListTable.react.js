@@ -24,7 +24,7 @@ class SupplierBankAccountListTable extends Component {
   };
 
   onDelete = (contact) => {
-    if (!confirm(this.context.i18n.getMessage('SupplierContactEditor.Confirmation.delete'))) {
+    if (!confirm(this.context.i18n.getMessage('SupplierBankAccountEditor.Confirmation.delete'))) {
       return;
     }
     this.props.onDelete(contact);
@@ -59,13 +59,13 @@ class SupplierBankAccountListTable extends Component {
       <table className="table">
         <thead>
         <tr>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.accountNumber')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankName')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankIdentificationCode')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCountryKey')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCode')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.extBankControlKey')}</th>
-          <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.swiftCode')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.accountNumber')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankName')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankIdentificationCode')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankCountryKey')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankCode')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.extBankControlKey')}</th>
+          <th>{this.context.i18n.getMessage('SupplierBankAccountEditor.Label.swiftCode')}</th>
           <th>&nbsp;</th>
         </tr>
         </thead>
@@ -85,18 +85,18 @@ class SupplierBankAccountListTable extends Component {
                     <nobr>
                       <Button onClick={this.onView.bind(this, account)} bsSize="sm">
                         <span className='glyphicon glyphicon-eye-open'/>&nbsp;
-                        {this.context.i18n.getMessage('SupplierContactEditor.Button.view')}
+                        {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.view')}
                       </Button>
                     </nobr>
                   ) : (
                     <nobr>
                       <Button onClick={this.onEdit.bind(this, account)} bsSize="sm">
                         <span className="glyphicon glyphicon-edit"/>&nbsp;
-                        {this.context.i18n.getMessage('SupplierContactEditor.Button.edit')}
+                        {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.edit')}
                       </Button>
                       <Button onClick={this.onDelete.bind(this, account)} bsSize="sm">
                         <span className="glyphicon glyphicon-trash"/>&nbsp;
-                        {this.context.i18n.getMessage('SupplierContactEditor.Button.delete')}
+                        {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.delete')}
                       </Button>
                     </nobr>
                   )}

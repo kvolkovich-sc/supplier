@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
 import SupplierBankAccountListTable from './SupplierBankAccountListTable.react.js';
-import SupplierBankEditForm from './SupplierBankEditForm.react.js';
+import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js';
 
 /**
  * Supplier contact editor
@@ -81,7 +81,7 @@ class SupplierBankEditor extends Component {
 
         contacts.splice(index, 1);
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectDeleted');
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectDeleted');
         this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
@@ -90,7 +90,7 @@ class SupplierBankEditor extends Component {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
           console.log(response);
 
-          const message = this.context.i18n.getMessage('SupplierContactEditor.Message.deleteFailed');
+          const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.deleteFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -126,7 +126,7 @@ class SupplierBankEditor extends Component {
 
         this.props.onChange({ isDirty: false });
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectUpdated');
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectUpdated');
         this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
@@ -135,7 +135,7 @@ class SupplierBankEditor extends Component {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
           console.log(response);
 
-          const message = this.context.i18n.getMessage('SupplierContactEditor.Message.updateFailed');
+          const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.updateFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -171,7 +171,7 @@ class SupplierBankEditor extends Component {
 
         this.props.onChange({ isDirty: false });
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectSaved');
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectSaved');
         this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
@@ -180,7 +180,7 @@ class SupplierBankEditor extends Component {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
           console.log(response);
 
-          let message = this.context.i18n.getMessage('SupplierContactEditor.Message.saveFailed');
+          let message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.saveFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -281,7 +281,7 @@ class SupplierBankEditor extends Component {
 
     return (
       <div>
-        <h4 className="tab-description">{this.context.i18n.getMessage('SupplierContactEditor.Title')}</h4>
+        <h4 className="tab-description">{this.context.i18n.getMessage('SupplierBankAccountEditor.Title')}</h4>
 
         {this.state.globalMessage && !readOnly ? (
           <Alert bsStyle="info" message={this.state.globalMessage}/>
@@ -296,7 +296,7 @@ class SupplierBankEditor extends Component {
                 <Alert bsStyle="danger" message={this.state.globalError}/>
               ) : null}
 
-              <SupplierBankEditForm
+              <SupplierBankAccountEditForm
                 onChange={this.handleChange}
                 contact={contact}
                 errors={errors}
@@ -311,7 +311,7 @@ class SupplierBankEditor extends Component {
 
         {!contact && !readOnly ? (
           <div>
-            <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierContactEditor.Button.add')}
+            <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierBankAccountEditor.Button.add')}
             </Button>
           </div>
         ) : null}
