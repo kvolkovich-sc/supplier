@@ -6,19 +6,14 @@ let Confirmation = {
 // eslint-disable-next-line max-len
 let Title = 'Please enter your bank account details';
 
-let Select = {};
-Select.type = 'Select type...';
-Select.department = 'Select department...';
-
 let Label = {
   accountNumber : 'IBAN',
   bankIdentificationCode: 'BIC',
-  bankAccountID: 'Bank Account ID',
-  bankCountryKey: 'Bank Country Key',
+  bankCountryKey: 'Bank Country',
   bankCode: 'Bank Code',
   bankName: 'Bank Name',
-  extBankControlKey: 'External Bank Control Key',
-  swiftCode: 'SwiftCode'
+  extBankControlKey: 'External Bank Control',
+  swiftCode: 'Swift Code'
 };
 
 let Tooltip = {
@@ -60,7 +55,6 @@ export default {
   SupplierBankAccountEditor: {
     Title: Title,
     Tooltip: Tooltip,
-    Select: Select,
     Message: Message,
     Error: Error,
     ContactInfo: ContactInfo,

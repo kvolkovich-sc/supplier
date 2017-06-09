@@ -6,35 +6,14 @@ let Confirmation = {
 // eslint-disable-next-line max-len
 let Title = 'Bitte hinterlegen Sie hier die Ansprechpartner aus den Bereichen Geschäftsleitung, Vertrieb, Buchhaltung und Logistik.\nGerne können Sie auch noch weitere Ansprechpartner benennen.';
 
-let ContactType = {};
-ContactType.SIM = 'LSA-Verantwortlicher';
-ContactType.CatalogMan = 'Katalog-Verantwortlicher';
-ContactType.Employee = 'Mitarbeiter';
-
-let Department = {};
-Department.Management = 'Geschäftsführung';
-Department.Logistics = 'Logistik';
-Department.Sales = 'Vertrieb';
-Department.Accounting = 'Buchhaltung';
-Department.Support = 'Kundenbetreuung';
-Department.IT = 'Datenmanagement';
-Department.Others = 'Sonstiges';
-
-let Select = {};
-Select.type = 'Ansprechpartner-Typ auswählen ...';
-Select.department = 'Abteilung auswählen ...';
-
 let Label = {
-  contactId: 'Kontakt ID',
-  contactType: 'Ansprechpartner-Typ',
-  firstName: 'Vorname',
-  lastName: 'Nachname',
-  email: 'E-Mail',
-  phone: 'Telefon',
-  mobile: 'Mobiltelefon',
-  department: 'Abteilung',
-  title: 'Anrede',
-  fax: 'Telefax'
+  accountNumber : 'IBAN',
+  bankIdentificationCode: 'BIC',
+  bankCountryKey: 'Bank Land',
+  bankCode: 'Bankleitzahl',
+  bankName: 'Bank Name',
+  extBankControlKey: 'External Bank Control Key',
+  swiftCode: 'SWIFT-Code'
 };
 
 let Tooltip = {
@@ -73,12 +52,9 @@ let Error = {
 };
 
 export default {
-  SupplierContactEditor: {
+  SupplierBankAccountEditor: {
     Title: Title,
     Tooltip: Tooltip,
-    Select: Select,
-    ContactType: ContactType,
-    Department: Department,
     Message: Message,
     Error: Error,
     ContactInfo: ContactInfo,

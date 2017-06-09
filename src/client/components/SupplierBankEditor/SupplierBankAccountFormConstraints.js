@@ -1,38 +1,6 @@
 module.exports = function(validatejsI18N) {
   return {
-    type: {
-      presence: {
-        message: validatejsI18N.getMessage('validatejs.blank.message')
-      }
-    },
-    "name1": {
-      presence: {
-        message: validatejsI18N.getMessage('validatejs.blank.message')
-      },
-      length: {
-        maximum: 100,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 100
-        })
-      }
-    },
-    "name2": {
-      length: {
-        maximum: 100,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 100
-        })
-      }
-    },
-    "name3": {
-      length: {
-        maximum: 100,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 100
-        })
-      }
-    },
-    "street": {
+    bankName: {
       presence: {
         message: validatejsI18N.getMessage('validatejs.blank.message')
       },
@@ -43,93 +11,64 @@ module.exports = function(validatejsI18N) {
         })
       }
     },
-    "zipCode": {
+    accountNumber: {
       presence: {
         message: validatejsI18N.getMessage('validatejs.blank.message')
       },
       length: {
-        maximum: 10,
+        maximum: 30,
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 10
+          limit: 30
         })
       }
     },
-    "city": {
+    bankIdentificationCode: {
       presence: {
         message: validatejsI18N.getMessage('validatejs.blank.message')
       },
       length: {
-        maximum: 50,
+        maximum: 15,
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
+          limit: 15
         })
       }
     },
-    "countryId": {
-      presence: {
-        message: validatejsI18N.getMessage('validatejs.blank.message')
-      }
-    },
-    "areaCode": {
-      length: {
-        maximum: 10,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 10
-        })
-      }
-    },
-    "state": {
-      length: {
-        maximum: 50,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
-        })
-      }
-    },
-    "pobox": {
-      length: {
-        maximum: 10,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 10
-        })
-      }
-    },
-    "poboxZipCode": {
-      length: {
-        maximum: 10,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 10
-        })
-      }
-    },
-    "phoneNo": {
+    bankCode: {
       presence: {
         message: validatejsI18N.getMessage('validatejs.blank.message')
       },
       length: {
-        maximum: 50,
+        maximum: 12,
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
+          limit: 12
         })
       }
     },
-    "faxNo": {
-      length: {
-        maximum: 50,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 50
-        })
-      }
-    },
-    "email": {
-      length: {
-        maximum: 1024,
-        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
-          limit: 1024
-        })
+    swiftCode: {
+      presence: {
+        message: validatejsI18N.getMessage('validatejs.blank.message')
       },
-      email: {
-        message: validatejsI18N.getMessage('validatejs.invalid.email.message')
+      length: {
+        maximum: 11,
+        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
+          limit: 11
+        })
+      }
+    },
+    bankCountryKey: {
+      presence: {
+        message: validatejsI18N.getMessage('validatejs.blank.message')
+      }
+    },
+    extBankControlKey: {
+      presence: {
+        message: validatejsI18N.getMessage('validatejs.blank.message')
+      },
+      length: {
+        maximum: 2,
+        tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
+          limit: 2
+        })
       }
     }
   };

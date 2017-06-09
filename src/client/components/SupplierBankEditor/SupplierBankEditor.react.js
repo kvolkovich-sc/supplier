@@ -298,6 +298,7 @@ class SupplierBankEditor extends Component {
 
               <SupplierBankAccountEditForm
                 onChange={this.handleChange}
+                actionUrl={this.props.actionUrl}
                 contact={contact}
                 errors={errors}
                 editMode={editMode}

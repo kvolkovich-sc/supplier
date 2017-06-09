@@ -162,32 +162,11 @@ class SupplierBankAccountEditForm extends Component {
     const { supplierBankAccount } = this.state;
     const { CountryField } = this.externalComponents;
 
-    let message = this.context.i18n.getMessage;
-
-    let typeOptions = [];
-
-    typeOptions.push({
-      value: '',
-      label: message('SupplierBankAccountEditor.Select.type'),
-      disabled: true
-    });
-
-    for (let i = 0; i < ADDRESS_TYPES.length; i++) {
-      let type = ADDRESS_TYPES[i];
-
-      typeOptions.push({
-        value: type,
-        label: message(`SupplierBankAccountEditor.AddressType.${type}`),
-        disabled: disabled
-      })
-    }
-
     return (
       <form className="form-horizontal" onSubmit={this.handleSaveOrUpdate}>
         { this.renderField({ fieldName: 'bankName', disabled: disabled }) }
         { this.renderField({ fieldName: 'accountNumber', disabled: disabled }) }
         { this.renderField({ fieldName: 'bankIdentificationCode', disabled: disabled }) }
-        { this.renderField({ fieldName: 'bankAccountID', disabled: disabled }) }
         { this.renderField({ fieldName: 'bankCode', disabled: disabled }) }
         { this.renderField({ fieldName: 'swiftCode', disabled: disabled }) }
 
