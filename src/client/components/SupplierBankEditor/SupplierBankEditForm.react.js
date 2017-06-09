@@ -304,10 +304,10 @@ class SupplierBankEditForm extends Component {
         })}
 
         {this.fieldRender('input', {
-          name: 'bankAccountID',
-          tooltip: message('SupplierContactEditor.Tooltip.bankAccountID'),
+          name: 'bankName',
+          tooltip: message('SupplierContactEditor.Tooltip.bankName'),
+          disabled: (editMode === 'view'),
           required: true,
-          disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
@@ -331,9 +331,17 @@ class SupplierBankEditForm extends Component {
           required: true,
         })}
 
+
         {this.fieldRender('input', {
-          name: 'bankName',
-          tooltip: message('SupplierContactEditor.Tooltip.bankName'),
+          name: 'extBankControlKey',
+          tooltip: message('SupplierContactEditor.Tooltip.extBankControlKey'),
+          disabled: (editMode === 'view'),
+          required: true,
+        })}
+
+        {this.fieldRender('input', {
+          name: 'swiftCode',
+          tooltip: message('SupplierContactEditor.Tooltip.swiftCode'),
           disabled: (editMode === 'view'),
           required: true,
         })}

@@ -34,6 +34,7 @@ class SupplierBankListTable extends Component {
   };
 
   render() {
+
     const accounts = [{
       "accountNumber": "DE3459939394534553324",
       "bankIdentificationCode": "DBSLRTHLE",
@@ -42,7 +43,16 @@ class SupplierBankListTable extends Component {
       "bankCountryKey": "DE",
       "extBankControlKey": "35",
       "swiftCode": "0231",
-    }];
+    },
+      {
+        "accountNumber": "DE3459939394534553324",
+        "bankIdentificationCode": "DBSLRTHLE",
+        "bankName": "Deutsche Bank",
+        "bankCode": "423",
+        "bankCountryKey": "DE",
+        "extBankControlKey": "35",
+        "swiftCode": "0231",
+      }];
 
     return (
       <table className="table">
@@ -60,7 +70,6 @@ class SupplierBankListTable extends Component {
         </thead>
         <tbody>
         {accounts.map((account, index) => {
-            console.log(account);
             return (
               <tr key={'contact-' + index}>
                 <td>{ account.accountNumber}</td>
