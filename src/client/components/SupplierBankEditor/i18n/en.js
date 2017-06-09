@@ -4,7 +4,7 @@ let Confirmation = {
   delete: 'Do you really want to delete this contact?'
 };
 // eslint-disable-next-line max-len
-let Title = 'Hello World';
+let Title = 'Please enter your bank account details';
 
 let ContactType = {};
 ContactType.SIM = 'Supplier Information Manager';
@@ -25,16 +25,12 @@ Select.type = 'Select type...';
 Select.department = 'Select department...';
 
 let Label = {
-  contactId: 'Contact ID',
-  contactType: 'First column',
-  firstName: 'Second column',
-  lastName: 'Last Name',
-  email: 'Email',
-  phone: 'Phone',
-  mobile: 'Mobile',
-  department: 'Department',
-  title: 'Salutation',
-  fax: 'Fax'
+  accountNumber : 'Account Number',
+  bankIdentificationCode: 'BIC',
+  bankCountryKey: 'Bank Country Key',
+  bankCode: 'Bank Code',
+  bankName: 'Bank Name',
+  extBankControlKey: 'Bank Control Key'
 };
 
 let Tooltip = {

@@ -8,7 +8,7 @@ import i18n from '../../i18n/I18nDecorator.react.js';
  * @author Dmitry Divin
  */
 @i18n
-class SupplierContactListTable extends Component {
+class SupplierBankListTable extends Component {
 
   static propTypes = {
     contacts: React.PropTypes.array.isRequired,
@@ -39,14 +39,12 @@ class SupplierContactListTable extends Component {
       <table className="table">
         <thead>
           <tr>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.contactType')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.department')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.firstName')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.lastName')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.phone')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.mobile')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.fax')}</th>
-            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.email')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.accountNumber')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankIdentificationCode')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCountryKey')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankCode')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.bankName')}</th>
+            <th>{this.context.i18n.getMessage('SupplierContactEditor.Label.extBankControlKey')}</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -62,12 +60,7 @@ class SupplierContactListTable extends Component {
                 {contact.department ?
                   this.context.i18n.getMessage('SupplierContactEditor.Department.' + contact.department) : ''}
               </td>
-              <td>{contact.firstName}</td>
               <td>{contact.lastName}</td>
-              <td>{contact.phone ? contact.phone : '-'}</td>
-              <td>{contact.mobile ? contact.mobile : '-'}</td>
-              <td>{contact.fax ? contact.fax : '-'}</td>
-              <td>{contact.email}</td>
               <td className="text-right">
                 {this.props.readOnly ? (
                   <nobr>
@@ -99,4 +92,4 @@ class SupplierContactListTable extends Component {
   }
 }
 
-export default SupplierContactListTable;
+export default SupplierBankListTable;
