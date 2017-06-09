@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import Popover from 'react-bootstrap/lib/Popover';
@@ -7,7 +7,7 @@ import validator from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import './SupplierBankEditForm.css';
 
-import { I18nManager } from 'opuscapita-i18n';
+import {I18nManager} from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 const CONTACT_TYPES = ['SIM', 'CatalogMan', 'Employee'];
 const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support', 'IT', 'Others'];
@@ -18,7 +18,7 @@ const DEPARTMENTS = ['Management', 'Logistics', 'Sales', 'Accounting', 'Support'
  * @author Dmitry Divin
  */
 @i18n
-class SupplierContactEditForm extends Component {
+class SupplierBankEditForm extends Component {
   static propTypes = {
     contact: React.PropTypes.object.isRequired,
     errors: React.PropTypes.object,
@@ -41,7 +41,7 @@ class SupplierContactEditForm extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.contact) {
-      this.setState({ contact: newProps.contact, errors: newProps.errors || {} });
+      this.setState({contact: newProps.contact, errors: newProps.errors || {}});
     }
   }
 
@@ -135,7 +135,7 @@ class SupplierContactEditForm extends Component {
     event.preventDefault();
 
     const contact = this.state.contact;
-    let errors = validator(this.state.contact, this.constraints, { fullMessages: false });
+    let errors = validator(this.state.contact, this.constraints, {fullMessages: false});
     if (!errors) {
       const editMode = this.props.editMode;
 
@@ -145,7 +145,7 @@ class SupplierContactEditForm extends Component {
         this.props.onSave(contact);
       }
     } else {
-      this.setState({ errors: errors });
+      this.setState({errors: errors});
     }
   };
 
@@ -191,7 +191,7 @@ class SupplierContactEditForm extends Component {
         this.props.onChange(contact, name, oldValue, newValue);
       }
 
-      this.setState({ contact: contact });// eslint-disable-line no-param-reassign
+      this.setState({contact: contact});// eslint-disable-line no-param-reassign
     };
 
     tagProps.onBlur = (event) => {
@@ -200,13 +200,13 @@ class SupplierContactEditForm extends Component {
 
       let fieldConstraints = {};
       fieldConstraints[fieldName] = this.constraints[fieldName];
-      let fieldErrors = validator(this.state.contact, fieldConstraints, { fullMessages: false });
+      let fieldErrors = validator(this.state.contact, fieldConstraints, {fullMessages: false});
       if (fieldErrors) {
         errors[fieldName] = fieldErrors[fieldName];
       } else {
         delete errors[fieldName];
       }
-      this.setState({ errors: errors });
+      this.setState({errors: errors});
     };
     /* eslint-enable no-param-reassign*/
 
@@ -229,7 +229,7 @@ class SupplierContactEditForm extends Component {
     }
 
     return (
-      <div className={classNames({ 'form-group': true, 'has-error': errorMessages.length > 0 })}>
+      <div className={classNames({'form-group': true, 'has-error': errorMessages.length > 0})}>
         <label htmlFor={name} className={classNames(labelClassNames)}>
           {labelValue}
         </label>
@@ -237,7 +237,7 @@ class SupplierContactEditForm extends Component {
         {tooltipOverlay ? (
           <div className="col-sm-1 text-right">
             <OverlayTrigger trigger="click" placement="bottom" overlay={tooltipOverlay} rootClose={true}>
-              <i className="glyphicon glyphicon-info-sign text-muted form-control-static contact-info-sign" />
+              <i className="glyphicon glyphicon-info-sign text-muted form-control-static contact-info-sign"/>
             </OverlayTrigger>
           </div>
         ) : null}
@@ -296,64 +296,42 @@ class SupplierContactEditForm extends Component {
     return (
       <form className="form-horizontal" onSubmit={this.handleSaveOrUpdate}>
 
-        {this.fieldRender('select', {
-          name: 'contactType',
-          tooltip: message('SupplierContactEditor.Tooltip.contactType'),
+        {this.fieldRender('input', {
+          name: 'accountNumber',
           required: true,
           disabled: (editMode === 'view')
-        }, (
-          typeOptions.map((item, index) => {
-            return (<option key={'contact-type-' + index} value={item.value}
-              disabled={item.disabled}
-            >{item.label}</option>)
-          })
-        ))}
+        })}
 
-        {this.fieldRender('select', {
-          name: 'department',
+        {this.fieldRender('input', {
+          name: 'bankAccountID',
           required: true,
           disabled: (editMode === 'view')
-        }, (
-          departmentOptions.map((item, index) => {
-            return <option key={'department-' + index} value={item.value} disabled={item.disabled}>{item.label}</option>
-          })
-        ))}
-
-        {this.fieldRender('input', {
-          name: 'title',
-          disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
-          name: 'firstName',
+          name: 'bankIdentificationCode',
+          tooltip: message('SupplierContactEditor.Tooltip.bankIdentificationCode'),
           disabled: (editMode === 'view'),
-          required: true
+          required: true,
         })}
 
         {this.fieldRender('input', {
-          name: 'lastName',
+          name: 'bankCountryKey',
+          tooltip: message('SupplierContactEditor.Tooltip.bankCountryKey'),
           disabled: (editMode === 'view'),
-          required: true
+          required: true,
         })}
 
         {this.fieldRender('input', {
-          name: 'phone',
-          disabled: (editMode === 'view')
+          name: 'bankCode',
+          tooltip: message('SupplierContactEditor.Tooltip.bankCode'),
+          disabled: (editMode === 'view'),
+          required: true,
         })}
 
         {this.fieldRender('input', {
-          name: 'mobile',
-          disabled: (editMode === 'view')
-        })}
-
-        {this.fieldRender('input', {
-          name: 'fax',
-          disabled: (editMode === 'view')
-        })}
-
-        {this.fieldRender('input', {
-          name: 'email',
-          tooltip: message('SupplierContactEditor.Tooltip.email'),
+          name: 'bankName',
+          tooltip: message('SupplierContactEditor.Tooltip.bankName'),
           disabled: (editMode === 'view'),
           required: true,
         })}
@@ -361,14 +339,14 @@ class SupplierContactEditForm extends Component {
         <div className="col-sm-12 text-right contact-form-submit">
           {editMode !== 'create-first' ? (
             <Button bsStyle="link"
-              onClick={this.handleCancel}
+                    onClick={this.handleCancel}
             >
-            {this.context.i18n.getMessage('SupplierContactEditor.Button.' + (editMode === 'view' ? 'close' : 'cancel'))}
+              {this.context.i18n.getMessage('SupplierContactEditor.Button.' + (editMode === 'view' ? 'close' : 'cancel'))}
             </Button>
           ) : null}
           {editMode !== 'view' ? (
             <Button bsStyle="primary"
-              type="submit"
+                    type="submit"
             >{this.context.i18n.getMessage('SupplierContactEditor.Button.save')}</Button>
           ) : null}
         </div>
@@ -377,4 +355,4 @@ class SupplierContactEditForm extends Component {
   }
 }
 
-export default SupplierContactEditForm;
+export default SupplierBankEditForm;
