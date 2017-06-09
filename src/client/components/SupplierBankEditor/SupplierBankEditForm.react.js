@@ -298,12 +298,14 @@ class SupplierBankEditForm extends Component {
 
         {this.fieldRender('input', {
           name: 'accountNumber',
+          tooltip: message('SupplierContactEditor.Tooltip.accountNumber'),
           required: true,
           disabled: (editMode === 'view')
         })}
 
         {this.fieldRender('input', {
           name: 'bankAccountID',
+          tooltip: message('SupplierContactEditor.Tooltip.bankAccountID'),
           required: true,
           disabled: (editMode === 'view')
         })}
