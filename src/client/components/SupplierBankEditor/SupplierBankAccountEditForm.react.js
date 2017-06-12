@@ -16,7 +16,7 @@ import serviceComponent from '../serviceComponent.react';
 @i18n
 class SupplierBankAccountEditForm extends Component {
   static propTypes = {
-    supplierBankAccount: React.PropTypes.object.isRequired,
+    account: React.PropTypes.object.isRequired,
     errors: React.PropTypes.object,
     editMode: React.PropTypes.oneOf(['edit', 'create', 'create-first', 'view']),
     onSave: React.PropTypes.func.isRequired,
@@ -31,7 +31,7 @@ class SupplierBankAccountEditForm extends Component {
   };
 
   state = {
-    supplierBankAccount: {},
+    account: {},
     errors: this.props.errors || {}
   };
 
@@ -43,8 +43,8 @@ class SupplierBankAccountEditForm extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.supplierBankAccount) {
-      this.setState({supplierBankAccount: newProps.supplierBankAccount, errors: newProps.errors || {}});
+    if (newProps.account) {
+      this.setState({account: newProps.account, errors: newProps.errors || {}});
     }
   }
 
@@ -55,15 +55,15 @@ class SupplierBankAccountEditForm extends Component {
   handleSaveOrUpdate = (event) => {
     event.preventDefault();
 
-    const supplierBankAccount = this.state.supplierBankAccount;
-    let errors = validator(this.state.supplierBankAccount, this.constraints, {fullMessages: false});
+    const account = this.state.account;
+    let errors = validator(this.state.account, this.constraints, {fullMessages: false});
     if (!errors) {
       const editMode = this.props.editMode;
 
       if (editMode === 'edit') {
-        this.props.onUpdate(supplierBankAccount);
+        this.props.onUpdate(account);
       } else {
-        this.props.onSave(supplierBankAccount);
+        this.props.onSave(account);
       }
     } else {
       this.setState({errors: errors});
@@ -71,18 +71,18 @@ class SupplierBankAccountEditForm extends Component {
   };
 
   handleCancel = () => {
-    const contact = this.state.supplierBankAccount;
+    const contact = this.state.account;
     this.props.onCancel(contact);
   };
 
   handleCountryChange = (fieldName, country) => {
     if (this.props.onChange) {
-      this.props.onChange(fieldName, this.state.supplierBankAccount[fieldName], country);
+      this.props.onChange(fieldName, this.state.account[fieldName], country);
     }
 
     this.setState({
-      supplierBankAccount: {
-        ...this.state.supplierBankAccount,
+      account: {
+        ...this.state.account,
         [fieldName]: country
       }
     });
@@ -92,12 +92,12 @@ class SupplierBankAccountEditForm extends Component {
     let newValue = event.target.value;
 
     if (this.props.onChange) {
-      this.props.onChange(fieldName, this.state.supplierBankAccount[fieldName], newValue);
+      this.props.onChange(fieldName, this.state.account[fieldName], newValue);
     }
 
     this.setState({
-      supplierBankAccount: {
-        ...this.state.supplierBankAccount,
+      account: {
+        ...this.state.account,
         [fieldName]: newValue
       }
     });
@@ -105,7 +105,7 @@ class SupplierBankAccountEditForm extends Component {
 
   handleBlur = (fieldName/* , event*/) => {
     const errors = validator(
-      this.state.supplierBankAccount, {
+      this.state.account, {
         [fieldName]: this.constraints[fieldName]
       }, {
         fullMessages: false
@@ -123,14 +123,14 @@ class SupplierBankAccountEditForm extends Component {
   };
 
   renderField = attrs => {
-    const { supplierBankAccount, errors } = this.state;
+    const { account, errors } = this.state;
     const { fieldName, disabled } = attrs;
     const fieldNames = attrs.fieldNames || [fieldName];
 
     let component = attrs.component ||
       <input className="form-control"
         type="text"
-        value={ typeof supplierBankAccount[fieldName] === 'string' ? supplierBankAccount[fieldName] : '' }
+        value={ typeof account[fieldName] === 'string' ? account[fieldName] : '' }
         onChange={ this.handleChange.bind(this, fieldName) }
         onBlur={ this.handleBlur.bind(this, fieldName) }
         disabled={disabled}
@@ -159,7 +159,7 @@ class SupplierBankAccountEditForm extends Component {
   render() {
     const editMode = this.props.editMode;
     const disabled = editMode === 'view';
-    const { supplierBankAccount } = this.state;
+    const { account } = this.state;
     const { CountryField } = this.externalComponents;
 
     return (
@@ -175,7 +175,7 @@ class SupplierBankAccountEditForm extends Component {
             component: (
               <CountryField
                 actionUrl={this.props.actionUrl}
-                value={supplierBankAccount['bankCountryKey']}
+                value={account['bankCountryKey']}
                 onChange={this.handleCountryChange.bind(this, 'bankCountryKey')}
                 onBlur={this.handleBlur.bind(this, 'bankCountryKey')}
               />

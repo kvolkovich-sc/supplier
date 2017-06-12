@@ -262,16 +262,7 @@ class SupplierBankEditor extends Component {
                 "bankCountryKey": "DE",
                 "extBankControlKey": "35",
                 "swiftCode": "0231",
-              },
-                {
-                  "accountNumber": "DE3459939394534553324",
-                  "bankIdentificationCode": "DBSLRTHLE",
-                  "bankName": "Deutsche Bank",
-                  "bankCode": "423",
-                  "bankCountryKey": "DE",
-                  "extBankControlKey": "35",
-                  "swiftCode": "0231",
-                }]}
+              }]}
               readOnly={readOnly}
               actionUrl={this.props.actionUrl}
               onEdit={this.handleEdit}
@@ -314,7 +305,15 @@ class SupplierBankEditor extends Component {
               <SupplierBankAccountEditForm
                 onChange={this.handleChange}
                 actionUrl={this.props.actionUrl}
-                contact={contact}
+                account={{
+                  "accountNumber": "DE3459939394534553325",
+                  "bankIdentificationCode": "DBSLRTHLE",
+                  "bankName": "Deutsche Bank",
+                  "bankCode": "423",
+                  "bankCountryKey": "DE",
+                  "extBankControlKey": "35",
+                  "swiftCode": "0231",
+                }}
                 errors={errors}
                 editMode={editMode}
                 onSave={this.handleSave}
