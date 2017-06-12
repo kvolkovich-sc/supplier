@@ -225,7 +225,7 @@ class SupplierBankEditor extends Component {
       get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
       set('Accept', 'application/json').
       then((response) => {
-        console.log(response);
+        console.info(response);
 
         this.setState({ contacts: response.body });
       }).catch((response) => {
@@ -246,9 +246,7 @@ class SupplierBankEditor extends Component {
     let contact = this.state.contact;
     let errors = this.state.errors;
     let editMode = this.state.editMode;
-
     let readOnly = this.props.readOnly;
-
     let result;
 
     if (contacts !== undefined) {
@@ -256,7 +254,24 @@ class SupplierBankEditor extends Component {
         result = (
           <div className="table-responsive">
             <SupplierBankAccountListTable
-              contacts={contacts}
+              contacts={[{
+                "accountNumber": "DE3459939394534553325",
+                "bankIdentificationCode": "DBSLRTHLE",
+                "bankName": "Deutsche Bank",
+                "bankCode": "423",
+                "bankCountryKey": "DE",
+                "extBankControlKey": "35",
+                "swiftCode": "0231",
+              },
+                {
+                  "accountNumber": "DE3459939394534553324",
+                  "bankIdentificationCode": "DBSLRTHLE",
+                  "bankName": "Deutsche Bank",
+                  "bankCode": "423",
+                  "bankCountryKey": "DE",
+                  "extBankControlKey": "35",
+                  "swiftCode": "0231",
+                }]}
               readOnly={readOnly}
               actionUrl={this.props.actionUrl}
               onEdit={this.handleEdit}

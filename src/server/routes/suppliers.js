@@ -11,17 +11,17 @@ module.exports = function(app, db, config) {
     app.get('/api/suppliers/:supplierId', (req, res) => sendSupplier(req, res));
     app.put('/api/suppliers/:supplierId', (req, res) => updateSupplier(req, res));
   });
-}
+};
 
-var sendSuppliers = function(req, res)
+let sendSuppliers = function(req, res)
 {
   Supplier.all().then(suppliers =>
   {
     res.json(suppliers);
   });
-}
+};
 
-var createSuppliers = function(req, res)
+let createSuppliers = function(req, res)
 {
   const newSupplier = req.body;
   Supplier.recordExists(newSupplier).then(exists =>
@@ -59,17 +59,17 @@ var createSuppliers = function(req, res)
     }
   })
   .catch(e => res.status('400').json({ message : e.message }));
-}
+};
 
-var sendSupplier = function(req, res)
+let sendSupplier = function(req, res)
 {
   Supplier.find(req.params.supplierId).then(suppliers =>
   {
     res.json(suppliers);
   });
-}
+};
 
-var updateSupplier = function(req, res)
+let updateSupplier = function(req, res)
 {
   let supplierId = req.params.supplierId;
 
@@ -95,4 +95,4 @@ var updateSupplier = function(req, res)
     }
   })
   .catch(e => res.status('400').json({ message : e.message }));
-}
+};

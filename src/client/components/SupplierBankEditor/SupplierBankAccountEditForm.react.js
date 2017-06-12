@@ -23,7 +23,7 @@ class SupplierBankAccountEditForm extends Component {
     onUpdate: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired
-  }
+  };
 
   static defaultProps = {
     editMode: 'create',
@@ -33,7 +33,7 @@ class SupplierBankAccountEditForm extends Component {
   state = {
     supplierBankAccount: {},
     errors: this.props.errors || {}
-  }
+  };
 
   componentWillMount() {
     let serviceRegistry = (service) => ({ url: `${this.props.actionUrl}/isodata` });
@@ -86,7 +86,7 @@ class SupplierBankAccountEditForm extends Component {
         [fieldName]: country
       }
     });
-  }
+  };
 
   handleChange = (fieldName, event) => {
     let newValue = event.target.value;
@@ -101,7 +101,7 @@ class SupplierBankAccountEditForm extends Component {
         [fieldName]: newValue
       }
     });
-  }
+  };
 
   handleBlur = (fieldName/* , event*/) => {
     const errors = validator(
@@ -120,7 +120,7 @@ class SupplierBankAccountEditForm extends Component {
           []
       }
     });
-  }
+  };
 
   renderField = attrs => {
     const { supplierBankAccount, errors } = this.state;

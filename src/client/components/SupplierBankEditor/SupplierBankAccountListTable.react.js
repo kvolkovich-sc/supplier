@@ -36,24 +36,7 @@ class SupplierBankAccountListTable extends Component {
 
   render() {
 
-    const accounts = [{
-      "accountNumber": "DE3459939394534553324",
-      "bankIdentificationCode": "DBSLRTHLE",
-      "bankName": "Deutsche Bank",
-      "bankCode": "423",
-      "bankCountryKey": "DE",
-      "extBankControlKey": "35",
-      "swiftCode": "0231",
-    },
-      {
-        "accountNumber": "DE3459939394534553324",
-        "bankIdentificationCode": "DBSLRTHLE",
-        "bankName": "Deutsche Bank",
-        "bankCode": "423",
-        "bankCountryKey": "DE",
-        "extBankControlKey": "35",
-        "swiftCode": "0231",
-      }];
+    const accounts = this.props.contacts;
 
     return (
       <table className="table">
