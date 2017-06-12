@@ -35,4 +35,4 @@ module.exports.init = function(db, config)
 
   // Always return a promise.
   return Promise.resolve();
-}
+};

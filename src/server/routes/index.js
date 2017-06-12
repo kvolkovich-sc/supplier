@@ -6,7 +6,7 @@ const express = require('express');
 const suppliers = require('./suppliers');
 const supplierContacts = require('./supplier_contacts');
 const supplierAddresses = require('./supplier_addresses');
-const SupplierAddress = require('../queries/supplier_addresses');
+const supplierBanks = require('./supplier_banks');
 
 /**
  * Initializes all routes for RESTful access.
@@ -18,12 +18,9 @@ const SupplierAddress = require('../queries/supplier_addresses');
  * @see [Minimum setup]{@link https://github.com/OpusCapitaBusinessNetwork/web-init#minimum-setup}
  */
 module.exports.init = function(app, db, config) {
-  // Register routes here.
-
   suppliers(app, db, config);
   supplierContacts(app, db, config);
   supplierAddresses(app, db, config);
-
-  // Always return a promise.
+  supplierBanks(app, db, config);
   return Promise.resolve();
-}
+};

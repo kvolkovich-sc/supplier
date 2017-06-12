@@ -43,10 +43,12 @@ class SupplierBankEditor extends Component {
   };
 
   componentDidMount() {
+    console.info('componentDidMount');
     this.loadContacts();
   }
 
   componentWillReceiveProps(newProps) {
+    console.info('componentWillReceiveProps');
     let editMode = this.state.editMode;
 
     if (editMode && this.props.readOnly !== newProps.readOnly) {
@@ -219,14 +221,14 @@ class SupplierBankEditor extends Component {
   };
 
   loadContacts = () => {
+    console.info('loadContacts');
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
     request.
-      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
+      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/banks`).
       set('Accept', 'application/json').
       then((response) => {
-        console.info(response);
-
+        console.info('response', response);
         this.setState({ contacts: response.body });
       }).catch((response) => {
         if (response.status === 401) {
@@ -240,6 +242,7 @@ class SupplierBankEditor extends Component {
   };
 
   render() {
+    console.info('render');
     const contacts = this.state.contacts;
     const loadErrors = this.state.loadErrors;
 

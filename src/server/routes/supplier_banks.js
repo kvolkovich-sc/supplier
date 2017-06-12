@@ -1,7 +1,8 @@
-const SupplierBank = require('../queries/supplier_addresses');
+const SupplierBank = require('../queries/supplier_banks');
 
 module.exports = function (app, db, config) {
-  SupplierBank.init(db, config).then(() => {
+  SupplierBank.init(db, config).then(() =>
+  {
     app.get('/api/suppliers/:supplierId/banks', (req, res) => sendSupplierBanks(req, res));
     app.post('/api/suppliers/:supplierId/banks', (req, res) => createSupplierBank(req, res));
     app.get('/api/suppliers/:supplierId/banks/:bankId', (req, res) => sendSupplierBank(req, res));
@@ -11,14 +12,15 @@ module.exports = function (app, db, config) {
 };
 
 let sendSupplierBanks = function (req, res) {
-  SupplierBank.all(req.params.supplierId).then(addresses => {
-    res.json(addresses);
+  console.info(req,res);
+  SupplierBank.all(req.params.supplierId).then(accounts => {
+    res.json(accounts);
   });
 };
 
 let sendSupplierBank = function (req, res) {
-  SupplierBank.find(req.params.supplierId, req.params.addressId).then(address => {
-    res.json(address);
+  SupplierBank.find(req.params.supplierId, req.params.bankId).then(account => {
+    res.json(account);
   });
 };
 

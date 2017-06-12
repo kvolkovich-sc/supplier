@@ -5,7 +5,6 @@ module.exports = function(app, db, config) {
   Supplier.init(db, config).then(() =>
   {
     this.events = new RedisEvents({ consul : { host : 'consul' } });
-
     app.get('/api/suppliers', (req, res) => sendSuppliers(req, res));
     app.post('/api/suppliers', (req, res) => createSuppliers(req, res));
     app.get('/api/suppliers/:supplierId', (req, res) => sendSupplier(req, res));
