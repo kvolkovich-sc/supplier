@@ -12,31 +12,32 @@ import CountryTableField from '../CountryTableField.react.js';
 class SupplierBankAccountListTable extends Component {
 
   static propTypes = {
-    contacts: React.PropTypes.array.isRequired,
+    accounts: React.PropTypes.array.isRequired,
     onEdit: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onView: React.PropTypes.func.isRequired,
     readOnly: React.PropTypes.bool
   };
 
-  onEdit = (contact) => {
-    this.props.onEdit(contact);
+  onEdit = (account) => {
+    console.log(account);
+    this.props.onEdit(account);
   };
 
-  onDelete = (contact) => {
+  onDelete = (account) => {
     if (!confirm(this.context.i18n.getMessage('SupplierBankAccountEditor.Confirmation.delete'))) {
       return;
     }
-    this.props.onDelete(contact);
+    this.props.onDelete(account);
   };
 
-  onView = (contact) => {
-    this.props.onView(contact);
+  onView = (account) => {
+    this.props.onView(account);
   };
 
   render() {
 
-    const accounts = this.props.contacts;
+    const accounts = this.props.accounts;
 
     return (
       <table className="table">
@@ -55,7 +56,7 @@ class SupplierBankAccountListTable extends Component {
         <tbody>
         {accounts.map((account, index) => {
             return (
-              <tr key={'contact-' + index}>
+              <tr key={'account-' + index}>
                 <td>{ account.accountNumber}</td>
                 <td>{ account.bankIdentificationCode }</td>
                 <td>{ account.bankName }</td>
