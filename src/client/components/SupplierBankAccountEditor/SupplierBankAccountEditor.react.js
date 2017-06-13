@@ -13,10 +13,10 @@ import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js'
  * @author Dmitry Divin
  */
 @i18n({
-  componentName: 'SupplierBankEditor',
+  componentName: 'SupplierBankAccountEditor',
   messages: require('./i18n').default,
 })
-class SupplierBankEditor extends Component {
+class SupplierBankAccountEditor extends Component {
 
   static propTypes = {
     actionUrl: React.PropTypes.string,
@@ -322,4 +322,4 @@ class SupplierBankEditor extends Component {
   }
 }
 
-export default SupplierBankEditor;
+export default SupplierBankAccountEditor;

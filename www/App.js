@@ -4,7 +4,7 @@ import SupplierEditor from '../src/client/components/SupplierEditor';
 import SupplierRegistrationEditor from '../src/client/components/SupplierRegistrationEditor';
 import SupplierAddressEditor from '../src/client/components/SupplierAddressEditor';
 import SupplierContactEditor from '../src/client/components/SupplierContactEditor';
-import SupplierBankEditor from '../src/client/components/SupplierBankEditor';
+import SupplierBankEditor from '../src/client/components/SupplierBankAccountEditor';
 
 const username = 'john.doe@ncc.com';
 const actionUrl = 'http://localhost:8080';
