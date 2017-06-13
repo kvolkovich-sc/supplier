@@ -45,6 +45,7 @@ let createSuppliers = function(req, res)
               });
             })
             .catch(error => {
+              req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
               switch (error.response.statusCode) {
                 case 404:
                   Supplier.delete(supplierId).then(() => null);
@@ -57,8 +58,11 @@ let createSuppliers = function(req, res)
         });
     }
   })
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when creating Supplier: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
 
 let sendSupplier = function(req, res)
 {
@@ -73,12 +77,16 @@ let updateSupplier = function(req, res)
   let supplierId = req.params.supplierId;
 
   if (supplierId !== req.body.supplierId || !req.body.createdBy) {
-    return res.status('422').json({ message: 'inconsistent data' });
+    const message = 'Inconsistent data';
+    req.opuscapita.logger.error('Error when updating Supplier: %s', message);
+    return res.status('422').json({ message: message });
   }
 
   Supplier.isAuthorized(supplierId, req.body.changedBy).then(authorized => {
     if (!authorized) {
-      return res.status('403').json({ message: 'operation is not authorized' });
+      const message = 'Operation is not authorized';
+      req.opuscapita.logger.error('Error when updating Supplier: %s', message);
+      return res.status('403').json({ message: message });
     }
   });
 
@@ -87,11 +95,16 @@ let updateSupplier = function(req, res)
     if(exists) {
       req.body.status = 'updated';
       return Supplier.update(supplierId, req.body).then(supplier => {
-        this.events.emit(supplier, 'supplier').then(() => res.status('200').json(supplier));
+        return this.events.emit(supplier, 'supplier').then(() => res.status('200').json(supplier));
       });
     } else {
-      return res.status('404').json({ message : 'A supplier with this ID does not exist.' });
+      const message = 'A supplier with this ID does not exist.';
+      req.opuscapita.logger.error('Error when updating Supplier: %s', message);
+      return res.status('404').json({ message : message });
     }
   })
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when updating Supplier: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}

@@ -30,8 +30,11 @@ let sendSupplierAddress = function(req, res)
 let createSupplierAddress = function(req, res)
 {
   SupplierAddress.create(req.body).then(address => res.status('200').json(address))
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when creating SupplierAddress: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
 
 let updateSupplierAddress = function(req, res)
 {
@@ -43,14 +46,22 @@ let updateSupplierAddress = function(req, res)
     {
       return SupplierAddress.update(supplierId, addressId, req.body).then(address => res.status('200').json(address));
     } else {
-      return res.status('404').json({ message : 'A supplier address with this ID does not exist.' });
+      const message = 'A supplier address with this ID does not exist.'
+      req.opuscapita.logger.error('Error when updating SupplierAddress: %s', message);
+      return res.status('404').json({ message : message });
     }
   })
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when updating SupplierAddress: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
 
 let deleteSupplierAddress = function(req, res)
 {
   SupplierAddress.delete(req.params.supplierId, req.params.addressId).then(() => res.status('200').json(null))
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when deleting SupplierAddress: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}

@@ -30,8 +30,11 @@ let sendSupplierContact = function(req, res)
 let createSupplierContact = function(req, res)
 {
   SupplierContact.create(req.body).then(contact => res.status('200').json(contact))
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when creating SupplierContact: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
 
 let updateSupplierContact = function(req, res)
 {
@@ -43,14 +46,22 @@ let updateSupplierContact = function(req, res)
     {
       return SupplierContact.update(supplierId, contactId, req.body).then(contact => res.status('200').json(contact));
     } else {
-      return res.status('404').json({ message : 'A supplier contact with this ID does not exist.' });
+      const message = 'A supplier contact with this ID does not exist.'
+      req.opuscapita.logger.error('Error when updating SupplierContact: %s', message);
+      return res.status('404').json({ message : message });
     }
   })
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when updating SupplierContact: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
 
 let deleteSupplierContact = function(req, res)
 {
   SupplierContact.delete(req.params.supplierId, req.params.contactId).then(() => res.status('200').json(null))
-  .catch(e => res.status('400').json({ message : e.message }));
-};
+  .catch(error => {
+    req.opuscapita.logger.error('Error when deleting SupplierContact: %s', error.message);
+    return res.status('400').json({ message : error.message });
+  });
+}
