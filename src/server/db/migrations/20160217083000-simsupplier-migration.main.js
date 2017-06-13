@@ -97,7 +97,8 @@ module.exports = {
         createdOn: {
           type: Sequelize.DATE,
           field: "CreatedOn",
-          allowNull: false
+          allowNull: false,
+          defaultValue: Sequelize.NOW
         },
         changedOn: {
           type: Sequelize.DATE,
@@ -235,7 +236,8 @@ module.exports = {
         createdOn: {
           type: Sequelize.DATE,
           field: "CreatedOn",
-          allowNull: false
+          allowNull: false,
+          defaultValue: Sequelize.NOW
         },
         changedOn: {
           type: Sequelize.DATE,
@@ -306,7 +308,8 @@ module.exports = {
         createdOn: {
           type: Sequelize.DATE,
           field: "CreatedOn",
-          allowNull: false
+          allowNull: false,
+          defaultValue: Sequelize.NOW
         },
         changedOn: {
           type: Sequelize.DATE,
