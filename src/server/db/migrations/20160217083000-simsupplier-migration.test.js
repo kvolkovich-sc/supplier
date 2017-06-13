@@ -21,11 +21,9 @@ const user2SupplierData = require(path + '/user2supplier.json');
  */
 module.exports.up = function(db, config)
 {
-  return Promise.all([
-    db.queryInterface.bulkInsert('SIMAddress', supplierAddressData),
-    db.queryInterface.bulkInsert('SIMSupplier', supplierData)
-  ])
+  return db.queryInterface.bulkInsert('SIMSupplier', supplierData)
   .then(() => Promise.all([
+    db.queryInterface.bulkInsert('SIMAddress', supplierAddressData),
     db.queryInterface.bulkInsert('SIMSupplierContact', supplierContactData),
     db.queryInterface.bulkInsert('CatalogUser2Supplier', user2SupplierData)
   ]));
