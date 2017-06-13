@@ -257,15 +257,7 @@ class SupplierBankEditor extends Component {
         result = (
           <div className="table-responsive">
             <SupplierBankAccountListTable
-              contacts={[{
-                "accountNumber": "DE3459939394534553325",
-                "bankIdentificationCode": "DBSLRTHLE",
-                "bankName": "Deutsche Bank",
-                "bankCode": "423",
-                "bankCountryKey": "DE",
-                "extBankControlKey": "35",
-                "swiftCode": "0231",
-              }]}
+              contacts={contacts}
               readOnly={readOnly}
               actionUrl={this.props.actionUrl}
               onEdit={this.handleEdit}
