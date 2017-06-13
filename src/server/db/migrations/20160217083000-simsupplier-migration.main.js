@@ -101,17 +101,14 @@ module.exports = {
         changedOn: {
           type: Sequelize.DATE,
           field: "ChangedOn",
-          allowNull: false
+          allowNull: false,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         }
       }).then(() => queryInterface.createTable('CatalogUser2Supplier', {
         loginName: {
           field: 'LoginName',
           type: Sequelize.STRING(50),
           primaryKey: true
-          // references: {
-          //   model: 'CatalogUser',
-          //   key: 'LoginName'
-          // }
         },
         supplierId: {
           field: 'SupplierID',
@@ -242,7 +239,8 @@ module.exports = {
             changedOn: {
               type: Sequelize.DATE,
               field: "ChangedOn",
-              allowNull: false
+              allowNull: false,
+              defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             }
           }),
           queryInterface.createTable('SIMSupplierContact', {
@@ -313,7 +311,8 @@ module.exports = {
             changedOn: {
               type: Sequelize.DATE,
               field: "ChangedOn",
-              allowNull: false
+              allowNull: false,
+              defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             }
           })
         ]);
