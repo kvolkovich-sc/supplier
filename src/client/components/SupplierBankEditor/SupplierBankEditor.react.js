@@ -71,14 +71,14 @@ class SupplierBankEditor extends Component {
     let supplierId = this.props.supplierId;
 
     let arg0 = encodeURIComponent(supplierId);
-    let arg1 = encodeURIComponent(account.accountId);
-    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/accounts/${arg1}`).
+    let arg1 = encodeURIComponent(account.bankAccountId);
+    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/banks/${arg1}`).
       set('Accept', 'application/json').
       then((response) => {
         let accounts = this.state.accounts;
-        let index = utils.findIndex(accounts, { accountId: account.accountId });
+        let index = utils.findIndex(accounts, { bankAccountId: account.bankAccountId });
         if (index === -1) {
-          throw new Error(`Not found account by accountId [${account.accountId}]`);
+          throw new Error(`Not found bank account for bankAccountId [${account.bankAccountId}]`);
         }
 
         accounts.splice(index, 1);
@@ -89,7 +89,7 @@ class SupplierBankEditor extends Component {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.accountId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
           console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.deleteFailed');
@@ -106,11 +106,11 @@ class SupplierBankEditor extends Component {
   handleUpdate = (account) => {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
-    account.changedBy = this.props.supplierId;// eslint-disable-line no-param-reassign
+    account.changedBy = this.props.username;// eslint-disable-line no-param-reassign
 
     let arg0 = encodeURIComponent(supplierId);
-    let arg1 = encodeURIComponent(account.accountId);
-    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/accounts/${arg1}`).
+    let arg1 = encodeURIComponent(account.bankAccountId);
+    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/banks/${arg1}`).
       set('Accept', 'application/json').
       send(account).
       then((response) => {
@@ -119,10 +119,10 @@ class SupplierBankEditor extends Component {
         let updatedContact = response.body;
 
         let accounts = this.state.accounts;
-        let index = utils.findIndex(accounts, { accountId: account.accountId });
+        let index = utils.findIndex(accounts, { bankAccountId: account.bankAccountId });
 
         if (index === -1) {
-          throw new Error(`Not found account by ContactID=${account.accountId}`);
+          throw new Error(`Not found account by ContactID=${account.bankAccountId}`);
         }
         accounts[index] = updatedContact;
 
@@ -134,7 +134,7 @@ class SupplierBankEditor extends Component {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.accountId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
           console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.updateFailed');
@@ -156,14 +156,14 @@ class SupplierBankEditor extends Component {
 
     /* eslint-disable no-param-reassign*/
     account.supplierId = supplierId;
-    account.createdBy = this.props.supplierId;
-    account.changedBy = this.props.supplierId;
+    account.createdBy = this.props.username;
+    account.changedBy = this.props.username;
 
     // generate unique value
-    account.accountId = this.generateUUID();
+    account.bankAccountId = this.generateUUID();
     /* eslint-enable no-param-reassign*/
 
-    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/accounts`).
+    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/banks`).
       set('Accept', 'application/json').
       send(account).
       then((response) => {
@@ -179,7 +179,7 @@ class SupplierBankEditor extends Component {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.accountId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
           console.log(response);
 
           let message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.saveFailed');
@@ -195,7 +195,7 @@ class SupplierBankEditor extends Component {
 
   handleChange = (account, name, oldValue, newValue) => {
     // check only updated objects
-    // if (account.accountId) {
+    // if (account.bankAccountId) {
     this.props.onChange({ isDirty: true });
     // }
   };

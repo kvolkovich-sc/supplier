@@ -31,7 +31,7 @@ class SupplierBankAccountEditForm extends Component {
   };
 
   state = {
-    account: {},
+    account: this.props.account,
     errors: this.props.errors || {}
   };
 
