@@ -6,7 +6,7 @@ const express = require('express');
 const suppliers = require('./suppliers');
 const supplierContacts = require('./supplier_contacts');
 const supplierAddresses = require('./supplier_addresses');
-const SupplierAddress = require('../queries/supplier_addresses');
+const supplierProfileStrength = require('./supplier_profile_strength');
 
 /**
  * Initializes all routes for RESTful access.
@@ -23,6 +23,7 @@ module.exports.init = function(app, db, config) {
   suppliers(app, db, config);
   supplierContacts(app, db, config);
   supplierAddresses(app, db, config);
+  supplierProfileStrength(app, db, config);
 
   // Always return a promise.
   return Promise.resolve();
