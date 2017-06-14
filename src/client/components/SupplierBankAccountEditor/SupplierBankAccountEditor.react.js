@@ -67,11 +67,15 @@ class SupplierBankAccountEditor extends Component {
   }
 
   handleDelete = (account) => {
+
+    console.log('Account', account);
+
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
 
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(account.bankAccountId);
+
     request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/banks/${arg1}`).
       set('Accept', 'application/json').
       then((response) => {

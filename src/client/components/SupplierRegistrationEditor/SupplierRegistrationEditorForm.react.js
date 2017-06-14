@@ -63,7 +63,7 @@ class SupplierRegistrationEditorForm extends Component {
         [fieldName]: newValue
       }
     });
-  }
+  };
 
   handleCountryChange = (fieldName, country) => {
     if (this.props.onChange) {
@@ -76,7 +76,7 @@ class SupplierRegistrationEditorForm extends Component {
         [fieldName]: country
       }
     });
-  }
+  };
 
   handleBlur = (fieldName/* , event*/) => {
     const errors = validatejs(
@@ -95,12 +95,13 @@ class SupplierRegistrationEditorForm extends Component {
           []
       }
     });
-  }
+  };
 
   handleCancel = event => {
     event.preventDefault();
     this.props.onCancel();
-  }
+  };
+
   handleUpdate = event => {
     event.preventDefault();
 
@@ -197,7 +198,6 @@ class SupplierRegistrationEditorForm extends Component {
                 { this.renderField({ fieldName: 'supplierName' }) }
                 { this.renderField({ fieldName: 'registrationNumber' }) }
                 { this.renderField({ fieldName: 'cityOfRegistration' }) }
-
                 { this.renderField({
                   fieldName: 'countryOfRegistration',
                   component: (

@@ -5,21 +5,20 @@ module.exports = function (app, db, config) {
   {
     app.get('/api/suppliers/:supplierId/banks', (req, res) => sendSupplierBanks(req, res));
     app.post('/api/suppliers/:supplierId/banks', (req, res) => createSupplierBank(req, res));
-    app.get('/api/suppliers/:supplierId/banks/:bankId', (req, res) => sendSupplierBank(req, res));
-    app.put('/api/suppliers/:supplierId/banks/:banksId', (req, res) => updateSupplierBank(req, res));
-    app.delete('/api/suppliers/:supplierId/banks/:banksId', (req, res) => deleteSupplierBank(req, res));
+    app.get('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => sendSupplierBank(req, res));
+    app.put('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => updateSupplierBank(req, res));
+    app.delete('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => deleteSupplierBank(req, res));
   });
 };
 
 let sendSupplierBanks = function (req, res) {
-  console.info(req,res);
   SupplierBank.all(req.params.supplierId).then(accounts => {
     res.json(accounts);
   });
 };
 
 let sendSupplierBank = function (req, res) {
-  SupplierBank.find(req.params.supplierId, req.params.bankId).then(account => {
+  SupplierBank.find(req.params.supplierId, req.params.bankAccountId).then(account => {
     res.json(account);
   });
 };
@@ -30,11 +29,11 @@ let createSupplierBank = function (req, res) {
 };
 
 let updateSupplierBank = function (req, res) {
-  let addressId = req.params.addressId;
+  let bankAccountId = req.params.bankAccountId;
   let supplierId = req.params.supplierId;
-  SupplierBank.addressExists(supplierId, addressId).then(exists => {
+  SupplierBank.addressExists(supplierId, bankAccountId).then(exists => {
     if (exists) {
-      return SupplierBank.update(supplierId, addressId, req.body).then(address => res.status('200').json(address));
+      return SupplierBank.update(supplierId, bankAccountId, req.body).then(address => res.status('200').json(address));
     } else {
       return res.status('404').json({message: 'A supplier address with this ID does not exist.'});
     }
@@ -43,6 +42,7 @@ let updateSupplierBank = function (req, res) {
 };
 
 let deleteSupplierBank = function (req, res) {
-  SupplierBank.delete(req.params.supplierId, req.params.addressId).then(() => res.status('200').json(null))
+  console.info(req,res);
+  SupplierBank.delete(req.params.supplierId, req.params.bankAccountId).then(() => res.status('200').json(null))
     .catch(e => res.status('400').json({message: e.message}));
 };
