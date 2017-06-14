@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Gauge from 'react-svg-gauge';
 import request from 'superagent-bluebird-promise';
-import hexColourCalculator from '../../utils/hexColourCalculator.js';
+import hexColourCalculator from './hexColourCalculator.js';
 
 class SupplierProfileStrength extends Component {
   static propTypes = {
