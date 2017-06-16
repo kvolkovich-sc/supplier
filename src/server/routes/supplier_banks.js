@@ -31,7 +31,7 @@ let createSupplierBank = function (req, res) {
 let updateSupplierBank = function (req, res) {
   let bankAccountId = req.params.bankAccountId;
   let supplierId = req.params.supplierId;
-  SupplierBank.addressExists(supplierId, bankAccountId).then(exists => {
+  SupplierBank.bankExists(supplierId, bankAccountId).then(exists => {
     if (exists) {
       return SupplierBank.update(supplierId, bankAccountId, req.body).then(address => res.status('200').json(address));
     } else {
