@@ -66,13 +66,13 @@ module.exports = {
         type: Sequelize.STRING(60),
         field: "CreatedBy",
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
 
       createdOn: {
         type: Sequelize.DATE,
         field: "CreatedOn",
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
 
       changedOn: {
