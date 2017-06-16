@@ -6,7 +6,8 @@ module.exports = {
     registration: './src/client/components/SupplierRegistrationEditor/index.js',
     information: './src/client/components/SupplierEditor/index.js',
     address: './src/client/components/SupplierAddressEditor/index.js',
-    contact: './src/client/components/SupplierContactEditor/index.js'
+    contact: './src/client/components/SupplierContactEditor/index.js',
+    profile_strength: './src/client/components/SupplierProfileStrength/index.js'
   },
   output: {
     path: path.resolve(__dirname, './src/server/static'),
