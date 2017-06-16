@@ -138,3 +138,26 @@ import { SupplierContactEditor } from 'supplier';
 ```
 
 ![supplier_contact_editor_example](https://cloud.githubusercontent.com/assets/1188617/26353707/f27a82d0-3fc1-11e7-9d2a-dec679d4f615.png)
+
+## Supplier Profile Strength
+
+### Props
+
+| Name | Type | Required | Description |
+|:-----|:----:|:--------:|------------:|
+| actionUrl | string | true | Base url of service |
+| supplierId | string | true | ID of Supplier |
+
+### Basic Example
+
+```
+import { SupplierProfileStrength } from 'supplier';
+
+<SupplierProfileStrength
+  key='profile_strength'
+  actionUrl='http://localhost:8080'
+  supplierId='hard001'
+/>
+```
+
+![supplier_profile_strength_example](https://user-images.githubusercontent.com/1188617/27228558-642bc468-52a8-11e7-8b1f-7bd02165ebc0.png)

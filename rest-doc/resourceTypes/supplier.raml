@@ -177,3 +177,15 @@ post:
                 description: Operation is not authorized
             422:
                 description: Inconsistent data
+/{supplierId}/profile_strength:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier.
+    get:
+        description: Get supplier profile strength. It's a percentage value - integer between 0 and 100.
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: 42
