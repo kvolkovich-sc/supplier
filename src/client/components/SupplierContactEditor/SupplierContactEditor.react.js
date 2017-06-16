@@ -111,7 +111,6 @@ class SupplierContactEditor extends Component {
       set('Accept', 'application/json').
       send(contact).
       then((response) => {
-        console.log(response);
 
         let updatedContact = response.body;
 
@@ -163,7 +162,6 @@ class SupplierContactEditor extends Component {
       set('Accept', 'application/json').
       send(contact).
       then((response) => {
-        console.log(response);
         let contacts = this.state.contacts;
         contacts.push(response.body);
 
@@ -222,8 +220,6 @@ class SupplierContactEditor extends Component {
       get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
       set('Accept', 'application/json').
       then((response) => {
-        console.log(response);
-
         this.setState({ contacts: response.body });
       }).catch((response) => {
         if (response.status === 401) {

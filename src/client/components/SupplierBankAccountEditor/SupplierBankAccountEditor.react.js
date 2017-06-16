@@ -66,8 +66,6 @@ class SupplierBankAccountEditor extends Component {
 
   handleDelete = (account) => {
 
-    console.log('Account', account);
-
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
 
@@ -166,7 +164,6 @@ class SupplierBankAccountEditor extends Component {
       set('Accept', 'application/json').
       send(account).
       then((response) => {
-        console.log(response);
         let accounts = this.state.accounts;
         accounts.push(response.body);
 
