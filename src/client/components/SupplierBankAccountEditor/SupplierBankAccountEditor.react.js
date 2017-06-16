@@ -234,7 +234,6 @@ class SupplierBankAccountEditor extends Component {
   };
 
   render() {
-    console.info('render');
     const accounts = this.state.accounts;
     const loadErrors = this.state.loadErrors;
 
