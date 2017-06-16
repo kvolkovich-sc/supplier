@@ -63,8 +63,6 @@ class SupplierEditor extends Component {
         return;
       }
 
-      console.log(errors);
-
       this.setState({
         isLoaded: true,
         hasErrors: true,

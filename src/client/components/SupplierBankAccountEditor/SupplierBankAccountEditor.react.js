@@ -92,7 +92,6 @@ class SupplierBankAccountEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
-          console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.deleteFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -116,7 +115,6 @@ class SupplierBankAccountEditor extends Component {
       set('Accept', 'application/json').
       send(account).
       then((response) => {
-        console.log(response);
 
         let updatedContact = response.body;
 
@@ -137,7 +135,6 @@ class SupplierBankAccountEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
-          console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.updateFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -182,7 +179,6 @@ class SupplierBankAccountEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
-          console.log(response);
 
           let message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.saveFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -235,7 +231,6 @@ class SupplierBankAccountEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Error loading accounts by SupplierID=${supplierId}`);
-          console.log(response);
           this.setState({ loadErrors: true });
         }
       });

@@ -229,7 +229,6 @@ class SupplierAddressEditor extends Component {
 
     request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/addresses`).set(
           'Accept', 'application/json').send(supplierAddress).then((response) => {
-            console.log(response);
             let supplierAddresses = this.state.supplierAddresses;
             supplierAddresses.push(response.body);
 

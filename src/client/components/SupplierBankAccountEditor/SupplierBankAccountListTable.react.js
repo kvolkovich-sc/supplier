@@ -20,7 +20,6 @@ class SupplierBankAccountListTable extends Component {
   };
 
   onEdit = (account) => {
-    console.log(account);
     this.props.onEdit(account);
   };
 

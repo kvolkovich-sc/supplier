@@ -88,7 +88,6 @@ class SupplierContactEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
-          console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierContactEditor.Message.deleteFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -133,7 +132,6 @@ class SupplierContactEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
-          console.log(response);
 
           const message = this.context.i18n.getMessage('SupplierContactEditor.Message.updateFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -178,7 +176,6 @@ class SupplierContactEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
-          console.log(response);
 
           let message = this.context.i18n.getMessage('SupplierContactEditor.Message.saveFailed');
           this.setState({ globalError: message, globalMessage: null });
@@ -233,7 +230,6 @@ class SupplierContactEditor extends Component {
           this.props.onUnauthorized();
         } else {
           console.log(`Error loading contacts by SupplierID=${supplierId}`);
-          console.log(response);
           this.setState({ loadErrors: true });
         }
       });
