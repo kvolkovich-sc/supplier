@@ -42,7 +42,6 @@ let updateSupplierBank = function (req, res) {
 };
 
 let deleteSupplierBank = function (req, res) {
-  console.info(req,res);
   SupplierBank.delete(req.params.supplierId, req.params.bankAccountId).then(() => res.status('200').json(null))
     .catch(e => res.status('400').json({message: e.message}));
 };

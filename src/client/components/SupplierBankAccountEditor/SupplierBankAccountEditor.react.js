@@ -43,12 +43,10 @@ class SupplierBankAccountEditor extends Component {
   };
 
   componentDidMount() {
-    console.info('componentDidMount');
     this.loadContacts();
   }
 
   componentWillReceiveProps(newProps) {
-    console.info('componentWillReceiveProps');
     let editMode = this.state.editMode;
 
     if (editMode && this.props.readOnly !== newProps.readOnly) {
@@ -225,14 +223,12 @@ class SupplierBankAccountEditor extends Component {
   };
 
   loadContacts = () => {
-    console.info('loadContacts');
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
     request.
       get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
       then((response) => {
-        console.info('response', response);
         this.setState({ accounts: response.body });
       }).catch((response) => {
         if (response.status === 401) {
