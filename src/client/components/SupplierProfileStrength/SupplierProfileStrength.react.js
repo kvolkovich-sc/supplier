@@ -7,7 +7,7 @@ class SupplierProfileStrength extends Component {
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
     supplierId: PropTypes.string.isRequired
-  }
+  };
 
   constructor() {
     super();

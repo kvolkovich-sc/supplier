@@ -1,13 +1,5 @@
-'use strict';
-
-const Promise = require('bluebird');
 const pathjs = require('path');
-const path = pathjs.resolve(__dirname + '/../data');
-
-const supplierAddressData = require(path + '/supplierAddress.json');
-const supplierData = require(path + '/supplier.json');
-const supplierContactData = require(path + '/supplierContact.json');
-const user2SupplierData = require(path + '/user2supplier.json');
+const supplierBankData = require(pathjs.resolve(__dirname + '/../data/supplierBankAccount.json'));
 
 /**
  * Inserts test data into existing database structures.
@@ -21,12 +13,7 @@ const user2SupplierData = require(path + '/user2supplier.json');
  */
 module.exports.up = function(db, config)
 {
-  return db.queryInterface.bulkInsert('SIMSupplier', supplierData)
-  .then(() => Promise.all([
-    db.queryInterface.bulkInsert('SIMAddress', supplierAddressData),
-    db.queryInterface.bulkInsert('SIMSupplierContact', supplierContactData),
-    db.queryInterface.bulkInsert('CatalogUser2Supplier', user2SupplierData)
-  ]));
+  return db.queryInterface.bulkInsert('SupplierBankAccount', supplierBankData)
 };
 
 /**
@@ -40,11 +27,5 @@ module.exports.up = function(db, config)
  */
 module.exports.down = function(db, config)
 {
-  return Promise.all([
-    db.queryInterface.bulkDelete('CatalogUser2Supplier', { supplierId: { $in: user2SupplierData.map(rec => rec.supplierId) } }),
-    db.queryInterface.bulkDelete('SIMSupplierContact', { contactId: { $in: supplierContactData.map(rec => rec.contactId) } })
-  ]).then(() => Promise.all([
-    db.queryInterface.bulkDelete('SIMSupplier', { supplierId: { $in: supplierData.map(rec => rec.supplierId) } }),
-    db.queryInterface.bulkDelete('SIMAddress', { addressId: { $in: supplierAddressData.map(rec => rec.addressId) } })
-  ]));
+  return db.queryInterface.bulkDelete('SupplierBankAccount', { $in: supplierBankData.map(rec => rec.supplierId)});
 };

@@ -9,25 +9,25 @@ SupplierAddress.init(db, config).then(() =>
     app.put('/api/suppliers/:supplierId/addresses/:addressId', (req, res) => updateSupplierAddress(req, res));
     app.delete('/api/suppliers/:supplierId/addresses/:addressId', (req, res) => deleteSupplierAddress(req, res));
   });
-}
+};
 
-var sendSupplierAddresses = function(req, res)
+let sendSupplierAddresses = function(req, res)
 {
   SupplierAddress.all(req.params.supplierId).then(addresses =>
   {
     res.json(addresses);
   });
-}
+};
 
-var sendSupplierAddress = function(req, res)
+let sendSupplierAddress = function(req, res)
 {
   SupplierAddress.find(req.params.supplierId, req.params.addressId).then(address =>
   {
     res.json(address);
   });
-}
+};
 
-var createSupplierAddress = function(req, res)
+let createSupplierAddress = function(req, res)
 {
   SupplierAddress.create(req.body).then(address => res.status('200').json(address))
   .catch(error => {
@@ -36,7 +36,7 @@ var createSupplierAddress = function(req, res)
   });
 }
 
-var updateSupplierAddress = function(req, res)
+let updateSupplierAddress = function(req, res)
 {
   let addressId = req.params.addressId;
   let supplierId = req.params.supplierId;
@@ -57,7 +57,7 @@ var updateSupplierAddress = function(req, res)
   });
 }
 
-var deleteSupplierAddress = function(req, res)
+let deleteSupplierAddress = function(req, res)
 {
   SupplierAddress.delete(req.params.supplierId, req.params.addressId).then(() => res.status('200').json(null))
   .catch(error => {

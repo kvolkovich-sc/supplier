@@ -1,9 +1,7 @@
-import request from 'superagent-bluebird-promise';
-
 /**
  * @deprecated
  */
-export default class SupplierAddressService {
+export default class SupplierBanksService {
 
   constructor(actionUrl) {
     this._actionUrl = actionUrl;

@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 const Promise = require('bluebird');
 
 const SupplierAddress = require('./SupplierAddress');
-const BankAccount = require('./BankAccount');
+const SupplierBankAccount = require('./SupplierBankAccount');
 const Certification = require('./Certification');
 const CertificationGroup = require('./CertificationGroup');
 const Supplier = require('./Supplier');
@@ -23,7 +23,7 @@ module.exports.init = function(db, config)
   // db.define(...);
 
   db.import('SupplierAddress', SupplierAddress);
-  db.import('BankAccount', BankAccount);
+  db.import('SupplierBankAccount', SupplierBankAccount);
   db.import('Certification', Certification);
   db.import('CertificationGroup', CertificationGroup);
   db.import('Supplier', Supplier);
@@ -35,4 +35,4 @@ module.exports.init = function(db, config)
 
   // Always return a promise.
   return Promise.resolve();
-}
+};

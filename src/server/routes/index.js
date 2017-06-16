@@ -6,6 +6,7 @@ const express = require('express');
 const suppliers = require('./suppliers');
 const supplierContacts = require('./supplier_contacts');
 const supplierAddresses = require('./supplier_addresses');
+const supplierBanks = require('./supplier_banks');
 const supplierProfileStrength = require('./supplier_profile_strength');
 
 /**
@@ -18,13 +19,10 @@ const supplierProfileStrength = require('./supplier_profile_strength');
  * @see [Minimum setup]{@link https://github.com/OpusCapitaBusinessNetwork/web-init#minimum-setup}
  */
 module.exports.init = function(app, db, config) {
-  // Register routes here.
-
   suppliers(app, db, config);
   supplierContacts(app, db, config);
   supplierAddresses(app, db, config);
+  supplierBanks(app, db, config);
   supplierProfileStrength(app, db, config);
-
-  // Always return a promise.
   return Promise.resolve();
-}
+};

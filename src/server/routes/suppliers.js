@@ -5,23 +5,22 @@ module.exports = function(app, db, config) {
   Supplier.init(db, config).then(() =>
   {
     this.events = new RedisEvents({ consul : { host : 'consul' } });
-
     app.get('/api/suppliers', (req, res) => sendSuppliers(req, res));
     app.post('/api/suppliers', (req, res) => createSuppliers(req, res));
     app.get('/api/suppliers/:supplierId', (req, res) => sendSupplier(req, res));
     app.put('/api/suppliers/:supplierId', (req, res) => updateSupplier(req, res));
   });
-}
+};
 
-var sendSuppliers = function(req, res)
+let sendSuppliers = function(req, res)
 {
   Supplier.all().then(suppliers =>
   {
     res.json(suppliers);
   });
-}
+};
 
-var createSuppliers = function(req, res)
+let createSuppliers = function(req, res)
 {
   const newSupplier = req.body;
   Supplier.recordExists(newSupplier).then(exists =>
@@ -65,15 +64,15 @@ var createSuppliers = function(req, res)
   });
 }
 
-var sendSupplier = function(req, res)
+let sendSupplier = function(req, res)
 {
   Supplier.find(req.params.supplierId).then(suppliers =>
   {
     res.json(suppliers);
   });
-}
+};
 
-var updateSupplier = function(req, res)
+let updateSupplier = function(req, res)
 {
   let supplierId = req.params.supplierId;
 

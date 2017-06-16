@@ -4,8 +4,8 @@ import utils from 'underscore';
 import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
-import SupplierContactListTable from './SupplierContactListTable.react.js';
-import SupplierContactEditForm from './SupplierContactEditForm.react.js';
+import SupplierBankAccountListTable from './SupplierBankAccountListTable.react.js';
+import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js';
 
 /**
  * Supplier contact editor
@@ -13,10 +13,10 @@ import SupplierContactEditForm from './SupplierContactEditForm.react.js';
  * @author Dmitry Divin
  */
 @i18n({
-  componentName: 'SupplierContactEditor',
+  componentName: 'SupplierBankAccountEditor',
   messages: require('./i18n').default,
 })
-class SupplierContactEditor extends Component {
+class SupplierBankAccountEditor extends Component {
 
   static propTypes = {
     actionUrl: React.PropTypes.string,
@@ -53,7 +53,7 @@ class SupplierContactEditor extends Component {
       let newState = { globalError: null };
 
       if (editMode === 'create') {
-        newState.contact = null;
+        newState.account = null;
         newState.globalError = null;
       } else if (editMode === 'edit') {
         newState.editMode = 'view';
@@ -64,32 +64,34 @@ class SupplierContactEditor extends Component {
     }
   }
 
-  handleDelete = (contact) => {
+  handleDelete = (account) => {
+
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
 
     let arg0 = encodeURIComponent(supplierId);
-    let arg1 = encodeURIComponent(contact.contactId);
-    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/contacts/${arg1}`).
+    let arg1 = encodeURIComponent(account.bankAccountId);
+
+    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/bank_accounts/${arg1}`).
       set('Accept', 'application/json').
       then((response) => {
-        let contacts = this.state.contacts;
-        let index = utils.findIndex(contacts, { contactId: contact.contactId });
+        let accounts = this.state.accounts;
+        let index = utils.findIndex(accounts, { bankAccountId: account.bankAccountId });
         if (index === -1) {
-          throw new Error(`Not found contact by contactId [${contact.contactId}]`);
+          throw new Error(`Not found bank account for bankAccountId [${account.bankAccountId}]`);
         }
 
-        contacts.splice(index, 1);
+        accounts.splice(index, 1);
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectDeleted');
-        this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectDeleted');
+        this.setState({ accounts: accounts, account: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
 
-          const message = this.context.i18n.getMessage('SupplierContactEditor.Message.deleteFailed');
+          const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.deleteFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -97,42 +99,42 @@ class SupplierContactEditor extends Component {
 
   handleCreate = () => {
     this.props.onChange({ isDirty: true });
-    this.setState({ contact: {}, editMode: "create", errors: null });
+    this.setState({ account: {}, editMode: "create", errors: null });
   };
 
-  handleUpdate = (contact) => {
+  handleUpdate = (account) => {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
-    contact.changedBy = this.props.supplierId;// eslint-disable-line no-param-reassign
+    account.changedBy = this.props.username;// eslint-disable-line no-param-reassign
 
     let arg0 = encodeURIComponent(supplierId);
-    let arg1 = encodeURIComponent(contact.contactId);
-    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/contacts/${arg1}`).
+    let arg1 = encodeURIComponent(account.bankAccountId);
+    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/bank_accounts/${arg1}`).
       set('Accept', 'application/json').
-      send(contact).
+      send(account).
       then((response) => {
 
         let updatedContact = response.body;
 
-        let contacts = this.state.contacts;
-        let index = utils.findIndex(contacts, { contactId: contact.contactId });
+        let accounts = this.state.accounts;
+        let index = utils.findIndex(accounts, { bankAccountId: account.bankAccountId });
 
         if (index === -1) {
-          throw new Error(`Not found contact by ContactID=${contact.contactId}`);
+          throw new Error(`Not found account by ContactID=${account.bankAccountId}`);
         }
-        contacts[index] = updatedContact;
+        accounts[index] = updatedContact;
 
         this.props.onChange({ isDirty: false });
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectUpdated');
-        this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectUpdated');
+        this.setState({ accounts: accounts, account: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
 
-          const message = this.context.i18n.getMessage('SupplierContactEditor.Message.updateFailed');
+          const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.updateFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -145,37 +147,37 @@ class SupplierContactEditor extends Component {
     return s4() + s4() + '-' + s4() + s4();
   }
 
-  handleSave = (contact) => {
+  handleSave = (account) => {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
 
     /* eslint-disable no-param-reassign*/
-    contact.supplierId = supplierId;
-    contact.createdBy = this.props.username;
-    contact.changedBy = this.props.username;
+    account.supplierId = supplierId;
+    account.createdBy = this.props.username;
+    account.changedBy = this.props.username;
 
     // generate unique value
-    contact.contactId = this.generateUUID();
+    account.bankAccountId = this.generateUUID();
     /* eslint-enable no-param-reassign*/
 
-    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
+    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
-      send(contact).
+      send(account).
       then((response) => {
-        let contacts = this.state.contacts;
-        contacts.push(response.body);
+        let accounts = this.state.accounts;
+        accounts.push(response.body);
 
         this.props.onChange({ isDirty: false });
 
-        const message = this.context.i18n.getMessage('SupplierContactEditor.Message.objectSaved');
-        this.setState({ contacts: contacts, contact: null, globalMessage: message, globalError: null });
+        const message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.objectSaved');
+        this.setState({ accounts: accounts, account: null, globalMessage: message, globalError: null });
       }).catch((response) => {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${contact.contactId}`);
+          console.log(`Bad request by SupplierID=${supplierId} and ContactID=${account.bankAccountId}`);
 
-          let message = this.context.i18n.getMessage('SupplierContactEditor.Message.saveFailed');
+          let message = this.context.i18n.getMessage('SupplierBankAccountEditor.Message.saveFailed');
           this.setState({ globalError: message, globalMessage: null });
         }
       });
@@ -183,19 +185,19 @@ class SupplierContactEditor extends Component {
 
   handleCancel = () => {
     this.props.onChange({ isDirty: false });
-    this.setState({ contact: null, globalError: null, globalMessage: null });
+    this.setState({ account: null, globalError: null, globalMessage: null });
   };
 
-  handleChange = (contact, name, oldValue, newValue) => {
+  handleChange = (account, name, oldValue, newValue) => {
     // check only updated objects
-    // if (contact.contactId) {
+    // if (account.bankAccountId) {
     this.props.onChange({ isDirty: true });
     // }
   };
 
-  handleView = (contact) => {
+  handleView = (account) => {
     this.setState({
-      contact: utils.clone(contact),
+      account: utils.clone(account),
       editMode: "view",
       globalError: null,
       globalMessage: null,
@@ -203,9 +205,9 @@ class SupplierContactEditor extends Component {
     });
   };
 
-  handleEdit = (contact) => {
+  handleEdit = (account) => {
     this.setState({
-      contact: utils.clone(contact),
+      account: utils.clone(account),
       editMode: "edit",
       globalError: null,
       globalMessage: null,
@@ -217,39 +219,38 @@ class SupplierContactEditor extends Component {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
     request.
-      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/contacts`).
+      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
       then((response) => {
-        this.setState({ contacts: response.body });
+        this.setState({ accounts: response.body });
       }).catch((response) => {
         if (response.status === 401) {
           this.props.onUnauthorized();
         } else {
-          console.log(`Error loading contacts by SupplierID=${supplierId}`);
+          console.log(`Error loading accounts by SupplierID=${supplierId}`);
           this.setState({ loadErrors: true });
         }
       });
   };
 
   render() {
-    const contacts = this.state.contacts;
+    const accounts = this.state.accounts;
     const loadErrors = this.state.loadErrors;
 
-    let contact = this.state.contact;
+    let account = this.state.account;
     let errors = this.state.errors;
     let editMode = this.state.editMode;
-
     let readOnly = this.props.readOnly;
-
     let result;
 
-    if (contacts !== undefined) {
-      if (contacts.length > 0) {
+    if (accounts !== undefined) {
+      if (accounts.length > 0) {
         result = (
           <div className="table-responsive">
-            <SupplierContactListTable
-              contacts={contacts}
+            <SupplierBankAccountListTable
+              accounts={accounts}
               readOnly={readOnly}
+              actionUrl={this.props.actionUrl}
               onEdit={this.handleEdit}
               onDelete={this.handleDelete}
               onView={this.handleView}
@@ -257,10 +258,10 @@ class SupplierContactEditor extends Component {
           </div>
         );
       } else if (readOnly) {
-        contact = null;
+        account = null;
       } else {
-        // show create new contact if empty
-        contact = {};
+        // show create new account if empty
+        account = {};
         errors = {};
         editMode = 'create-first';
       }
@@ -272,7 +273,7 @@ class SupplierContactEditor extends Component {
 
     return (
       <div>
-        <h4 className="tab-description">{this.context.i18n.getMessage('SupplierContactEditor.Title')}</h4>
+        <h4 className="tab-description">{this.context.i18n.getMessage('SupplierBankAccountEditor.Title')}</h4>
 
         {this.state.globalMessage && !readOnly ? (
           <Alert bsStyle="info" message={this.state.globalMessage}/>
@@ -280,16 +281,17 @@ class SupplierContactEditor extends Component {
 
         {result}
 
-        {contact ? (
+        {account ? (
           <div className="row">
             <div className="col-sm-6">
               {this.state.globalError && !readOnly ? (
                 <Alert bsStyle="danger" message={this.state.globalError}/>
               ) : null}
 
-              <SupplierContactEditForm
+              <SupplierBankAccountEditForm
                 onChange={this.handleChange}
-                contact={contact}
+                actionUrl={this.props.actionUrl}
+                account={account}
                 errors={errors}
                 editMode={editMode}
                 onSave={this.handleSave}
@@ -300,9 +302,9 @@ class SupplierContactEditor extends Component {
           </div>
         ) : null}
 
-        {!contact && !readOnly ? (
+        {!account && !readOnly ? (
           <div>
-            <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierContactEditor.Button.add')}
+            <Button onClick={this.handleCreate}>{this.context.i18n.getMessage('SupplierBankAccountEditor.Button.add')}
             </Button>
           </div>
         ) : null}
@@ -311,4 +313,4 @@ class SupplierContactEditor extends Component {
   }
 }
 
-export default SupplierContactEditor;
+export default SupplierBankAccountEditor;

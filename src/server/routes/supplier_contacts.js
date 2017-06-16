@@ -9,25 +9,25 @@ module.exports = function(app, db, config) {
     app.put('/api/suppliers/:supplierId/contacts/:contactId', (req, res) => updateSupplierContact(req, res));
     app.delete('/api/suppliers/:supplierId/contacts/:contactId', (req, res) => deleteSupplierContact(req, res));
   });
-}
+};
 
-var sendSupplierContacts = function(req, res)
+let sendSupplierContacts = function(req, res)
 {
   SupplierContact.all(req.params.supplierId).then(contacts =>
   {
     res.json(contacts);
   });
-}
+};
 
-var sendSupplierContact = function(req, res)
+let sendSupplierContact = function(req, res)
 {
   SupplierContact.find(req.params.supplierId, req.params.contactId).then(contact =>
   {
     res.json(contact);
   });
-}
+};
 
-var createSupplierContact = function(req, res)
+let createSupplierContact = function(req, res)
 {
   SupplierContact.create(req.body).then(contact => res.status('200').json(contact))
   .catch(error => {
@@ -36,7 +36,7 @@ var createSupplierContact = function(req, res)
   });
 }
 
-var updateSupplierContact = function(req, res)
+let updateSupplierContact = function(req, res)
 {
   let contactId = req.params.contactId;
   let supplierId = req.params.supplierId;
@@ -57,7 +57,7 @@ var updateSupplierContact = function(req, res)
   });
 }
 
-var deleteSupplierContact = function(req, res)
+let deleteSupplierContact = function(req, res)
 {
   SupplierContact.delete(req.params.supplierId, req.params.contactId).then(() => res.status('200').json(null))
   .catch(error => {
