@@ -1,13 +1,13 @@
-const SupplierBank = require('../queries/supplier_banks');
+const SupplierBank = require('../queries/supplier_bank_accounts');
 
 module.exports = function (app, db, config) {
   SupplierBank.init(db, config).then(() =>
   {
-    app.get('/api/suppliers/:supplierId/banks', (req, res) => sendSupplierBanks(req, res));
-    app.post('/api/suppliers/:supplierId/banks', (req, res) => createSupplierBank(req, res));
-    app.get('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => sendSupplierBank(req, res));
-    app.put('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => updateSupplierBank(req, res));
-    app.delete('/api/suppliers/:supplierId/banks/:bankAccountId', (req, res) => deleteSupplierBank(req, res));
+    app.get('/api/suppliers/:supplierId/bank_accounts', (req, res) => sendSupplierBanks(req, res));
+    app.post('/api/suppliers/:supplierId/bank_accounts', (req, res) => createSupplierBank(req, res));
+    app.get('/api/suppliers/:supplierId/bank_accounts/:bankAccountId', (req, res) => sendSupplierBank(req, res));
+    app.put('/api/suppliers/:supplierId/bank_accounts/:bankAccountId', (req, res) => updateSupplierBank(req, res));
+    app.delete('/api/suppliers/:supplierId/bank_accounts/:bankAccountId', (req, res) => deleteSupplierBank(req, res));
   });
 };
 

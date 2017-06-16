@@ -1,5 +1,3 @@
-import request from 'superagent-bluebird-promise';
-
 /**
  * @deprecated
  */

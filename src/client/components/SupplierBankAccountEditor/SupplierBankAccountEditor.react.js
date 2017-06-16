@@ -76,7 +76,7 @@ class SupplierBankAccountEditor extends Component {
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(account.bankAccountId);
 
-    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/banks/${arg1}`).
+    request.del(`${actionUrl}/supplier/api/suppliers/${arg0}/bank_accounts/${arg1}`).
       set('Accept', 'application/json').
       then((response) => {
         let accounts = this.state.accounts;
@@ -114,7 +114,7 @@ class SupplierBankAccountEditor extends Component {
 
     let arg0 = encodeURIComponent(supplierId);
     let arg1 = encodeURIComponent(account.bankAccountId);
-    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/banks/${arg1}`).
+    request.put(`${actionUrl}/supplier/api/suppliers/${arg0}/bank_accounts/${arg1}`).
       set('Accept', 'application/json').
       send(account).
       then((response) => {
@@ -167,7 +167,7 @@ class SupplierBankAccountEditor extends Component {
     account.bankAccountId = this.generateUUID();
     /* eslint-enable no-param-reassign*/
 
-    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/banks`).
+    request.post(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
       send(account).
       then((response) => {
@@ -229,7 +229,7 @@ class SupplierBankAccountEditor extends Component {
     let actionUrl = this.props.actionUrl;
     let supplierId = this.props.supplierId;
     request.
-      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/banks`).
+      get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
       then((response) => {
         console.info('response', response);

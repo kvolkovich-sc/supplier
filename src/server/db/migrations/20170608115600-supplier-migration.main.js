@@ -65,7 +65,8 @@ module.exports = {
       createdBy: {
         type: Sequelize.STRING(60),
         field: "CreatedBy",
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
 
       createdOn: {
@@ -77,7 +78,8 @@ module.exports = {
       changedOn: {
         type: Sequelize.DATE,
         field: "ChangedOn",
-        allowNull: false
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
 
       extBankControlKey: {
