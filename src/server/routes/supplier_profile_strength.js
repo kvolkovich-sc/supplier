@@ -1,6 +1,7 @@
 const Supplier = require('../queries/suppliers');
 const SupplierAddress = require('../queries/supplier_addresses');
 const SupplierContact = require('../queries/supplier_contacts');
+const SupplierBankAccount = require('../queries/supplier_bank_accounts');
 const _ = require('underscore');
 
 module.exports = function(app, db, config) {
@@ -8,12 +9,13 @@ module.exports = function(app, db, config) {
     Promise.all([
       Supplier.init(db, config).then(() => Supplier.find(req.params.supplierId)),
       SupplierAddress.init(db, config).then(() => SupplierAddress.all(req.params.supplierId)),
-      SupplierContact.init(db, config).then(() => SupplierContact.all(req.params.supplierId))
+      SupplierContact.init(db, config).then(() => SupplierContact.all(req.params.supplierId)),
+      SupplierBankAccount.init(db, config).then(() => SupplierBankAccount.all(req.params.supplierId))
     ]).
-    then(([supplier, addresses, contacts]) => {
+    then(([supplier, addresses, contacts, bankAccounts]) => {
       let suppliers = [];
       if (!_.isEmpty(supplier)) suppliers = [supplier];
-      const recordsArray = [suppliers, addresses, contacts];
+      const recordsArray = [suppliers, addresses, contacts, bankAccounts];
 
       const averages = _.map(recordsArray, (records) => {
         if (_.isEmpty(records)) return 0;
