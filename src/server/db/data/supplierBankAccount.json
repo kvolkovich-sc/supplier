@@ -3,7 +3,7 @@
     "bankAccountId": "ba_hard001",
     "bankIdentificationCode": "DEDSLTJXXXX",
     "accountNumber": "DE89370400440532013000",
-    "swiftCode": "0231",
+    "swiftCode": "DEDSLTJXXXX",
     "bankName": "Deutsche Bank",
     "bankCode": "423",
     "extBankControlKey": "35",

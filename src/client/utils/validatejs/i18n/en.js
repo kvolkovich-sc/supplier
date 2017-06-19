@@ -17,7 +17,8 @@ const validatejs = {
     validator: {},
     vatNumber: {},
     iban: {},
-    bic: {}
+    bic: {},
+    swiftCode: {}
   },
   not: {
     inlist: {},
@@ -57,6 +58,7 @@ validatejs.not.unique.message = "Value must be unique";
 validatejs.invalid.vatNumber.message = "Value is not a valid EU VAT number";
 validatejs.invalid.iban.message = "Value is not a valid IBAN";
 validatejs.invalid.bic.message = "Value is not a valid BIC";
+validatejs.invalid.swiftCode.message = "Value is not a valid SWIFT Code";
 
 validatejs.typeMismatch.java.net.URL = "Value must be a valid URL";
 validatejs.typeMismatch.java.net.URI = "Value must be a valid URI";

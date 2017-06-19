@@ -59,6 +59,9 @@ module.exports = function(validatejsI18N) {
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 11
         })
+      },
+      bic: {
+        message: validatejsI18N.getMessage('validatejs.invalid.swiftCode.message')
       }
     },
     bankCountryKey: {
