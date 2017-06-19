@@ -20,7 +20,7 @@ const onboardingSupplier = {
   cityOfRegistration: "Hamburg",
   countryOfRegistration: "DE",
   taxId: "T-534324",
-  vatRegNo: "3480954",
+  vatRegNo: "DE169838187",
   dunsNo: null,
   registrationNumber: "MI342323"
 };

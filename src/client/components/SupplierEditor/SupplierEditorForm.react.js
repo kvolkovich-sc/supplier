@@ -9,6 +9,7 @@ import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
+import customValidation from '../../utils/validatejs/custom.js';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -37,6 +38,8 @@ function getValidator(i18n) {
       return value;
     }
   });
+
+  customValidation.vatNumber(validatejs);
 
   return validatejs;
 }

@@ -87,6 +87,9 @@ module.exports = function(validatejsI18N) {
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 250
         })
+      },
+      vatNumber: {
+        message: validatejsI18N.getMessage('validatejs.invalid.vatNumber.message')
       }
     },
     globalLocationNo: {

@@ -15,6 +15,7 @@ const validatejs = {
     maxSize: {},
     minSize: {},
     validator: {},
+    vatNumber: {},
   },
   not: {
     inlist: {},
@@ -51,6 +52,7 @@ validatejs.blank.message = "Das Feld darf nicht leer sein";
 validatejs.not.equal.message = "Der Wert darf nicht gleich ''{limit}'' sein";
 validatejs.null.message = "Die Eigenschaft darf nicht null sein";
 validatejs.not.unique.message = "Der Wert muss eindeutig sein";
+validatejs.invalid.vatNumber.message = "Der Wert ist keine gültige EU-Umsatzsteuer-Identifikationsnummer";
 
 validatejs.typeMismatch.java.net.URL = "Die Wert muss eine g\u00fcltige URL sein";
 validatejs.typeMismatch.java.net.URI = "Die Wert muss eine g\u00fcltige URI sein";
