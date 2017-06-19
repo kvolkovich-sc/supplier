@@ -17,6 +17,7 @@ import customValidation from '../../utils/validatejs/custom.js';
 
 function getValidator() {
   customValidation.iban(validator);
+  customValidation.bic(validator);
 
   return validator;
 };
