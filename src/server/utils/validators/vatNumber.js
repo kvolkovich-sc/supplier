@@ -1,3 +1,10 @@
+module.exports.isValid = function(value) {
+  const newVATNumber = checkVATNumber(value);
+  if (newVATNumber) return true;
+
+  return false;
+}
+
 /*==================================================================================================
 
 Application:   Utility Function
@@ -166,7 +173,7 @@ Example call:
 
 ---------------------------------------------------------------------------------------------------*/
 
-module.exports.checkVATNumber = function(toCheck) {
+function checkVATNumber(toCheck) {
 
   // Array holds the regular expressions for the valid VAT number
   var vatexp = new Array ();
