@@ -20,6 +20,9 @@ module.exports = function(validatejsI18N) {
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 30
         })
+      },
+      iban: {
+        message: validatejsI18N.getMessage('validatejs.invalid.iban.message')
       }
     },
     bankIdentificationCode: {

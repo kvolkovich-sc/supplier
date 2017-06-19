@@ -9,4 +9,16 @@ module.exports.vatNumber = function(validate) {
 
     return options.message;
   };
-}
+};
+
+module.exports.iban = function(validate) {
+  return validate.validators.iban = function(value, options, key, attributes) {
+    if (!value) return null;
+
+    const IBAN = require('iban');
+
+    if (IBAN.isValid(value)) return null;
+
+    return options.message;
+  };
+};
