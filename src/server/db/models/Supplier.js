@@ -4,10 +4,11 @@ const vatNumber = require('../../utils/validators/vatNumber.js');
 
 module.exports = function(sequelize) {
   /**
-   * <p>Supplier - organization that provides Products to buyers. Supplier has (is
-   * owner of) several ProductCatalogs.</p>
+   * Supplier - organization that provides Products to buyers.
+   * @class Supplier
    */
   let Supplier = sequelize.define('Supplier', {
+    /** Unique identifier */
     supplierId: {
       type: Sequelize.STRING(30),
       primaryKey: true,
@@ -38,21 +39,25 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(250),
       field: "CommercialRegisterNo"
     },
+    /** A supplier's city of registration */
     cityOfRegistration: {
       allowNull: true,
       type: Sequelize.STRING(250),
       field: "CityOfRegistration"
     },
+    /** A supplier's country of registration as in ISO 3166-1 alpha2 */
     countryOfRegistration: {
       allowNull: true,
       type: Sequelize.STRING(250),
       field: "CountryOfRegistration"
     },
+    /** A Tax Identification Number or TIN */
     taxIdentificationNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
       field: "TaxIdentificationNo"
     },
+    /** A value added tax identification number or VAT identification number (VATIN) */
     vatIdentificationNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
@@ -68,6 +73,7 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(250),
       field: "GlobalLocationNo"
     },
+    /** Company homepage url */
     homePage: {
       allowNull: true,
       type: Sequelize.STRING(250),
@@ -78,6 +84,7 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(25),
       field: "Role"
     },
+    /** Duns stands for 'Data Universal Numbering System'. It is a nine-digit number issued by D&B (Dun & Bradstreet) and assigned to each business location in the D&B database */
     dunsNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
