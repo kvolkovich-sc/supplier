@@ -16,11 +16,11 @@ TableHeader.supplierName = 'Name des Unternehmens';
 TableHeader.homePage = 'Homepage';
 TableHeader.foundedOn = 'Datum der Firmengründung';
 TableHeader.legalForm = 'Rechtsform der Unternehmung';
-TableHeader.registrationNumber = 'Handelsregisternummer';
+TableHeader.commercialRegisterNo = 'Handelsregisternummer';
 TableHeader.cityOfRegistration = 'Ort der Registrierung';
 TableHeader.countryOfRegistration = 'Land der Registrierung';
-TableHeader.taxId = 'Steuernummer';
-TableHeader.vatRegNo = 'Umsatzsteuer-Ident-Nr.';
+TableHeader.taxIdentificationNo = 'Steuernummer';
+TableHeader.vatIdentificationNo = 'Umsatzsteuer-Ident-Nr.';
 TableHeader.dunsNo = 'D-U-N-S-Nr.';
 TableHeader.globalLocationNo = 'Global Location Number (GLN/ILN)';
 
@@ -36,11 +36,11 @@ let Label = {
   selling: {},
   foundedOn: {},
   legalForm: {},
-  registrationNumber: {},
+  commercialRegisterNo: {},
   cityOfRegistration: {},
   countryOfRegistration: {},
-  taxId: {},
-  vatRegNo: {},
+  taxIdentificationNo: {},
+  vatIdentificationNo: {},
   dunsNo: {},
   globalLocationNo: {},
   isNewSupplier: {},
@@ -54,11 +54,11 @@ Label.buying.label = 'Buying';  // TODO: substitute with EN.
 Label.selling.label = 'Selling';  // TODO: substitute with EN.
 Label.foundedOn.label = 'Datum der Firmengründung';
 Label.legalForm.label = 'Rechtform des Unternehmens';
-Label.registrationNumber.label = 'Handelsregisternummer';
+Label.commercialRegisterNo.label = 'Handelsregisternummer';
 Label.cityOfRegistration.label = 'Ort der Registrierung';
 Label.countryOfRegistration.label = 'Land der Registrierung';
-Label.taxId.label = 'Steuernummer';
-Label.vatRegNo.label = 'Umsatzsteuer-Ident-Nr.';
+Label.taxIdentificationNo.label = 'Steuernummer';
+Label.vatIdentificationNo.label = 'Umsatzsteuer-Ident-Nr.';
 Label.dunsNo.label = 'D-U-N-S-Nr.';
 Label.globalLocationNo.label = 'Global Location Number (GLN/ILN)';
 Label.isNewSupplier.label = 'Existierenden Lieferanten auswählen';

@@ -33,10 +33,10 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(250),
       field: "LegalForm"
     },
-    registrationNumber: {
+    commercialRegisterNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
-      field: "RegistrationNumber"
+      field: "CommercialRegisterNo"
     },
     cityOfRegistration: {
       allowNull: true,
@@ -48,20 +48,18 @@ module.exports = function(sequelize) {
       type: Sequelize.STRING(250),
       field: "CountryOfRegistration"
     },
-    taxId: {
+    taxIdentificationNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
-      field: "TaxID"
+      field: "TaxIdentificationNo"
     },
-    vatRegNo: {
+    vatIdentificationNo: {
       allowNull: true,
       type: Sequelize.STRING(250),
-      field: "VatRegNo",
+      field: "VatIdentificationNo",
       validate: {
-        notEmpty: true,
-        is: ["[a-zA-Z_\\-0-9]+"],
         isValid(value) {
-          if (vatNumber.isInvalid(value)) throw new Error('vatRegNo value is invalid');
+          if (vatNumber.isInvalid(value)) throw new Error('vatIdentificationNo value is invalid');
         }
       }
     },

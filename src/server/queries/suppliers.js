@@ -44,9 +44,8 @@ module.exports.exists = function(supplierId)
 module.exports.recordExists = function(supplier)
 {
   let options = { supplierName: supplier.supplierName };
-  let fields = ['registrationNumber', 'taxId', 'vatRegNo'];
 
-  ['registrationNumber', 'taxId', 'vatRegNo'].forEach(field => {
+  ['commercialRegisterNo', 'taxIdentificationNo', 'vatIdentificationNo'].forEach(field => {
     if (supplier[field]) {
       options[field] = supplier[field];
     }

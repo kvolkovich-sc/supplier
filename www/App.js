@@ -19,10 +19,10 @@ const onboardingSupplier = {
   supplierName: "E-Farm AG",
   cityOfRegistration: "Hamburg",
   countryOfRegistration: "DE",
-  taxId: "T-534324",
-  vatRegNo: "DE169838187",
+  taxIdentificationNo: "T-534324",
+  vatIdentificationNo: "DE169838187",
   dunsNo: null,
-  registrationNumber: "MI342323"
+  commercialRegisterNo: "MI342323"
 };
 const onboardingUser = {
   id: username,
@@ -38,7 +38,7 @@ let editor = (
     actionUrl={actionUrl}
     supplierId={supplier.supplierId}
     supplierName={supplier.supplierName}
-    locale='en'
+    locale='de'
     username={username}
     dateTimePattern='MM/dd/yyyy'
   />

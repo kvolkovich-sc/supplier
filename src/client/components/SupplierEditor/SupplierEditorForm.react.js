@@ -251,7 +251,7 @@ class SupplierEditorForm extends Component {
           }) }
 
           { this.renderField({ fieldName: 'legalForm' }) }
-          { this.renderField({ fieldName: 'registrationNumber' }) }
+          { this.renderField({ fieldName: 'commercialRegisterNo' }) }
           { this.renderField({ fieldName: 'cityOfRegistration' }) }
 
           { this.renderField({
@@ -266,8 +266,8 @@ class SupplierEditorForm extends Component {
             )
           })}
 
-          { this.renderField({ fieldName: 'taxId' }) }
-          { this.renderField({ fieldName: 'vatRegNo' }) }
+          { this.renderField({ fieldName: 'taxIdentificationNo' }) }
+          { this.renderField({ fieldName: 'vatIdentificationNo' }) }
           { this.renderField({ fieldName: 'globalLocationNo' }) }
           { this.renderField({ fieldName: 'dunsNo' }) }
 
