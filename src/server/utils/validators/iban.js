@@ -4,3 +4,7 @@ module.exports.isValid = function(value) {
 
   return false;
 };
+
+module.exports.isInvalid = function(value) {
+  return !this.isValid(value);
+};

@@ -5,6 +5,10 @@ module.exports.isValid = function(value) {
   return false;
 }
 
+module.exports.isInvalid = function(value) {
+  return !this.isValid(value);
+}
+
 /*==================================================================================================
 
 Application:   Utility Function
@@ -173,7 +177,7 @@ Example call:
 
 ---------------------------------------------------------------------------------------------------*/
 
-function checkVATNumber(toCheck) {
+function checkVATNumber (toCheck) {
 
   // Array holds the regular expressions for the valid VAT number
   var vatexp = new Array ();

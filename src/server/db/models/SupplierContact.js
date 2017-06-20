@@ -32,7 +32,10 @@ module.exports = function(sequelize) {
     },
     email: {
       type: Sequelize.STRING(100),
-      field: 'Email'
+      field: 'Email',
+      validate: {
+        isEmail: true
+      }
     },
     phone: {
       type: Sequelize.STRING(20),

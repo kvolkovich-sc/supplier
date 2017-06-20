@@ -1,5 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
+const iban = require('../../utils/validators/iban.js');
+const bic = require('../../utils/validators/bic.js');
 
 module.exports = function (sequelize, config) {
 
@@ -17,7 +19,10 @@ module.exports = function (sequelize, config) {
         type: Sequelize.STRING(35),
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          isValid(value) {
+            if (iban.isInvalid(value)) throw new Error('accountNumber value is invalid');
+          }
         }
       },
 
@@ -46,7 +51,10 @@ module.exports = function (sequelize, config) {
         type: Sequelize.STRING(15),
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          isValid(value) {
+            if (bic.isInvalid(value)) throw new Error('bankIdentificationCode value is invalid');
+          }
         }
       },
 
@@ -110,7 +118,10 @@ module.exports = function (sequelize, config) {
         type: Sequelize.STRING(11),
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          isValid(value) {
+            if (bic.isInvalid(value)) throw new Error('swiftCode value is invalid');
+          }
         }
       }
 
