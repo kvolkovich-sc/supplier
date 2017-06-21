@@ -59,10 +59,10 @@ const newSupplier = {
   supplierName: 'Test AG',
   cityOfRegistration: 'Hamburg',
   countryOfRegistration: 'DE',
-  taxId: '123-343-12',
-  vatRegNo: 'DE72342359',
+  taxIdentificationNo: '123-343-12',
+  vatIdentificationNo: 'DE72342359',
   dunsNo: '12345',
-  registrationNumber: 'HRB 12873243'
+  commercialRegisterNo: 'HRB 12873243'
 };
 
 <SupplierRegistrationEditor

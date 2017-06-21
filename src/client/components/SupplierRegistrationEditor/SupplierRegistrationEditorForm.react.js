@@ -8,6 +8,13 @@ import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
+import customValidation from '../../utils/validatejs/custom.js';
+
+function getValidator() {
+  customValidation.vatNumber(validatejs);
+
+  return validatejs;
+};
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {
@@ -79,7 +86,7 @@ class SupplierRegistrationEditorForm extends Component {
   };
 
   handleBlur = (fieldName/* , event*/) => {
-    const errors = validatejs(
+    const errors = getValidator()(
       this.state.supplier, {
         [fieldName]: this.SUPPLIER_CONSTRAINTS[fieldName]
       }, {
@@ -196,7 +203,7 @@ class SupplierRegistrationEditorForm extends Component {
             <div className="row">
               <div className="col-md-12">
                 { this.renderField({ fieldName: 'supplierName' }) }
-                { this.renderField({ fieldName: 'registrationNumber' }) }
+                { this.renderField({ fieldName: 'commercialRegisterNo' }) }
                 { this.renderField({ fieldName: 'cityOfRegistration' }) }
                 { this.renderField({
                   fieldName: 'countryOfRegistration',
@@ -210,8 +217,8 @@ class SupplierRegistrationEditorForm extends Component {
                   )
                 }) }
 
-                { this.renderField({ fieldName: 'taxId' }) }
-                { this.renderField({ fieldName: 'vatRegNo' }) }
+                { this.renderField({ fieldName: 'taxIdentificationNo' }) }
+                { this.renderField({ fieldName: 'vatIdentificationNo' }) }
                 { this.renderField({ fieldName: 'globalLocationNo' }) }
                 { this.renderField({ fieldName: 'dunsNo' }) }
 

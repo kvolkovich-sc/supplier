@@ -1,9 +1,9 @@
 [
   {
     "bankAccountId": "ba_hard001",
-    "bankIdentificationCode": "DBSLRTHLE",
-    "accountNumber": "DE3459939394534553324",
-    "swiftCode": "0231",
+    "bankIdentificationCode": "DEDSLTJXXXX",
+    "accountNumber": "DE89370400440532013000",
+    "swiftCode": "DEDSLTJXXXX",
     "bankName": "Deutsche Bank",
     "bankCode": "423",
     "extBankControlKey": "35",

@@ -40,7 +40,7 @@ module.exports = function(validatejsI18N) {
         })
       }
     },
-    registrationNumber: {
+    commercialRegisterNo: {
       presence: false,
       length: {
         maximum: 250,
@@ -71,7 +71,7 @@ module.exports = function(validatejsI18N) {
         })
       }
     },
-    taxId: {
+    taxIdentificationNo: {
       presence: false,
       length: {
         maximum: 250,
@@ -80,13 +80,16 @@ module.exports = function(validatejsI18N) {
         })
       }
     },
-    vatRegNo: {
+    vatIdentificationNo: {
       presence: false,
       length: {
         maximum: 250,
         tooLong: validatejsI18N.getMessage('validatejs.invalid.maxSize.message', {
           limit: 250
         })
+      },
+      vatNumber: {
+        message: validatejsI18N.getMessage('validatejs.invalid.vatNumber.message')
       }
     },
     globalLocationNo: {

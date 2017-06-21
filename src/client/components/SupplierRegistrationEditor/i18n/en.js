@@ -15,11 +15,11 @@ TableHeader.supplierName = 'Company name-';
 TableHeader.homePage = 'Home page';
 TableHeader.foundedOn = 'Founded/Established on';
 TableHeader.legalForm = 'Legal form';
-TableHeader.registrationNumber = 'Company registration number';
+TableHeader.commercialRegisterNo = 'Company registration number';
 TableHeader.cityOfRegistration = 'City of registration';
 TableHeader.countryOfRegistration = 'Country of registration';
-TableHeader.taxId = 'Tax identification';
-TableHeader.vatRegNo = 'VAT registration number';
+TableHeader.taxIdentificationNo = 'Tax identification number';
+TableHeader.vatIdentificationNo = 'VAT registration number';
 TableHeader.dunsNo = 'D-U-N-S number';
 TableHeader.globalLocationNo = 'Global location number';
 
@@ -35,11 +35,11 @@ let Label = {
   selling: {},
   foundedOn: {},
   legalForm: {},
-  registrationNumber: {},
+  commercialRegisterNo: {},
   cityOfRegistration: {},
   countryOfRegistration: {},
-  taxId: {},
-  vatRegNo: {},
+  taxIdentificationNo: {},
+  vatIdentificationNo: {},
   dunsNo: {},
   globalLocationNo: {},
   isNewSupplier: {},
@@ -53,11 +53,11 @@ Label.buying.label = 'Buying';
 Label.selling.label = 'Selling';
 Label.foundedOn.label = 'Founded/\u200bEstablished\u00a0On';
 Label.legalForm.label = 'Legal Form';
-Label.registrationNumber.label = 'Company Registration Number';
+Label.commercialRegisterNo.label = 'Company Registration Number';
 Label.cityOfRegistration.label = 'City Of Registration';
 Label.countryOfRegistration.label = 'Country Of Registration';
-Label.taxId.label = 'Tax Identification';
-Label.vatRegNo.label = 'VAT Registration Number';
+Label.taxIdentificationNo.label = 'Tax Identification Number';
+Label.vatIdentificationNo.label = 'VAT Registration Number';
 Label.dunsNo.label = 'D-U-N-S Number';
 Label.globalLocationNo.label = 'Global Location Number';
 Label.isNewSupplier.label = 'Select existing company';

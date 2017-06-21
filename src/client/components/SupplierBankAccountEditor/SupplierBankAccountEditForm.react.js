@@ -9,10 +9,19 @@ import globalMessages from '../../utils/validatejs/i18n';
 import SupplierBankAccountEditFormRow from './SupplierBankAccountEditFormRow.react.js';
 const ADDRESS_TYPES = ['default', 'invoice', 'rma', 'plant'];
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
+import customValidation from '../../utils/validatejs/custom.js';
 
 /**
  * Supplier address edit form
  */
+
+function getValidator() {
+  customValidation.iban(validator);
+  customValidation.bic(validator);
+
+  return validator;
+};
+
 @i18n
 class SupplierBankAccountEditForm extends Component {
   static propTypes = {
@@ -61,7 +70,7 @@ class SupplierBankAccountEditForm extends Component {
     event.preventDefault();
 
     const account = this.state.account;
-    let errors = validator(this.state.account, this.constraints, {fullMessages: false});
+    let errors = getValidator()(this.state.account, this.constraints, {fullMessages: false});
     if (!errors) {
       const editMode = this.props.editMode;
 
@@ -109,7 +118,7 @@ class SupplierBankAccountEditForm extends Component {
   };
 
   handleBlur = (fieldName/* , event*/) => {
-    const errors = validator(
+    const errors = getValidator()(
       this.state.account, {
         [fieldName]: this.constraints[fieldName]
       }, {

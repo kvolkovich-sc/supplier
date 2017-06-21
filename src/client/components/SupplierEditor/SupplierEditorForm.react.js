@@ -9,6 +9,7 @@ import globalMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
+import customValidation from '../../utils/validatejs/custom.js';
 
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== "[object Date]") {
@@ -37,6 +38,8 @@ function getValidator(i18n) {
       return value;
     }
   });
+
+  customValidation.vatNumber(validatejs);
 
   return validatejs;
 }
@@ -248,7 +251,7 @@ class SupplierEditorForm extends Component {
           }) }
 
           { this.renderField({ fieldName: 'legalForm' }) }
-          { this.renderField({ fieldName: 'registrationNumber' }) }
+          { this.renderField({ fieldName: 'commercialRegisterNo' }) }
           { this.renderField({ fieldName: 'cityOfRegistration' }) }
 
           { this.renderField({
@@ -263,8 +266,8 @@ class SupplierEditorForm extends Component {
             )
           })}
 
-          { this.renderField({ fieldName: 'taxId' }) }
-          { this.renderField({ fieldName: 'vatRegNo' }) }
+          { this.renderField({ fieldName: 'taxIdentificationNo' }) }
+          { this.renderField({ fieldName: 'vatIdentificationNo' }) }
           { this.renderField({ fieldName: 'globalLocationNo' }) }
           { this.renderField({ fieldName: 'dunsNo' }) }
 
