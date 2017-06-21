@@ -7,7 +7,9 @@ module.exports = function(sequelize) {
    * Supplier - organization that provides Products to buyers.
    * @class Supplier
    */
-  let Supplier = sequelize.define('Supplier', {
+  let Supplier = sequelize.define('Supplier',
+  /** @lends Supplier */
+  {
     /** Unique identifier */
     supplierId: {
       type: Sequelize.STRING(30),

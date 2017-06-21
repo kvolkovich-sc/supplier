@@ -9,6 +9,7 @@ module.exports = function (sequelize, config) {
    * @class SupplierBankAccount
    */
   return sequelize.define('SupplierBankAccount',
+    /** @lends SupplierBankAccount */
     {
       id: {
         type: Sequelize.INTEGER,
