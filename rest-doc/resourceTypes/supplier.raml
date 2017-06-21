@@ -177,6 +177,73 @@ post:
                 description: Operation is not authorized
             422:
                 description: Inconsistent data
+
+/{supplierId}/bank_accounts:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier.
+    get:
+        description: Get all bank accounts assigned to the Supplier
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierBankAccountArray
+    post:
+        description: Insert Bank Account to Supplier
+        body:
+            application/json:
+                type: SupplierBankAccount
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierBankAccount
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+/{supplierId}/bank_accounts/{bankAccountId}:
+    uriParameters:
+        supplierId:
+            type: string
+            description: Identifier of a supplier.
+        bankAccountId:
+            type: string
+            description: Identifier of supplier bank account
+    get:
+        description: Get single `SupplierBankAccount` object assigned to the Supplier
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierBankAccount
+    put:
+        description: Update Supplier to Address association
+        body:
+            application/json:
+                type: SupplierBankAccount
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: SupplierBankAccount
+            409:
+                description:
+                    A supplier with the same supplierId but different set of properties already exists.
+    delete:
+        description: Delete SupplierBankAccount association
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: {}
+            403:
+                description: Operation is not authorized
+            422:
+                description: Inconsistent data
+
 /{supplierId}/profile_strength:
     uriParameters:
         supplierId:
