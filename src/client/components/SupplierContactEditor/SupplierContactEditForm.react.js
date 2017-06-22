@@ -45,7 +45,7 @@ class SupplierContactEditForm extends Component {
     }
   }
 
-  validatejsI18N = new I18nManager(this.context.i18n.locale, globalMessages)
+  validatejsI18N = new I18nManager(this.props.locale, globalMessages)
 
   constraints = {
     contactType: {
