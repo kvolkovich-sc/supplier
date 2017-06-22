@@ -39,7 +39,7 @@ export default class AttributeValueEditorRow extends Component {
           { this.props.children }
 
           {rowErrors.map((error, index) =>
-            <div key={index} className="col-sm-offset-4 col-sm-8">
+            <div key={index}>
               <span className="label label-danger">{ error.message }</span>
             </div>
           )}

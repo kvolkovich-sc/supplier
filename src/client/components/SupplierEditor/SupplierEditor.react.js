@@ -197,26 +197,28 @@ class SupplierEditor extends Component {
     }
 
     return (
-      <div>
-        <Alert bsStyle="info"
-          message={globalInfoMessage}
-          visible={!!globalInfoMessage}
-          hideCloseLink={true}
-        />
+      <div className="row">
+        <div className="col-sm-6">
+          <Alert bsStyle="info"
+            message={globalInfoMessage}
+            visible={!!globalInfoMessage}
+            hideCloseLink={true}
+          />
 
-        <Alert bsStyle="danger"
-          message={globalErrorMessage}
-          visible={!!globalErrorMessage}
-          hideCloseLink={true}
-        />
+          <Alert bsStyle="danger"
+            message={globalErrorMessage}
+            visible={!!globalErrorMessage}
+            hideCloseLink={true}
+          />
 
-        <SupplierEditorForm
-          {...this.props}
-          supplier={ supplier }
-          onSupplierChange={ this.handleUpdate }
-          onChange={ this.handleChange }
-          onCancel={ this.props.onLogout }
-        />
+          <SupplierEditorForm
+            {...this.props}
+            supplier={ supplier }
+            onSupplierChange={ this.handleUpdate }
+            onChange={ this.handleChange }
+            onCancel={ this.props.onLogout }
+          />
+        </div>
       </div>
     );
   }
