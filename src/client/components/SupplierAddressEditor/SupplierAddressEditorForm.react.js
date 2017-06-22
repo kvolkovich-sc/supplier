@@ -6,7 +6,7 @@ import './SupplierAddressEditorForm.css';
 import SupplierAddressFormConstraints from './SupplierAddressFormConstraints';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-import SupplierAddressEditorFormRow from './SupplierAddressEditorFormRow.react.js';
+import SupplierAddressEditorFormRow from '../AttributeValueEditorRow.react.js';
 const ADDRESS_TYPES = ['default', 'invoice', 'rma', 'plant'];
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
 

@@ -6,7 +6,7 @@ import './SupplierBankAccountEditForm.css';
 import SupplierBankAccountFormConstraints from './SupplierBankAccountFormConstraints';
 import {I18nManager} from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-import SupplierBankAccountEditFormRow from './SupplierBankAccountEditFormRow.react.js';
+import SupplierBankAccountEditFormRow from '../AttributeValueEditorRow.react.js';
 const ADDRESS_TYPES = ['default', 'invoice', 'rma', 'plant'];
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
 import customValidation from '../../utils/validatejs/custom.js';

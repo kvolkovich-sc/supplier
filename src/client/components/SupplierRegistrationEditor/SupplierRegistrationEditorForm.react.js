@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import SupplierRegistrationEditorFormRow from './SupplierRegistrationEditorFormRow.react.js';
+import SupplierRegistrationEditorFormRow from '../AttributeValueEditorRow.react.js';
 import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
