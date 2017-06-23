@@ -3,7 +3,6 @@ import _ from 'underscore';
 import validatejs from 'validate.js';
 import SupplierEditorFormRow from '../AttributeValueEditorRow.react.js';
 import './SupplierEditor.css';
-import validationMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
@@ -69,7 +68,7 @@ class SupplierEditorForm extends Component {
 
     this.externalComponents = { CountryField };
 
-    this.props.i18n.register('validatejs', validationMessages);
+    this.SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.props.i18n);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,9 +82,9 @@ class SupplierEditorForm extends Component {
       },
       fieldErrors: {},
     });
-  }
 
-  SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.props.i18n);
+    this.SUPPLIER_CONSTRAINTS = SupplierFormConstraints(nextProps.i18n);
+  }
 
   handleDateChange = (fieldName, date) => {
     if (this.props.onChange) {
@@ -268,7 +267,7 @@ class SupplierEditorForm extends Component {
           { this.renderField({ fieldName: 'dunsNo' }) }
 
           <div className='supplier-form-submit'>
-            <div className='text-right form-submit col-sm-10 col-md-8'>
+            <div className='text-right form-submit'>
               <button className="btn btn-primary" onClick={ this.handleUpdate }>
                 { i18n.getMessage('SupplierEditor.ButtonLabel.save') }
               </button>
