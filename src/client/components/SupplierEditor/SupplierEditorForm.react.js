@@ -1,11 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
-import i18n from '../../i18n/I18nDecorator.react.js';
 import SupplierEditorFormRow from '../AttributeValueEditorRow.react.js';
 import './SupplierEditor.css';
-import { I18nManager } from 'opuscapita-i18n';
-import globalMessages from '../../utils/validatejs/i18n';
+import validationMessages from '../../utils/validatejs/i18n';
 import SupplierFormConstraints from './SupplierFormConstraints';
 import DateInput from 'opuscapita-react-dates/lib/DateInput';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
@@ -44,7 +42,6 @@ function getValidator(i18n) {
   return validatejs;
 }
 
-@i18n
 class SupplierEditorForm extends Component {
   static propTypes = {
     supplier: PropTypes.object,
@@ -71,6 +68,8 @@ class SupplierEditorForm extends Component {
     const CountryField = serviceComponent({ serviceRegistry, serviceName: 'isodata' , moduleName: 'isodata-countries', jsFileName: 'countries-bundle' });
 
     this.externalComponents = { CountryField };
+
+    this.props.i18n.register('validatejs', validationMessages);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,9 +85,7 @@ class SupplierEditorForm extends Component {
     });
   }
 
-  validatejsI18N = new I18nManager(this.props.locale, globalMessages);
-
-  SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.validatejsI18N);
+  SUPPLIER_CONSTRAINTS = SupplierFormConstraints(this.props.i18n);
 
   handleDateChange = (fieldName, date) => {
     if (this.props.onChange) {
@@ -136,7 +133,7 @@ class SupplierEditorForm extends Component {
   }
 
   handleBlur = (fieldName/* , event*/) => {
-    const errors = getValidator(this.context.i18n)(
+    const errors = getValidator(this.props.i18n)(
       this.state.supplier, {
         [fieldName]: this.SUPPLIER_CONSTRAINTS[fieldName]
       }, {
@@ -164,7 +161,7 @@ class SupplierEditorForm extends Component {
     const { onSupplierChange } = this.props;
     const supplier = { ...this.state.supplier };
 
-    const errors = getValidator(this.context.i18n)(
+    const errors = getValidator(this.props.i18n)(
       supplier,
       this.SUPPLIER_CONSTRAINTS, {
         fullMessages: false
@@ -211,7 +208,7 @@ class SupplierEditorForm extends Component {
 
     return (
       <SupplierEditorFormRow
-        labelText={ this.context.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
+        labelText={ this.props.i18n.getMessage(`SupplierEditor.Label.${fieldName}.label`) }
         required={ isRequired }
         rowErrors={ rowErrors }
       >
@@ -221,9 +218,8 @@ class SupplierEditorForm extends Component {
   };
 
   render() {
-    const { i18n } = this.context;
+    const { i18n, dateTimePattern } = this.props;
     const locale = i18n.locale;
-    const { dateTimePattern } = this.props;
     const { supplier } = this.state;
     const { CountryField } = this.externalComponents;
     const foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';

@@ -1,17 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import request from 'superagent-bluebird-promise';
 import moment from 'moment';
-import i18n from '../../i18n/I18nDecorator.react.js';
+import i18nRegister from '../../i18n/register.js';
+import i18nMessages from './i18n';
 import Alert from '../Alert';
 import SupplierEditorForm from './SupplierEditorForm.react.js';
 
 /**
  * Provide general company information.
  */
-@i18n({
-  componentName: 'SupplierEditor',
-  messages: require('./i18n').default,
-})
 class SupplierEditor extends Component {
 
   static propTypes = {
@@ -37,6 +34,10 @@ class SupplierEditor extends Component {
       hasErrors: false,
       supplier: {}
     }
+  }
+
+  componentWillMount(){
+    this.i18n = i18nRegister(this.props.locale, 'SupplierEditor', i18nMessages);
   }
 
   componentDidMount() {
@@ -72,11 +73,15 @@ class SupplierEditor extends Component {
     return;
   }
 
-  componentWillReceiveProps(/* nextProps*/) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       globalInfoMessage: '',
       globalErrorMessage: ''
     });
+
+    if(this.i18n && this.i18n.locale && nextProps.locale != this.i18n.locale){
+      this.i18n = i18nRegister(nextProps.locale, 'SupplierEditor', i18nMessages);
+    }
   }
 
   componentWillUnmount() {
@@ -120,7 +125,6 @@ class SupplierEditor extends Component {
 
     delete newSupplier.changedOn;  // eslint-disable-line no-param-reassign
     delete newSupplier.createdOn;  // eslint-disable-line no-param-reassign
-    const { i18n } = this.context;
 
     this.updateSupplierPromise = request.put(`${this.props.actionUrl}/supplier/api/suppliers/${encodeURIComponent(this.props.supplierId)}`).
       set('Accept', 'application/json').
@@ -132,7 +136,7 @@ class SupplierEditor extends Component {
         response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           supplier: response.body,
-          globalInfoMessage: i18n.getMessage('SupplierEditor.Messages.saved'),
+          globalInfoMessage: this.this.i18n.getMessage('SupplierEditor.Messages.saved'),
           globalErrorMessage: ''
         });
 
@@ -162,37 +166,36 @@ class SupplierEditor extends Component {
           case 403:
             this.setState({
               globalInfoMessage: '',
-              globalErrorMessage: i18n.getMessage('SupplierEditor.Messages.failedModifyingNotAuthoredSupplier'),
+              globalErrorMessage: this.i18n.getMessage('SupplierEditor.Messages.failedModifyingNotAuthoredSupplier'),
             });
             break;
           case 409:
             this.setState({
               globalInfoMessage: '',
-              globalErrorMessage: i18n.getMessage('SupplierEditor.Messages.failedCreatingExistingSupplier'),
+              globalErrorMessage: this.i18n.getMessage('SupplierEditor.Messages.failedCreatingExistingSupplier'),
             });
             break;
           default:
             this.setState({
               globalInfoMessage: '',
-              globalErrorMessage: i18n.getMessage('SupplierEditor.Messages.failed'),
+              globalErrorMessage: this.i18n.getMessage('SupplierEditor.Messages.failed'),
             });
         }
       });
   }
 
   render() {
-    const { i18n } = this.context;
     const { isLoaded, hasErrors, supplier, globalInfoMessage = '', globalErrorMessage = '' } = this.state;
 
     if (!isLoaded) {
       return (
-        <div>{ i18n.getMessage('SupplierEditor.Messages.loading') }</div>
+        <div>{ this.i18n.getMessage('SupplierEditor.Messages.loading') }</div>
       );
     }
 
     if (hasErrors) {
       return (
-        <div>{ i18n.getMessage('SupplierEditor.Messages.unableToRender') }</div>
+        <div>{ this.i18n.getMessage('SupplierEditor.Messages.unableToRender') }</div>
       );
     }
 
@@ -213,6 +216,7 @@ class SupplierEditor extends Component {
 
           <SupplierEditorForm
             {...this.props}
+            i18n={this.i18n}
             supplier={ supplier }
             onSupplierChange={ this.handleUpdate }
             onChange={ this.handleChange }
