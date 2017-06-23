@@ -217,8 +217,7 @@ class SupplierEditorForm extends Component {
   };
 
   render() {
-    const { i18n, dateTimePattern } = this.props;
-    const locale = i18n.locale;
+    const { locale, i18n, dateTimePattern } = this.props;
     const { supplier } = this.state;
     const { CountryField } = this.externalComponents;
     const foundedOn = supplier['foundedOn'] ? new Date(supplier['foundedOn']) : '';
