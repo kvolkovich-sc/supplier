@@ -136,17 +136,11 @@ class SupplierEditor extends Component {
         response.body.foundedOn = this.formatedDate(response.body.foundedOn);
         this.setState({
           supplier: response.body,
-          globalInfoMessage: this.this.state.i18n.getMessage('SupplierEditor.Messages.saved'),
+          globalInfoMessage: this.state.i18n.getMessage('SupplierEditor.Messages.saved'),
           globalErrorMessage: ''
         });
 
-        if (
-          this.props.onUpdate &&
-          (
-            this.props.supplierId !== response.body.supplierId ||
-            this.props.supplierName !== response.body.supplierName
-          )
-        ) {
+        if (this.props.onUpdate && this.props.supplierId !== response.body.supplierId) {
           // Informing wrapper app (BNP/SIM) about supplier change.
           this.props.onUpdate({
             supplierId: response.body.supplierId,

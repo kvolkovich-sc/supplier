@@ -72,16 +72,14 @@ class SupplierEditorForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (_.isEqual(this.props.supplier, nextProps.supplier)) {
-      return;
+    if (!_.isEqual(this.props.supplier, nextProps.supplier)) {
+      this.setState({
+        supplier: {
+          ...nextProps.supplier
+        },
+        fieldErrors: {},
+      });
     }
-
-    this.setState({
-      supplier: {
-        ...nextProps.supplier
-      },
-      fieldErrors: {},
-    });
 
     this.SUPPLIER_CONSTRAINTS = SupplierFormConstraints(nextProps.i18n);
   }
