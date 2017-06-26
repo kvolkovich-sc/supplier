@@ -17,7 +17,7 @@ class DisplayTable extends Component {
         <thead>
         <tr>
           { headers.map((element, index) => (
-            <th key={index} >{element.label}</th>)) }
+            <th key={index}>{element.label}</th>)) }
         </tr>
         </thead>
         <tbody>

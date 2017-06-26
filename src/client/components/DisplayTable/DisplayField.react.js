@@ -6,7 +6,7 @@ class DisplayRow extends Component {
 
   render() {
     return (
-      <tr>{ this.props.children }</tr>
+      <td>{ this.props.children }</td>
     );
   }
 }

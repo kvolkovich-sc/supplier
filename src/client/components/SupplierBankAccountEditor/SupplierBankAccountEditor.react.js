@@ -7,6 +7,7 @@ import Alert from '../Alert';
 import DisplayTable from '../DisplayTable/DisplayTable.react';
 import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js';
 import DisplayRow from "../DisplayTable/DisplayRow.react";
+import DisplayField from "../DisplayTable/DisplayField.react";
 
 /**
  * Supplier contact editor
@@ -258,7 +259,15 @@ class SupplierBankAccountEditor extends Component {
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.extBankControlKey')},
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.swiftCode')}
             ]}>
-            { accounts.map((account, index) => <DisplayRow account={account} key={index}/>) }
+              { accounts.map((account, index) => <DisplayRow key={index}>
+                <DisplayField>{ account.accountNumber }</DisplayField>
+                <DisplayField>{ account.bankName }</DisplayField>
+                <DisplayField>{ account.bankIdentificationCode }</DisplayField>
+                <DisplayField>{ account.bankCountryKey }</DisplayField>
+                <DisplayField>{ account.bankCode }</DisplayField>
+                <DisplayField>{ account.extBankControlKey }</DisplayField>
+                <DisplayField>{ account.swiftCode }</DisplayField>
+              </DisplayRow>) }
             </DisplayTable>
           </div>
         );
