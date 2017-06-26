@@ -4,8 +4,9 @@ import utils from 'underscore';
 import Button from 'react-bootstrap/lib/Button';
 import i18n from '../../i18n/I18nDecorator.react.js';
 import Alert from '../Alert';
-import SupplierBankAccountListTable from './SupplierBankAccountListTable.react.js';
+import DisplayTable from '../DisplayTable/DisplayTable.react';
 import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js';
+import DisplayRow from "../DisplayTable/DisplayRow.react";
 
 /**
  * Supplier contact editor
@@ -222,7 +223,8 @@ class SupplierBankAccountEditor extends Component {
       get(`${actionUrl}/supplier/api/suppliers/${encodeURIComponent(supplierId)}/bank_accounts`).
       set('Accept', 'application/json').
       then((response) => {
-        this.setState({ accounts: response.body });
+      console.log('response', response.body);
+      this.setState({ accounts: response.body });
       }).catch((response) => {
         if (response.status === 401) {
           this.props.onUnauthorized();
@@ -243,24 +245,26 @@ class SupplierBankAccountEditor extends Component {
     let readOnly = this.props.readOnly;
     let result;
 
-    if (accounts !== undefined) {
+    if (accounts) {
       if (accounts.length > 0) {
+        console.log('accounts', accounts);
         result = (
           <div className="table-responsive">
-            <SupplierBankAccountListTable
-              accounts={accounts}
-              readOnly={readOnly}
-              actionUrl={this.props.actionUrl}
-              onEdit={this.handleEdit}
-              onDelete={this.handleDelete}
-              onView={this.handleView}
-            />
+            <DisplayTable headers={[{label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.accountNumber')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankName')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankIdentificationCode')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankCountryKey')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.bankCode')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.extBankControlKey')},
+              {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.swiftCode')}
+            ]}>
+            { accounts.map((element, index) => <DisplayRow key={index}/>) }
+            </DisplayTable>
           </div>
         );
       } else if (readOnly) {
         account = null;
       } else {
-        // show create new account if empty
         account = {};
         errors = {};
         editMode = 'create-first';

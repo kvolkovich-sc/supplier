@@ -6,7 +6,7 @@ import './SupplierBankAccountEditForm.css';
 import SupplierBankAccountFormConstraints from './SupplierBankAccountFormConstraints';
 import {I18nManager} from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
-import SupplierBankAccountEditFormRow from '../AttributeValueEditorRow.react.js';
+import AttributeValueEditorRow from '../AttributeValueEditorRow.react.js';
 const ADDRESS_TYPES = ['default', 'invoice', 'rma', 'plant'];
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
 import customValidation from '../../utils/validatejs/custom.js';
@@ -160,13 +160,12 @@ class SupplierBankAccountEditForm extends Component {
     );
 
     return (
-      <SupplierBankAccountEditFormRow
+      <AttributeValueEditorRow
         labelText={ this.context.i18n.getMessage(`SupplierBankAccountEditor.Label.${fieldName}`) }
         required={ isRequired }
-        rowErrors={ rowErrors }
-      >
+        rowErrors={ rowErrors }>
         { component }
-      </SupplierBankAccountEditFormRow>
+      </AttributeValueEditorRow>
     );
   };
 

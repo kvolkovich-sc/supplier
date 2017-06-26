@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import _ from 'underscore';
 import validatejs from 'validate.js';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import SupplierRegistrationEditorFormRow from '../AttributeValueEditorRow.react.js';
+import AttributeValueEditorRow from '../AttributeValueEditorRow.react.js';
 import './SupplierRegistrationEditor.css';
 import { I18nManager } from 'opuscapita-i18n';
 import globalMessages from '../../utils/validatejs/i18n';
@@ -14,7 +14,7 @@ function getValidator() {
   customValidation.vatNumber(validatejs);
 
   return validatejs;
-};
+}
 
 @i18n
 class SupplierRegistrationEditorForm extends Component {
@@ -170,13 +170,13 @@ class SupplierRegistrationEditorForm extends Component {
     );
 
     return (
-      <SupplierRegistrationEditorFormRow
+      <AttributeValueEditorRow
         labelText={ this.context.i18n.getMessage(`SupplierRegistrationEditor.Label.${fieldName}.label`) }
         required={ isRequired }
         rowErrors={ rowErrors }
       >
         { component }
-      </SupplierRegistrationEditorFormRow>
+      </AttributeValueEditorRow>
     );
   };
 
