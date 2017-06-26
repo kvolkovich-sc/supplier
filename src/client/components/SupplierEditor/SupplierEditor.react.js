@@ -14,7 +14,6 @@ class SupplierEditor extends Component {
   static propTypes = {
     actionUrl: PropTypes.string.isRequired,
     supplierId: PropTypes.string.isRequired,
-    supplierName: PropTypes.string,
     username: React.PropTypes.string.isRequired,
     dateTimePattern: PropTypes.string.isRequired,
     onChange: React.PropTypes.func,
@@ -99,7 +98,6 @@ class SupplierEditor extends Component {
     if (!date) {
       return;
     }
-
     const momentFormat = this.props.dateTimePattern.replace('dd', 'DD').replace('yyyy', 'YYYY');
     return moment(date).format(momentFormat);
   }

@@ -4,7 +4,7 @@ import validatejs from 'validate.js';
 import SupplierEditorFormRow from '../AttributeValueEditorRow.react.js';
 import './SupplierEditor.css';
 import SupplierFormConstraints from './SupplierFormConstraints';
-import DateInput from 'opuscapita-react-dates/lib/DateInput';
+import DateInput from '@opuscapita/react-dates/lib/DateInput';
 import serviceComponent from '@opuscapita/react-loaders/lib/serviceComponent';
 import customValidation from '../../utils/validatejs/custom.js';
 
@@ -238,6 +238,7 @@ class SupplierEditorForm extends Component {
                 value={foundedOn}
                 onChange={this.handleDateChange.bind(this, 'foundedOn')}
                 onBlur={this.handleBlur.bind(this, 'foundedOn')}
+                variants={[]}
               />
             )
           }) }
