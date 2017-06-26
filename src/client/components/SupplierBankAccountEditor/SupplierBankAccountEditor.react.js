@@ -238,19 +238,11 @@ class SupplierBankAccountEditor extends Component {
       });
   };
 
-  onEdit = (account) => {
-    this.props.onEdit(account);
-  };
-
   onDelete = (account) => {
     if (!confirm(this.context.i18n.getMessage('SupplierBankAccountEditor.Confirmation.delete'))) {
       return;
     }
     this.props.onDelete(account);
-  };
-
-  onView = (account) => {
-    this.props.onView(account);
   };
 
   render() {
@@ -284,9 +276,9 @@ class SupplierBankAccountEditor extends Component {
                   <DisplayField>{ account.bankCode }</DisplayField>
                   <DisplayField>{ account.extBankControlKey }</DisplayField>
                   <DisplayField>{ account.swiftCode }</DisplayField>
-                  { readOnly && <ViewGroup/> }
+                  { readOnly && <ViewGroup viewAction={this.handleView(this,account)}/> }
                   { !readOnly && <EditGroup editAction={this.handleEdit.bind(this, account)}
-                                            deleteAction={this.handleDelete.bind(this, account)}/> }
+                                            deleteAction={this.onDelete.bind(this, account)}/> }
                 </DisplayRow>))
               }
             </DisplayTable>
