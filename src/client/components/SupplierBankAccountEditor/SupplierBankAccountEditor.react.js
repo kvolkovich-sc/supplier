@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import request from 'superagent-bluebird-promise';
-import utils from 'underscore';
-import Button from 'react-bootstrap/lib/Button';
-import i18n from '../../i18n/I18nDecorator.react.js';
-import Alert from '../Alert';
-import DisplayTable from '../DisplayTable/DisplayTable.react';
-import SupplierBankAccountEditForm from './SupplierBankAccountEditForm.react.js';
+import React, {Component} from "react";
+import request from "superagent-bluebird-promise";
+import utils from "underscore";
+import Button from "react-bootstrap/lib/Button";
+import i18n from "../../i18n/I18nDecorator.react.js";
+import Alert from "../Alert";
+import DisplayTable from "../DisplayTable/DisplayTable.react";
+import SupplierBankAccountEditForm from "./SupplierBankAccountEditForm.react";
 import DisplayRow from "../DisplayTable/DisplayRow.react";
 import DisplayField from "../DisplayTable/DisplayField.react";
+import ViewGroup from "./components/ViewGroup.react";
+import EditGroup from "./components/EditGroup.react";
 
 /**
  * Supplier contact editor
@@ -248,7 +250,6 @@ class SupplierBankAccountEditor extends Component {
 
     if (accounts) {
       if (accounts.length > 0) {
-        console.log('accounts', accounts);
         result = (
           <div className="table-responsive">
             <DisplayTable headers={[{label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.accountNumber')},
@@ -259,18 +260,21 @@ class SupplierBankAccountEditor extends Component {
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.extBankControlKey')},
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.swiftCode')}
             ]}>
-              { accounts.map((account, index) => <DisplayRow key={index}>
-                <DisplayField>{ account.accountNumber }</DisplayField>
-                <DisplayField>{ account.bankName }</DisplayField>
-                <DisplayField>{ account.bankIdentificationCode }</DisplayField>
-                <DisplayField>{ account.bankCountryKey }</DisplayField>
-                <DisplayField>{ account.bankCode }</DisplayField>
-                <DisplayField>{ account.extBankControlKey }</DisplayField>
-                <DisplayField>{ account.swiftCode }</DisplayField>
-              </DisplayRow>) }
+              { accounts.map((account, index) =>
+                (<DisplayRow key={index}>
+                  <DisplayField>{ account.accountNumber }</DisplayField>
+                  <DisplayField>{ account.bankName }</DisplayField>
+                  <DisplayField>{ account.bankIdentificationCode }</DisplayField>
+                  <DisplayField>{ account.bankCountryKey }</DisplayField>
+                  <DisplayField>{ account.bankCode }</DisplayField>
+                  <DisplayField>{ account.extBankControlKey }</DisplayField>
+                  <DisplayField>{ account.swiftCode }</DisplayField>
+                  { readOnly && <ViewGroup/> }
+                  { !readOnly && <EditGroup/> }
+                </DisplayRow>))
+              }
             </DisplayTable>
-          </div>
-        );
+          </div>)
       } else if (readOnly) {
         account = null;
       } else {
