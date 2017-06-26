@@ -285,8 +285,8 @@ class SupplierBankAccountEditor extends Component {
                   <DisplayField>{ account.extBankControlKey }</DisplayField>
                   <DisplayField>{ account.swiftCode }</DisplayField>
                   { readOnly && <ViewGroup/> }
-                  { !readOnly && <EditGroup editAction={this.onEdit.bind(this, account)}
-                                            deleteAction={this.onDelete.bind(this, account)}/> }
+                  { !readOnly && <EditGroup editAction={this.handleEdit.bind(this, account)}
+                                            deleteAction={this.handleDelete.bind(this, account)}/> }
                 </DisplayRow>))
               }
             </DisplayTable>
