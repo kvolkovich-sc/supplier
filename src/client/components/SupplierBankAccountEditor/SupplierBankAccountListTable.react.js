@@ -19,21 +19,6 @@ class SupplierBankAccountListTable extends Component {
     readOnly: React.PropTypes.bool
   };
 
-  onEdit = (account) => {
-    this.props.onEdit(account);
-  };
-
-  onDelete = (account) => {
-    if (!confirm(this.context.i18n.getMessage('SupplierBankAccountEditor.Confirmation.delete'))) {
-      return;
-    }
-    this.props.onDelete(account);
-  };
-
-  onView = (account) => {
-    this.props.onView(account);
-  };
-
   render() {
 
     const accounts = this.props.accounts;

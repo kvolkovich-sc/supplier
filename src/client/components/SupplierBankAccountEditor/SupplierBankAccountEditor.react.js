@@ -238,6 +238,21 @@ class SupplierBankAccountEditor extends Component {
       });
   };
 
+  onEdit = (account) => {
+    this.props.onEdit(account);
+  };
+
+  onDelete = (account) => {
+    if (!confirm(this.context.i18n.getMessage('SupplierBankAccountEditor.Confirmation.delete'))) {
+      return;
+    }
+    this.props.onDelete(account);
+  };
+
+  onView = (account) => {
+    this.props.onView(account);
+  };
+
   render() {
     const accounts = this.state.accounts;
     const loadErrors = this.state.loadErrors;
@@ -270,7 +285,8 @@ class SupplierBankAccountEditor extends Component {
                   <DisplayField>{ account.extBankControlKey }</DisplayField>
                   <DisplayField>{ account.swiftCode }</DisplayField>
                   { readOnly && <ViewGroup/> }
-                  { !readOnly && <EditGroup/> }
+                  { !readOnly && <EditGroup editAction={this.onEdit.bind(this, account)}
+                                            deleteAction={this.onDelete.bind(this, account)}/> }
                 </DisplayRow>))
               }
             </DisplayTable>

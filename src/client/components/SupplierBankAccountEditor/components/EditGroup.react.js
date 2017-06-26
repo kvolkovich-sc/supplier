@@ -18,11 +18,11 @@ class EditGroup extends Component {
 
   render() {
     return (<DisplayField>
-      <Button bsSize="sm">
+      <Button onClick={this.props.editAction.bind(this)} bsSize="sm">
         <span className="glyphicon glyphicon-edit"/>&nbsp;
         {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.edit')}
       </Button>
-      <Button bsSize="sm">
+      <Button onClick={this.props.deleteAction.bind(this)} bsSize="sm">
         <span className="glyphicon glyphicon-trash"/>&nbsp;
         {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.delete')}
       </Button>
