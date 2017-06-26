@@ -6,6 +6,15 @@ import DisplayField from '../../DisplayTable/DisplayField.react.js';
 
 @i18n
 class ViewGroup extends Component {
+
+  static propTypes = {
+    viewAction: React.PropTypes.func
+  };
+
+  static defaultProps = {
+    viewAction: () => { console.warn('viewAction not provided')}
+  };
+
   render() {
     return (<DisplayField><Button bsSize="sm">
       <span className='glyphicon glyphicon-eye-open'/>&nbsp;

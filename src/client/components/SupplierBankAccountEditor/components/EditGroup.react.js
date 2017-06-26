@@ -5,6 +5,17 @@ import DisplayField from '../../DisplayTable/DisplayField.react.js';
 
 @i18n
 class EditGroup extends Component {
+
+  static propTypes = {
+    editAction: React.PropTypes.func,
+    deleteAction: React.PropTypes.func,
+  };
+
+  static defaultProps = {
+    editAction: () => { console.warn('editAction not provided')},
+    deleteAction: () => { console.warn('deleteAction not provided')},
+  };
+
   render() {
     return (<DisplayField>
       <Button bsSize="sm">
