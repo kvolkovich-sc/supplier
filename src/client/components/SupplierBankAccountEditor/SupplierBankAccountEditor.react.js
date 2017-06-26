@@ -258,7 +258,7 @@ class SupplierBankAccountEditor extends Component {
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.extBankControlKey')},
               {label: this.context.i18n.getMessage('SupplierBankAccountEditor.Label.swiftCode')}
             ]}>
-            { accounts.map((element, index) => <DisplayRow key={index}/>) }
+            { accounts.map((account, index) => <DisplayRow account={account} key={index}/>) }
             </DisplayTable>
           </div>
         );

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import i18n from '../../i18n/I18nDecorator.react.js';
-import CountryTableField from '../CountryTableField.react';
+import Button from 'react-bootstrap/lib/Button';
 
 @i18n
 class DisplayRow extends Component {
@@ -18,7 +18,6 @@ class DisplayRow extends Component {
       bankCode: 'Default',
       extBankControlKey: 'Default',
       swiftCode: 'Default',
-      readOnly: false
     }
   };
 
@@ -28,27 +27,27 @@ class DisplayRow extends Component {
     return (
       <tr>
         <td>{ account.accountNumber}</td>
-        <td>{ account.bankIdentificationCode }</td>
         <td>{ account.bankName }</td>
-        <CountryTableField countryId={account.bankCountryKey} actionUrl={this.props.actionUrl} />
+        <td>{ account.bankIdentificationCode }</td>
+        <td>{ account.bankCountryKey }</td>
         <td>{ account.bankCode }</td>
         <td>{ account.extBankControlKey }</td>
         <td>{ account.swiftCode }</td>
         <td className="text-right">
           {this.props.readOnly ? (
             <nobr>
-              <Button onClick={this.onView.bind(this, account)} bsSize="sm">
+              <Button bsSize="sm">
                 <span className='glyphicon glyphicon-eye-open'/>&nbsp;
                 {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.view')}
               </Button>
             </nobr>
           ) : (
             <nobr>
-              <Button onClick={this.onEdit.bind(this, account)} bsSize="sm">
+              <Button bsSize="sm">
                 <span className="glyphicon glyphicon-edit"/>&nbsp;
                 {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.edit')}
               </Button>
-              <Button onClick={this.onDelete.bind(this, account)} bsSize="sm">
+              <Button bsSize="sm">
                 <span className="glyphicon glyphicon-trash"/>&nbsp;
                 {this.context.i18n.getMessage('SupplierBankAccountEditor.Button.delete')}
               </Button>
